@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="compostel-route reconstitution" xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Compostelle Espagne - Trace reconstituee (10 segments)</name>
+    <desc>Vue d'ensemble SJPP -> Santiago (approche basque + Camino del Norte). Precision au metre: GPX Gronze/Buen Camino (cf. liens-traces-officielles-espagne.md).</desc>
+  </metadata>
+
+  <trk><name>SEG-P - SJPP -> Irun (74 km / 4 etapes) - approche basque</name>
+    <trkseg>
+      <trkpt lat="43.1636" lon="-1.2367"><name>SJPP</name></trkpt>
+      <trkpt lat="43.2100" lon="-1.3100"></trkpt>
+      <trkpt lat="43.2660" lon="-1.3450"><name>Bidarray (J1)</name></trkpt>
+      <trkpt lat="43.3280" lon="-1.4070"><name>Itxassou (J2)</name></trkpt>
+      <trkpt lat="43.3400" lon="-1.4470"><name>Espelette</name></trkpt>
+      <trkpt lat="43.3480" lon="-1.5500"><name>St-Pee-sur-Nivelle</name></trkpt>
+      <trkpt lat="43.3440" lon="-1.6210"><name>Ascain (J3)</name></trkpt>
+      <trkpt lat="43.3600" lon="-1.7000"><name>Ciboure/Hendaye</name></trkpt>
+      <trkpt lat="43.3439" lon="-1.7658"><name>Ile des Faisans (Bidassoa)</name></trkpt>
+      <trkpt lat="43.3380" lon="-1.7890"><name>IRUN (J4)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-Q - Irun -> Deba (69 km / 3 etapes) - Gipuzkoa</name>
+    <trkseg>
+      <trkpt lat="43.3380" lon="-1.7890"><name>Irun</name></trkpt>
+      <trkpt lat="43.3300" lon="-1.9200"><name>Pasaia</name></trkpt>
+      <trkpt lat="43.3210" lon="-1.9860"><name>San Sebastian (J5)</name></trkpt>
+      <trkpt lat="43.2900" lon="-2.0800"><name>Orio</name></trkpt>
+      <trkpt lat="43.2840" lon="-2.1700"><name>Zarautz (J6)</name></trkpt>
+      <trkpt lat="43.2970" lon="-2.2550"><name>Zumaia (flysch)</name></trkpt>
+      <trkpt lat="43.2950" lon="-2.3520"><name>DEBA (J7)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-R - Deba -> Bilbao (81 km / 4 etapes) - Bizkaia interieur</name>
+    <trkseg>
+      <trkpt lat="43.2950" lon="-2.3520"><name>Deba</name></trkpt>
+      <trkpt lat="43.2670" lon="-2.4970"><name>Markina (J8)</name></trkpt>
+      <trkpt lat="43.3130" lon="-2.6800"><name>Gernika (J9)</name></trkpt>
+      <trkpt lat="43.2710" lon="-2.8410"><name>Lezama (J10)</name></trkpt>
+      <trkpt lat="43.2630" lon="-2.9350"><name>BILBAO (J11 + R1)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-S - Bilbao -> Santona (75 km / 4 etapes) - entree Cantabrie</name>
+    <trkseg>
+      <trkpt lat="43.2630" lon="-2.9350"><name>Bilbao</name></trkpt>
+      <trkpt lat="43.3200" lon="-3.0200"><name>Portugalete (J12)</name></trkpt>
+      <trkpt lat="43.3850" lon="-3.2150"><name>Castro Urdiales (J13) - CANTABRIE</name></trkpt>
+      <trkpt lat="43.4150" lon="-3.4100"><name>Laredo (J14)</name></trkpt>
+      <trkpt lat="43.4410" lon="-3.4570"><name>SANTONA (J15 - bac + Faro del Caballo)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>DETOUR - Faro del Caballo (7,5 km A/R depuis Fuerte San Martin)</name>
+    <trkseg>
+      <trkpt lat="43.4460" lon="-3.4430"><name>Fuerte de San Martin</name></trkpt>
+      <trkpt lat="43.4550" lon="-3.4350"><name>Sentier Monte Buciero</name></trkpt>
+      <trkpt lat="43.4610" lon="-3.4270"><name>Croisement descente</name></trkpt>
+      <trkpt lat="43.4620" lon="-3.4230"><name>FARO DEL CABALLO (763 marches)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-T - Santona -> Santillana del Mar (67 km / 4 etapes) - Cantabrie centrale</name>
+    <trkseg>
+      <trkpt lat="43.4410" lon="-3.4570"><name>Santona</name></trkpt>
+      <trkpt lat="43.4900" lon="-3.5300"><name>Noja</name></trkpt>
+      <trkpt lat="43.4550" lon="-3.6400"><name>Guemes (J16 - albergue Ernesto)</name></trkpt>
+      <trkpt lat="43.4550" lon="-3.7400"><name>Somo (bac)</name></trkpt>
+      <trkpt lat="43.4620" lon="-3.8050"><name>SANTANDER (J17 + R2)</name></trkpt>
+      <trkpt lat="43.4200" lon="-3.9500"><name>Boo de Pielagos</name></trkpt>
+      <trkpt lat="43.3830" lon="-4.0550"><name>Requejada (J18)</name></trkpt>
+      <trkpt lat="43.3880" lon="-4.1060"><name>SANTILLANA DEL MAR (J19 + R3 - Altamira)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-U - Santillana -> Colombres (51 km / 3 etapes) - Cantabrie ouest</name>
+    <trkseg>
+      <trkpt lat="43.3880" lon="-4.1060"><name>Santillana</name></trkpt>
+      <trkpt lat="43.3860" lon="-4.2910"><name>Comillas (J20 - El Capricho)</name></trkpt>
+      <trkpt lat="43.3850" lon="-4.3970"><name>San Vicente de la Barquera (J21)</name></trkpt>
+      <trkpt lat="43.3750" lon="-4.5410"><name>Colombres (J22) - ASTURIES</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-V - Colombres -> Gijon (100 km / 5-6 etapes) - Asturies est</name>
+    <trkseg>
+      <trkpt lat="43.3750" lon="-4.5410"><name>Colombres</name></trkpt>
+      <trkpt lat="43.4210" lon="-4.7550"><name>Llanes (J23)</name></trkpt>
+      <trkpt lat="43.4230" lon="-4.9300"><name>Nueva (J24)</name></trkpt>
+      <trkpt lat="43.4620" lon="-5.0560"><name>Ribadesella (J25 - Tito Bustillo)</name></trkpt>
+      <trkpt lat="43.4850" lon="-5.2700"><name>Colunga (J26)</name></trkpt>
+      <trkpt lat="43.4810" lon="-5.4360"><name>Villaviciosa (J27 - sidra)</name></trkpt>
+      <trkpt lat="43.5410" lon="-5.6640"><name>GIJON (J28 + R4)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-W - Gijon -> Luarca (97 km / 5 etapes) - Asturies ouest</name>
+    <trkseg>
+      <trkpt lat="43.5410" lon="-5.6640"><name>Gijon</name></trkpt>
+      <trkpt lat="43.5560" lon="-5.9250"><name>Aviles (J29)</name></trkpt>
+      <trkpt lat="43.5530" lon="-6.1070"><name>Muros de Nalon (J30)</name></trkpt>
+      <trkpt lat="43.5590" lon="-6.2430"><name>Soto de Luina (J31 - Cudillero proche)</name></trkpt>
+      <trkpt lat="43.5450" lon="-6.4000"><name>Cadavedo (J32)</name></trkpt>
+      <trkpt lat="43.5420" lon="-6.5370"><name>LUARCA (J33 + R5 - option Obona)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-X - Luarca -> Mondonedo (86 km / 5 etapes) - entree Galice</name>
+    <trkseg>
+      <trkpt lat="43.5420" lon="-6.5370"><name>Luarca</name></trkpt>
+      <trkpt lat="43.5400" lon="-6.7220"><name>Navia (J34)</name></trkpt>
+      <trkpt lat="43.5500" lon="-6.8340"><name>La Caridad (J35)</name></trkpt>
+      <trkpt lat="43.5370" lon="-7.0430"><name>RIBADEO (J36) - GALICE</name></trkpt>
+      <trkpt lat="43.4690" lon="-7.2990"><name>Lourenza (J37)</name></trkpt>
+      <trkpt lat="43.4280" lon="-7.3630"><name>MONDONEDO (J38)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk><name>SEG-Y - Mondonedo -> SANTIAGO (145 km / 9 etapes) - Galice interieure</name>
+    <trkseg>
+      <trkpt lat="43.4280" lon="-7.3630"><name>Mondonedo</name></trkpt>
+      <trkpt lat="43.3650" lon="-7.4740"><name>Abadin (J39)</name></trkpt>
+      <trkpt lat="43.2980" lon="-7.6810"><name>Vilalba (J40)</name></trkpt>
+      <trkpt lat="43.1700" lon="-7.7620"><name>Baamonde (J41)</name></trkpt>
+      <trkpt lat="43.1500" lon="-7.8800"><name>Miraz (J42)</name></trkpt>
+      <trkpt lat="43.0380" lon="-8.0230"><name>Sobrado dos Monxes (J43 - monastere)</name></trkpt>
+      <trkpt lat="42.9300" lon="-8.1630"><name>Arzua (J44 - jonction Frances)</name></trkpt>
+      <trkpt lat="42.9050" lon="-8.3600"><name>O Pedrouzo (J45)</name></trkpt>
+      <trkpt lat="42.8960" lon="-8.5100"><name>Monte do Gozo</name></trkpt>
+      <trkpt lat="42.8810" lon="-8.5450"><name>SANTIAGO DE COMPOSTELA (J46) - 2500 km depuis Liege</name></trkpt>
+    </trkseg>
+  </trk>
+
+</gpx>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultreïataku — Fiche d'identité</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f5ead8;
+    color: #1a1208;
+    padding: 3rem 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ul-root { max-width: 680px; width: 100%; }
+
+  .ul-hero {
+    background: #1a1208;
+    border-radius: 20px;
+    padding: 2.5rem 2.5rem 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ul-hero::before {
+    content: '✝';
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 150px;
+    color: rgba(255,255,255,0.025);
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .ul-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #c8963c; margin-bottom: 1rem; }
+
+  .ul-name { font-family: 'Cinzel', serif; font-size: 44px; font-weight: 400; color: #f5ead8; line-height: 1.1; margin: 0 0 0.4rem; letter-spacing: 2px; }
+  .ul-name span { color: #c8963c; }
+
+  .ul-cri { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 17px; color: rgba(245,234,216,0.5); margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+
+  .ul-badge { display: inline-block; background: rgba(200,150,60,0.12); border: 0.5px solid rgba(200,150,60,0.3); color: #c8963c; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.08em; margin-right: 6px; }
+
+  .ul-meaning {
+    background: #ffffff;
+    border-left: 3px solid #8a6020;
+    border-radius: 0 10px 10px 0;
+    padding: 1rem 1.25rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 15px;
+    color: #4a3010;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .ul-meaning strong { color: #8a6020; font-style: normal; font-weight: 600; }
+
+  .ul-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .ul-full { grid-column: 1 / -1; }
+
+  .ul-card {
+    background: #ffffff;
+    border: 0.5px solid #ddd0b8;
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .ul-label { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: #9a8060; margin-bottom: 0.875rem; }
+
+  .ul-cri-block {
+    background: #fdf5e8;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .ul-cri-main { font-family: 'Cinzel', serif; font-size: 28px; color: #c8963c; letter-spacing: 3px; margin-bottom: 4px; }
+  .ul-cri-reply { font-family: 'Cinzel', serif; font-size: 20px; color: #8a6020; letter-spacing: 2px; margin-bottom: 12px; }
+  .ul-cri-explain { font-family: 'Crimson Pro', serif; font-size: 13px; color: #7a6040; font-style: italic; line-height: 1.6; }
+
+  .ul-etym-row { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 0.5px solid #ede0c8; }
+  .ul-etym-row:last-child { border-bottom: none; }
+  .ul-etym-word { font-family: 'Cinzel', serif; font-size: 16px; color: #8a6020; min-width: 90px; }
+  .ul-etym-lang { font-size: 11px; color: #9a8060; min-width: 70px; font-style: italic; }
+  .ul-etym-def { font-size: 12px; color: #4a3010; line-height: 1.5; }
+
+  .ul-palette { display: flex; gap: 6px; align-items: flex-end; }
+  .ul-swatch { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .ul-swatch-block { width: 32px; border-radius: 4px; }
+  .ul-swatch-label { font-size: 9px; color: #9a8060; text-align: center; }
+
+  .ul-type-row { display: flex; flex-direction: column; gap: 8px; }
+  .ul-type-item { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 7px; border-bottom: 0.5px solid #ede0c8; }
+  .ul-type-item:last-child { border-bottom: none; }
+  .ul-type-role { font-size: 11px; color: #9a8060; text-transform: uppercase; letter-spacing: 0.1em; }
+  .ul-type-face { font-size: 13px; font-weight: 500; color: #1a1208; }
+
+  .ul-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .ul-feat { background: #faf3e8; border-radius: 10px; padding: 10px 12px; }
+  .ul-feat-icon { font-size: 18px; color: #8a6020; margin-bottom: 4px; }
+  .ul-feat-name { font-size: 12px; font-weight: 500; color: #1a1208; }
+  .ul-feat-desc { font-size: 10px; color: #9a8060; margin-top: 2px; line-height: 1.4; }
+
+  .ul-chemins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .ul-chemin { background: #faf3e8; border-radius: 10px; padding: 10px 12px; border-left: 2px solid #8a6020; }
+  .ul-chemin-name { font-size: 12px; font-weight: 500; color: #1a1208; margin-bottom: 3px; }
+  .ul-chemin-desc { font-size: 10px; color: #9a8060; line-height: 1.4; }
+
+  .ul-icon-row { display: flex; align-items: center; gap: 1rem; }
+  .ul-icon-box { width: 60px; height: 60px; background: #1a1208; border-radius: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ul-icon-desc { font-size: 13px; color: #4a3010; line-height: 1.6; }
+
+  @media (max-width: 600px) {
+    .ul-grid { grid-template-columns: 1fr; }
+    .ul-features { grid-template-columns: repeat(2, 1fr); }
+    .ul-chemins { grid-template-columns: repeat(2, 1fr); }
+    .ul-name { font-size: 34px; }
+    body { padding: 2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ul-root">
+
+  <div class="ul-hero">
+    <div class="ul-eyebrow">Mobilité · Pèlerinage · Chemin de Saint-Jacques</div>
+    <div class="ul-name">Ultreïa<span>taku</span></div>
+    <div class="ul-cri">« Ultreïa ! Et suseïa ! » — En avant, et plus haut !</div>
+    <span class="ul-badge">Catégorie : Mobilité</span>
+    <span class="ul-badge">Couleur : Ocre doré</span>
+  </div>
+
+  <div class="ul-meaning">
+    <strong>Ultreïa</strong> (latin médiéval — cri de ralliement des pèlerins de Saint-Jacques, de <em>ultra</em> "plus loin" + <em>eia</em> "en avant !") × <strong>Taku</strong> (japonais — "préparer, disposer") —
+    « <strong>Se préparer à aller plus loin</strong> » : l'app qui transforme le rêve du Chemin en départ concret — itinéraire, équipement, étapes, communauté, et l'esprit du pèlerin comme fil conducteur.
+  </div>
+
+  <div class="ul-grid">
+
+    <div class="ul-card ul-full">
+      <div class="ul-label">Le cri des pèlerins</div>
+      <div class="ul-cri-block">
+        <div class="ul-cri-main">Ultreïa !</div>
+        <div class="ul-cri-reply">Et suseïa !</div>
+        <div class="ul-cri-explain">
+          Depuis le Moyen Âge, quand deux pèlerins se croisent sur le Chemin, l'un lance <em>"Ultreïa !"</em> (En avant, plus loin !) et l'autre répond <em>"Et suseïa !"</em> (Et plus haut !). Un cri de fraternité entre marcheurs que l'app porte comme devise.
+        </div>
+      </div>
+    </div>
+
+    <div class="ul-card ul-full">
+      <div class="ul-label">Étymologie</div>
+      <div class="ul-etym-row">
+        <div class="ul-etym-word">ultra</div>
+        <div class="ul-etym-lang">Latin</div>
+        <div class="ul-etym-def">Au-delà, plus loin — aller au-delà de ses limites</div>
+      </div>
+      <div class="ul-etym-row">
+        <div class="ul-etym-word">eia</div>
+        <div class="ul-etym-lang">Latin médiéval</div>
+        <div class="ul-etym-def">Exclamation d'encouragement — "allons !", "en avant !"</div>
+      </div>
+      <div class="ul-etym-row">
+        <div class="ul-etym-word">Ultreïa</div>
+        <div class="ul-etym-lang">Médiéval</div>
+        <div class="ul-etym-def">Cri de ralliement des pèlerins de Saint-Jacques depuis le XIe siècle</div>
+      </div>
+      <div class="ul-etym-row">
+        <div class="ul-etym-word">支度</div>
+        <div class="ul-etym-lang">Japonais</div>
+        <div class="ul-etym-def">Shitaku — préparer, disposer, se mettre en route</div>
+      </div>
+    </div>
+
+    <div class="ul-card">
+      <div class="ul-label">Palette couleurs</div>
+      <div class="ul-palette">
+        <div class="ul-swatch">
+          <div class="ul-swatch-block" style="height: 32px; background: #1a1208;"></div>
+          <div class="ul-swatch-label">#1a1208<br>Terre nuit</div>
+        </div>
+        <div class="ul-swatch">
+          <div class="ul-swatch-block" style="height: 28px; background: #4a3010;"></div>
+          <div class="ul-swatch-label">#4a3010<br>Chemin</div>
+        </div>
+        <div class="ul-swatch">
+          <div class="ul-swatch-block" style="height: 24px; background: #8a6020;"></div>
+          <div class="ul-swatch-label">#8a6020<br>Ocre</div>
+        </div>
+        <div class="ul-swatch">
+          <div class="ul-swatch-block" style="height: 20px; background: #c8963c;"></div>
+          <div class="ul-swatch-label">#c8963c<br>Doré</div>
+        </div>
+        <div class="ul-swatch">
+          <div class="ul-swatch-block" style="height: 16px; background: #f5ead8;"></div>
+          <div class="ul-swatch-label">#f5ead8<br>Compostelle</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ul-card">
+      <div class="ul-label">Typographie</div>
+      <div class="ul-type-row">
+        <div class="ul-type-item">
+          <div class="ul-type-role">Display</div>
+          <div class="ul-type-face" style="font-family: 'Cinzel', serif;">Cinzel</div>
+        </div>
+        <div class="ul-type-item">
+          <div class="ul-type-role">Corps / récit</div>
+          <div class="ul-type-face" style="font-family: 'Crimson Pro', serif;">Crimson Pro</div>
+        </div>
+        <div class="ul-type-item">
+          <div class="ul-type-role">Interface</div>
+          <div class="ul-type-face">Inter</div>
+        </div>
+        <div class="ul-type-item">
+          <div class="ul-type-role">Style</div>
+          <div class="ul-type-face" style="font-size: 12px; color: #9a8060;">Pèlerin · Épique · Authentique</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ul-card ul-full">
+      <div class="ul-label">Chemins couverts</div>
+      <div class="ul-chemins">
+        <div class="ul-chemin" style="border-left-color: #c8963c;">
+          <div class="ul-chemin-name">① 🇧🇪 Via Mosana</div>
+          <div class="ul-chemin-desc">Départ Liège — chemin le long de la Meuse vers la France</div>
+        </div>
+        <div class="ul-chemin" style="border-left-color: #c8963c;">
+          <div class="ul-chemin-name">② ⛪ Via Monastica</div>
+          <div class="ul-chemin-desc">À travers les abbayes — chemin spirituel et contemplatif</div>
+        </div>
+        <div class="ul-chemin" style="border-left-color: #c8963c;">
+          <div class="ul-chemin-name">③ 🇫🇷 Via Podiensis</div>
+          <div class="ul-chemin-desc">Jonction à Vézelay — La Madeleine vers Saint-Jean-Pied-de-Port</div>
+        </div>
+        <div class="ul-chemin" style="border-left-color: #c8963c;">
+          <div class="ul-chemin-name">④ ☀️ Camino del Norte</div>
+          <div class="ul-chemin-desc">Côte atlantique espagnole → Santiago de Compostela</div>
+        </div>
+        <div class="ul-chemin">
+          <div class="ul-chemin-name">📍 Point de départ</div>
+          <div class="ul-chemin-desc">Liège, Cité Ardente — Belgium</div>
+        </div>
+        <div class="ul-chemin">
+          <div class="ul-chemin-name">🏁 Destination</div>
+          <div class="ul-chemin-desc">Santiago de Compostela, Galice</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ul-card ul-full">
+      <div class="ul-label">Fonctionnalités clés</div>
+      <div class="ul-features">
+        <div class="ul-feat">
+          <div class="ul-feat-icon"><i class="ti ti-map" aria-hidden="true"></i></div>
+          <div class="ul-feat-name">Itinéraire détaillé</div>
+          <div class="ul-feat-desc">Étapes, distances, dénivelés, GPS</div>
+        </div>
+        <div class="ul-feat">
+          <div class="ul-feat-icon"><i class="ti ti-backpack" aria-hidden="true"></i></div>
+          <div class="ul-feat-name">Préparation du sac</div>
+          <div class="ul-feat-desc">Checklist équipement, poids, conseils</div>
+        </div>
+        <div class="ul-feat">
+          <div class="ul-feat-icon"><i class="ti ti-bed" aria-hidden="true"></i></div>
+          <div class="ul-feat-name">Hébergements</div>
+          <div class="ul-feat-desc">Gîtes, albergues, réservations</div>
+        </div>
+        <div class="ul-feat">
+          <div class="ul-feat-icon"><i class="ti ti-notebook" aria-hidden="true"></i></div>
+          <div class="ul-feat-name">Journal de chemin</div>
+          <div class="ul-feat-desc">Notes, photos, souvenirs d'étapes</div>
+        </div>
+        <div class="ul-feat">
+          <div class="ul-feat-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+          <div class="ul-feat-name">Communauté</div>
+          <div class="ul-feat-desc">Pèlerins, retours d'expérience</div>
+        </div>
+        <div class="ul-feat">
+          <div class="ul-feat-icon"><i class="ti ti-certificate" aria-hidden="true"></i></div>
+          <div class="ul-feat-name">Compostela</div>
+          <div class="ul-feat-desc">Suivi des km, obtention du diplôme</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ul-card ul-full">
+      <div class="ul-label">Concept d'icône</div>
+      <div class="ul-icon-row">
+        <div class="ul-icon-box">
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <path d="M17 4 L17 30" stroke="#c8963c" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M10 10 L24 10" stroke="#c8963c" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M12 18 Q17 14 22 18 Q17 22 12 18 Z" stroke="#8a6020" stroke-width="1.2" fill="none"/>
+            <circle cx="17" cy="10" r="2" fill="#c8963c"/>
+          </svg>
+        </div>
+        <div class="ul-icon-desc">
+          Une coquille Saint-Jacques stylisée — réduite à sa forme essentielle : les nervures en éventail rayonnant depuis un point bas. Symbole universel du pèlerinage de Compostelle, reconnaissable par tout marcheur du monde. Fond terre de nuit, trait ocre doré. Simple, intemporel, chargé de sens.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="compostel-route reconstitution" xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Compostelle Belgique - Trace reconstituee</name>
+    <desc>Reconstitution du tracé Liège → Rocroi (Voie Mosane + Voie Monastique) basée sur RAVeL 1 et villes-étapes connues. À compléter avec la trace officielle Peregrinos pour la précision au mètre près (cf. liens-traces-officielles.md). 12 tracks etape + 5 tracks detours.</desc>
+    <author><name>compostel-route skill (reconstitution)</name></author>
+  </metadata>
+
+  <!-- ============================================================
+       TRACE PRINCIPALE - 12 ETAPES
+       Points intermediaires le long du RAVeL 1 (Voie Mosane) puis
+       campagne Fagne (Voie Monastique).
+       ============================================================ -->
+
+  <trk>
+    <name>J01 - Liege -> Amay (22 km)</name>
+    <desc>Descente Meuse rive droite via RAVeL 1. Sortie Liege par Pont de Fragnee - Seraing - Ombret - Ampsin - Amay</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.6326" lon="5.5797"><ele>65</ele><name>Cathedrale St-Paul Liege - DEPART</name></trkpt>
+      <trkpt lat="50.6260" lon="5.5735"><ele>62</ele></trkpt>
+      <trkpt lat="50.6191" lon="5.5686"><ele>60</ele><name>Pont de Fragnee</name></trkpt>
+      <trkpt lat="50.6135" lon="5.5580"><ele>60</ele><name>Parc de la Boverie</name></trkpt>
+      <trkpt lat="50.6015" lon="5.5310"><ele>62</ele></trkpt>
+      <trkpt lat="50.5920" lon="5.5100"><ele>65</ele><name>Angleur / Sclessin</name></trkpt>
+      <trkpt lat="50.5811" lon="5.4880"><ele>68</ele></trkpt>
+      <trkpt lat="50.5750" lon="5.4680"><ele>70</ele><name>Seraing bord Meuse</name></trkpt>
+      <trkpt lat="50.5680" lon="5.4400"><ele>72</ele></trkpt>
+      <trkpt lat="50.5610" lon="5.4180"><ele>75</ele><name>Ivoz-Ramet</name></trkpt>
+      <trkpt lat="50.5540" lon="5.3900"><ele>78</ele></trkpt>
+      <trkpt lat="50.5510" lon="5.3600"><ele>80</ele><name>Ombret</name></trkpt>
+      <trkpt lat="50.5495" lon="5.3400"><ele>83</ele></trkpt>
+      <trkpt lat="50.5480" lon="5.3250"><ele>85</ele><name>Ampsin</name></trkpt>
+      <trkpt lat="50.5470" lon="5.3180"><ele>85</ele><name>Flone</name></trkpt>
+      <trkpt lat="50.5461" lon="5.3129"><ele>85</ele><name>Amay - Collegiale Ste-Ode</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J02 - Amay -> Huy (11 km)</name>
+    <desc>Continuation RAVeL rive droite. Etape courte pour visiter Huy en apres-midi</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.5461" lon="5.3129"><ele>85</ele><name>Amay</name></trkpt>
+      <trkpt lat="50.5420" lon="5.2990"><ele>85</ele></trkpt>
+      <trkpt lat="50.5370" lon="5.2830"><ele>87</ele></trkpt>
+      <trkpt lat="50.5320" lon="5.2680"><ele>88</ele><name>Ampsin est</name></trkpt>
+      <trkpt lat="50.5280" lon="5.2560"><ele>90</ele><name>Statte</name></trkpt>
+      <trkpt lat="50.5230" lon="5.2470"><ele>92</ele></trkpt>
+      <trkpt lat="50.5210" lon="5.2430"><ele>93</ele><name>Wanze rive droite</name></trkpt>
+      <trkpt lat="50.5195" lon="5.2410"><ele>95</ele></trkpt>
+      <trkpt lat="50.5188" lon="5.2401"><ele>95</ele><name>Huy - Collegiale ND</name></trkpt>
+      <trkpt lat="50.5183" lon="5.2402"><ele>96</ele><name>Huy - Grand Place</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J03 - Huy -> Andenne (18 km)</name>
+    <desc>RAVeL 1 rive droite Meuse. Passage Ben-Ahin, Bas-Oha, Namêche, Seilles, Andenne</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.5183" lon="5.2402"><ele>96</ele><name>Huy</name></trkpt>
+      <trkpt lat="50.5155" lon="5.2270"><ele>98</ele><name>Ben-Ahin</name></trkpt>
+      <trkpt lat="50.5110" lon="5.2120"><ele>100</ele></trkpt>
+      <trkpt lat="50.5080" lon="5.1970"><ele>102</ele><name>Bas-Oha</name></trkpt>
+      <trkpt lat="50.5045" lon="5.1800"><ele>105</ele></trkpt>
+      <trkpt lat="50.5010" lon="5.1630"><ele>108</ele></trkpt>
+      <trkpt lat="50.4975" lon="5.1460"><ele>110</ele><name>Namêche est</name></trkpt>
+      <trkpt lat="50.4940" lon="5.1290"><ele>112</ele></trkpt>
+      <trkpt lat="50.4905" lon="5.1120"><ele>115</ele><name>Approche Sclayn</name></trkpt>
+      <trkpt lat="50.4870" lon="5.0950"><ele>118</ele></trkpt>
+      <trkpt lat="50.4840" lon="5.0800"><ele>120</ele><name>Sclayn (entree)</name></trkpt>
+      <trkpt lat="50.4830" lon="5.0700"><ele>122</ele></trkpt>
+      <trkpt lat="50.4850" lon="5.0500"><ele>120</ele><name>Seilles</name></trkpt>
+      <trkpt lat="50.4880" lon="5.0930"><ele>120</ele><name>Andenne - Collegiale Ste-Begge</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J04 - Andenne -> Namur (22 km)</name>
+    <desc>RAVeL 1 rive droite. Traverse Marche-les-Dames, entree Namur par Jambes</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.4880" lon="5.0930"><ele>120</ele><name>Andenne</name></trkpt>
+      <trkpt lat="50.4820" lon="5.0730"><ele>118</ele></trkpt>
+      <trkpt lat="50.4760" lon="5.0530"><ele>115</ele><name>Namêche ouest</name></trkpt>
+      <trkpt lat="50.4700" lon="5.0330"><ele>112</ele></trkpt>
+      <trkpt lat="50.4700" lon="5.0130"><ele>110</ele><name>Marche-les-Dames</name></trkpt>
+      <trkpt lat="50.4700" lon="4.9930"><ele>108</ele></trkpt>
+      <trkpt lat="50.4685" lon="4.9730"><ele>105</ele></trkpt>
+      <trkpt lat="50.4680" lon="4.9530"><ele>103</ele><name>Beez</name></trkpt>
+      <trkpt lat="50.4670" lon="4.9330"><ele>100</ele></trkpt>
+      <trkpt lat="50.4670" lon="4.9130"><ele>90</ele><name>Approche Jambes</name></trkpt>
+      <trkpt lat="50.4664" lon="4.8930"><ele>85</ele><name>Jambes - Pont</name></trkpt>
+      <trkpt lat="50.4670" lon="4.8790"><ele>82</ele><name>Confluent Sambre-Meuse - Le Grognon</name></trkpt>
+      <trkpt lat="50.4674" lon="4.8720"><ele>80</ele><name>Namur centre - Cathedrale St-Aubain</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J05 - Namur -> Yvoir (18 km)</name>
+    <desc>RAVeL 1 rive droite. Sortie Jambes sud, Wepion, Profondeville, Godinne, Yvoir. Falaises calcaires Freyr en vue</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.4674" lon="4.8720"><ele>80</ele><name>Namur</name></trkpt>
+      <trkpt lat="50.4530" lon="4.8730"><ele>82</ele><name>Jambes sud</name></trkpt>
+      <trkpt lat="50.4380" lon="4.8730"><ele>85</ele><name>Wepion (fraises)</name></trkpt>
+      <trkpt lat="50.4200" lon="4.8720"><ele>90</ele></trkpt>
+      <trkpt lat="50.4030" lon="4.8710"><ele>92</ele><name>Profondeville</name></trkpt>
+      <trkpt lat="50.3870" lon="4.8740"><ele>95</ele></trkpt>
+      <trkpt lat="50.3700" lon="4.8760"><ele>98</ele><name>Godinne</name></trkpt>
+      <trkpt lat="50.3550" lon="4.8780"><ele>100</ele><name>Houx (base Poilvache)</name></trkpt>
+      <trkpt lat="50.3420" lon="4.8790"><ele>103</ele></trkpt>
+      <trkpt lat="50.3266" lon="4.8779"><ele>105</ele><name>Yvoir</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J06 - Yvoir -> Dinant (14 km)</name>
+    <desc>RAVeL 1 rive droite. Passage Anseremme (confluent Lesse), arrivee Dinant par sud. Rochers Bayard sur le chemin</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.3266" lon="4.8779"><ele>105</ele><name>Yvoir</name></trkpt>
+      <trkpt lat="50.3170" lon="4.8820"><ele>105</ele></trkpt>
+      <trkpt lat="50.3060" lon="4.8870"><ele>105</ele><name>Approche Freyr</name></trkpt>
+      <trkpt lat="50.2950" lon="4.8920"><ele>108</ele><name>Bouvignes-sur-Meuse (rive gauche visible)</name></trkpt>
+      <trkpt lat="50.2830" lon="4.9000"><ele>110</ele></trkpt>
+      <trkpt lat="50.2720" lon="4.9080"><ele>112</ele><name>Anseremme - confluent Lesse</name></trkpt>
+      <trkpt lat="50.2660" lon="4.9110"><ele>110</ele></trkpt>
+      <trkpt lat="50.2620" lon="4.9130"><ele>108</ele><name>Rochers Bayard</name></trkpt>
+      <trkpt lat="50.2597" lon="4.9128"><ele>105</ele><name>Dinant - Collegiale ND</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J07 - Dinant -> Hastiere (14 km)</name>
+    <desc>Voie Mosane rive droite (option passage d'eau Waulsort pour rive gauche). Vue exterieure Chateau-Thierry (Falmignoul) possible</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.2597" lon="4.9128"><ele>105</ele><name>Dinant</name></trkpt>
+      <trkpt lat="50.2500" lon="4.9050"><ele>105</ele></trkpt>
+      <trkpt lat="50.2420" lon="4.8940"><ele>107</ele><name>Freyr rive droite (chateau + jardins rive gauche)</name></trkpt>
+      <trkpt lat="50.2360" lon="4.8850"><ele>108</ele><name>Approche Waulsort</name></trkpt>
+      <trkpt lat="50.2320" lon="4.8770"><ele>110</ele><name>Waulsort (passage d'eau possible)</name></trkpt>
+      <trkpt lat="50.2280" lon="4.8600"><ele>112</ele></trkpt>
+      <trkpt lat="50.2230" lon="4.8420"><ele>115</ele><name>Approche Hastiere</name></trkpt>
+      <trkpt lat="50.2183" lon="4.8288"><ele>115</ele><name>Hastiere - Abbaye ND</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J08 - Hastiere -> Givet (11 km)</name>
+    <desc>Fin Voie Mosane. Passage frontiere Belgique -> France a hauteur de Heer. Arrivee Givet centre</desc>
+    <type>Voie Mosane</type>
+    <trkseg>
+      <trkpt lat="50.2183" lon="4.8288"><ele>115</ele><name>Hastiere</name></trkpt>
+      <trkpt lat="50.2080" lon="4.8300"><ele>115</ele><name>Heer</name></trkpt>
+      <trkpt lat="50.1950" lon="4.8290"><ele>118</ele></trkpt>
+      <trkpt lat="50.1820" lon="4.8280"><ele>120</ele><name>Hermeton-sur-Meuse</name></trkpt>
+      <trkpt lat="50.1700" lon="4.8270"><ele>120</ele></trkpt>
+      <trkpt lat="50.1560" lon="4.8280"><ele>120</ele><name>Frontiere BE-FR</name></trkpt>
+      <trkpt lat="50.1450" lon="4.8280"><ele>120</ele><name>Givet-Nord</name></trkpt>
+      <trkpt lat="50.1360" lon="4.8283"><ele>125</ele><name>Givet centre - Eglise St-Hilaire</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J09 - Givet -> Doische (18 km) - DEBUT VOIE MONASTIQUE</name>
+    <desc>Quitte Meuse, retour vers Belgique via Fromelennes et Foisches, entree Wallonie a Vaucelles, arrivee Doische. Deniveles Fagne</desc>
+    <type>Voie Monastique</type>
+    <trkseg>
+      <trkpt lat="50.1360" lon="4.8283"><ele>125</ele><name>Givet</name></trkpt>
+      <trkpt lat="50.1400" lon="4.8150"><ele>140</ele><name>Fromelennes</name></trkpt>
+      <trkpt lat="50.1440" lon="4.8000"><ele>170</ele></trkpt>
+      <trkpt lat="50.1400" lon="4.7830"><ele>200</ele><name>Foisches</name></trkpt>
+      <trkpt lat="50.1350" lon="4.7670"><ele>240</ele></trkpt>
+      <trkpt lat="50.1310" lon="4.7500"><ele>270</ele><name>Frontiere FR-BE</name></trkpt>
+      <trkpt lat="50.1280" lon="4.7370"><ele>285</ele><name>Vaucelles</name></trkpt>
+      <trkpt lat="50.1240" lon="4.7250"><ele>280</ele></trkpt>
+      <trkpt lat="50.1214" lon="4.7169"><ele>270</ele><name>Doische</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J10 - Doische -> Olloy-sur-Viroin (19 km)</name>
+    <desc>Voie Monastique traverse Fagne calcaire. Matagne-la-Grande, Matagne-la-Petite, Dourbes (Roche a Lomme), Nismes, arrivee Olloy</desc>
+    <type>Voie Monastique</type>
+    <trkseg>
+      <trkpt lat="50.1214" lon="4.7169"><ele>270</ele><name>Doische</name></trkpt>
+      <trkpt lat="50.1150" lon="4.7020"><ele>265</ele></trkpt>
+      <trkpt lat="50.1100" lon="4.6870"><ele>260</ele><name>Matagne-la-Grande</name></trkpt>
+      <trkpt lat="50.1050" lon="4.6720"><ele>250</ele></trkpt>
+      <trkpt lat="50.1000" lon="4.6570"><ele>240</ele><name>Matagne-la-Petite</name></trkpt>
+      <trkpt lat="50.0940" lon="4.6420"><ele>230</ele></trkpt>
+      <trkpt lat="50.0850" lon="4.6300"><ele>220</ele><name>Approche Dourbes</name></trkpt>
+      <trkpt lat="50.0790" lon="4.6210"><ele>200</ele><name>Dourbes (base Roche a Lomme)</name></trkpt>
+      <trkpt lat="50.0800" lon="4.6100"><ele>195</ele></trkpt>
+      <trkpt lat="50.0830" lon="4.5950"><ele>190</ele><name>Nismes</name></trkpt>
+      <trkpt lat="50.0810" lon="4.6070"><ele>190</ele><name>Traversee Viroin</name></trkpt>
+      <trkpt lat="50.0787" lon="4.6188"><ele>195</ele><name>Olloy-sur-Viroin</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J11 - Olloy -> Couvin (17 km)</name>
+    <desc>Voie Monastique via Vierves-sur-Viroin, Le Mesnil, Frasnes-lez-Couvin, arrivee Couvin. Detour Grotte de Neptune possible</desc>
+    <type>Voie Monastique</type>
+    <trkseg>
+      <trkpt lat="50.0787" lon="4.6188"><ele>195</ele><name>Olloy</name></trkpt>
+      <trkpt lat="50.0800" lon="4.6000"><ele>200</ele><name>Vierves-sur-Viroin</name></trkpt>
+      <trkpt lat="50.0770" lon="4.5820"><ele>205</ele></trkpt>
+      <trkpt lat="50.0740" lon="4.5650"><ele>215</ele><name>Approche Le Mesnil</name></trkpt>
+      <trkpt lat="50.0700" lon="4.5470"><ele>225</ele><name>Le Mesnil</name></trkpt>
+      <trkpt lat="50.0660" lon="4.5290"><ele>235</ele></trkpt>
+      <trkpt lat="50.0620" lon="4.5120"><ele>245</ele><name>Frasnes-lez-Couvin</name></trkpt>
+      <trkpt lat="50.0580" lon="4.5010"><ele>255</ele></trkpt>
+      <trkpt lat="50.0533" lon="4.4933"><ele>260</ele><name>Couvin - Eglise St-Germain</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>J12 - Couvin -> Rocroi (20 km) - FIN TRONCON BELGIQUE</name>
+    <desc>Sortie Couvin sud-ouest via Brûly-de-Pesche, passage frontiere BE-FR a Regniowez, foret Anor-Regniowez, arrivee Rocroi etoile Vauban</desc>
+    <type>Voie Monastique</type>
+    <trkseg>
+      <trkpt lat="50.0533" lon="4.4933"><ele>260</ele><name>Couvin</name></trkpt>
+      <trkpt lat="50.0400" lon="4.4880"><ele>280</ele></trkpt>
+      <trkpt lat="50.0260" lon="4.4830"><ele>300</ele><name>Brûly-de-Pesche (bunker Hitler 1940)</name></trkpt>
+      <trkpt lat="50.0100" lon="4.4820"><ele>320</ele></trkpt>
+      <trkpt lat="49.9950" lon="4.4830"><ele>340</ele></trkpt>
+      <trkpt lat="49.9790" lon="4.4870"><ele>360</ele><name>Frontiere BE-FR</name></trkpt>
+      <trkpt lat="49.9650" lon="4.4930"><ele>375</ele><name>Regniowez (FR)</name></trkpt>
+      <trkpt lat="49.9520" lon="4.5000"><ele>390</ele></trkpt>
+      <trkpt lat="49.9400" lon="4.5080"><ele>400</ele></trkpt>
+      <trkpt lat="49.9310" lon="4.5150"><ele>395</ele><name>Approche Rocroi</name></trkpt>
+      <trkpt lat="49.9236" lon="4.5211"><ele>390</ele><name>Rocroi - Place d'Armes etoile Vauban - FIN</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <!-- ============================================================
+       DETOURS - Segments courts depuis trace principale vers POI
+       ============================================================ -->
+
+  <trk>
+    <name>DETOUR - Grotte Scladina (Sclayn) - J03</name>
+    <desc>Depuis Sclayn RAVeL vers Grotte Scladina. Detour court ~1,5 km A/R</desc>
+    <type>Detour POI</type>
+    <trkseg>
+      <trkpt lat="50.4840" lon="5.0800"><ele>120</ele><name>Sclayn RAVeL - depart detour</name></trkpt>
+      <trkpt lat="50.4800" lon="5.0500"><ele>125</ele></trkpt>
+      <trkpt lat="50.4780" lon="5.0350"><ele>140</ele></trkpt>
+      <trkpt lat="50.4757" lon="5.0219"><ele>160</ele><name>Grotte Scladina - Reserve visite</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>DETOUR - Forteresse Poilvache - J05</name>
+    <desc>Depuis Houx bord Meuse vers ruines Poilvache. Detour moyen ~3 km A/R + D+ 150m</desc>
+    <type>Detour POI</type>
+    <trkseg>
+      <trkpt lat="50.3550" lon="4.8780"><ele>100</ele><name>Houx (bord Meuse) - depart detour</name></trkpt>
+      <trkpt lat="50.3560" lon="4.8850"><ele>130</ele></trkpt>
+      <trkpt lat="50.3580" lon="4.8920"><ele>170</ele><name>Sentier montant</name></trkpt>
+      <trkpt lat="50.3590" lon="4.8990"><ele>220</ele></trkpt>
+      <trkpt lat="50.3600" lon="4.9050"><ele>260</ele><name>Forteresse Poilvache - ruines XIIIe</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>DETOUR - Chateau-Thierry vue exterieure (Falmignoul) - J07</name>
+    <desc>Depuis Falmignoul sentier montant vers Point de vue du Drapeau. Site classe MAIS FERME public (dangereux) - vue exterieure seule. Detour long ~4 km A/R + D+ 200m</desc>
+    <type>Detour POI</type>
+    <trkseg>
+      <trkpt lat="50.2333" lon="4.8833"><ele>110</ele><name>Falmignoul centre - depart detour</name></trkpt>
+      <trkpt lat="50.2380" lon="4.8780"><ele>150</ele></trkpt>
+      <trkpt lat="50.2410" lon="4.8730"><ele>200</ele><name>Sentier des Cascatelles</name></trkpt>
+      <trkpt lat="50.2431" lon="4.8697"><ele>250</ele><name>Point de vue du Drapeau - vue Chateau-Thierry</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>DETOUR - Roche a Lomme (Dourbes) - J10</name>
+    <desc>Depuis Dourbes montee vers promontoire calcaire + grande croix pierre. Panorama Viroin. Detour court ~2 km A/R + D+ 100m</desc>
+    <type>Detour POI</type>
+    <trkseg>
+      <trkpt lat="50.0790" lon="4.6210"><ele>200</ele><name>Dourbes centre - depart detour</name></trkpt>
+      <trkpt lat="50.0800" lon="4.6215"><ele>230</ele></trkpt>
+      <trkpt lat="50.0810" lon="4.6220"><ele>270</ele><name>Sentier montant</name></trkpt>
+      <trkpt lat="50.0819" lon="4.6222"><ele>300</ele><name>Roche a Lomme - Grande Croix + panorama</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>DETOUR - Grotte de Neptune (Petigny) - J11</name>
+    <desc>Depuis Frasnes-lez-Couvin vers Petigny et Grotte de Neptune. Riviere souterraine navigable. Detour moyen ~2 km A/R</desc>
+    <type>Detour POI</type>
+    <trkseg>
+      <trkpt lat="50.0620" lon="4.5120"><ele>245</ele><name>Frasnes-lez-Couvin - depart detour</name></trkpt>
+      <trkpt lat="50.0680" lon="4.5090"><ele>240</ele></trkpt>
+      <trkpt lat="50.0714" lon="4.5083"><ele>235</ele><name>Petigny centre</name></trkpt>
+      <trkpt lat="50.0720" lon="4.5075"><ele>230</ele><name>Grotte de Neptune - visite guidee</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>DETOUR OPTIONNEL - Chateau de Freyr (rive gauche) - J06 ou J07</name>
+    <desc>Chateau Renaissance + jardins classes. Traverser Meuse par pont Anseremme (J06) ou Waulsort (J07)</desc>
+    <type>Detour POI</type>
+    <trkseg>
+      <trkpt lat="50.2540" lon="4.9124"><ele>105</ele><name>Anseremme (pont possible)</name></trkpt>
+      <trkpt lat="50.2470" lon="4.9020"><ele>105</ele></trkpt>
+      <trkpt lat="50.2400" lon="4.8920"><ele>105</ele></trkpt>
+      <trkpt lat="50.2340" lon="4.8850"><ele>105</ele></trkpt>
+      <trkpt lat="50.2287" lon="4.8783"><ele>110</ele><name>Chateau de Freyr + jardins</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <!-- ============================================================
+       WAYPOINTS - Villes-etapes principales (redondance avec
+       waypoints-belgique.gpx mais utile ici pour lecture single)
+       ============================================================ -->
+
+  <wpt lat="50.6326" lon="5.5797">
+    <name>J00 - Liege Cathedrale</name>
+    <desc>DEPART - retirer credencial</desc>
+    <sym>Flag</sym>
+  </wpt>
+
+  <wpt lat="50.5461" lon="5.3129">
+    <name>J01 - Amay</name>
+    <desc>Km 22. Collegiale Sainte-Ode.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.5183" lon="5.2402">
+    <name>J02 - Huy</name>
+    <desc>Km 33. Li Rondia + Citadelle. Le Crompire (friterie bio).</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.4880" lon="5.0930">
+    <name>J03 - Andenne</name>
+    <desc>Km 51. Collegiale Ste-Begge. Detour Grotte Scladina possible.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.4674" lon="4.8720">
+    <name>J04 - Namur</name>
+    <desc>Km 73. Citadelle, confluent Sambre-Meuse. AJ Felicien Rops.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.3266" lon="4.8779">
+    <name>J05 - Yvoir</name>
+    <desc>Km 91. Vallee mosane. Detour Poilvache possible.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.2597" lon="4.9128">
+    <name>J06 - Dinant</name>
+    <desc>Km 105. Rochers Bayard, ND, Sax, Citadelle, Freyr.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.2183" lon="4.8288">
+    <name>J07 - Hastiere</name>
+    <desc>Km 119. Abbaye romane XIe. Passage d'eau Waulsort proche.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.1360" lon="4.8283">
+    <name>J08 - Givet (FR)</name>
+    <desc>Km 130. Fort Charlemont + Tour Gregoire.</desc>
+    <sym>Flag</sym>
+  </wpt>
+
+  <wpt lat="50.1214" lon="4.7169">
+    <name>J09 - Doische (BE)</name>
+    <desc>Km 148. Debut Voie Monastique. Village Fagne.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.0787" lon="4.6188">
+    <name>J10 - Olloy-sur-Viroin</name>
+    <desc>Km 167. Reserve Viroin-Hermeton. Detour Roche a Lomme possible.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="50.0533" lon="4.4933">
+    <name>J11 - Couvin</name>
+    <desc>Km 184. Detour Grotte de Neptune possible.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="49.9236" lon="4.5211">
+    <name>J12 - Rocroi (FR) - ARRIVEE</name>
+    <desc>Km 204. Place d'Armes etoile Vauban. Gite donativo. FIN TRONCON BELGIQUE.</desc>
+    <sym>Flag</sym>
+  </wpt>
+
+</gpx>
