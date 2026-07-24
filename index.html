@@ -1311,19 +1311,32 @@ function onGPS(p){
   const n=nearest(gps);posreadout.innerHTML="proche de "+S[n.i].to[2]+" (~"+n.km.toFixed(1)+" km)";
   if(follow)map.setView(gps,Math.max(map.getZoom(),14));
 }
+let gpsWatch=null;
+function gpsErr(e){
+  posreadout.textContent=
+    (e&&e.code===1)?"Refusé — autorise la localisation (cadenas → Autorisations)":
+    (e&&e.code===2)?"Position indisponible — active la localisation du téléphone + « Précise »":
+    (e&&e.code===3)?"Trop long — réessaie dehors, ciel dégagé":
+    "GPS : "+((e&&e.message)||"erreur inconnue");
+}
 function startGPS(){
   if(!window.isSecureContext){posreadout.textContent="GPS bloqué : page non sécurisée (ouvre en https)";return;}
   if(!navigator.geolocation){posreadout.textContent="GPS indisponible sur ce navigateur";return;}
   posreadout.textContent="Recherche GPS…";
-  navigator.geolocation.watchPosition(onGPS,function(e){
-    var m=(e&&e.code===1)?"Refusé — autorise la localisation (cadenas → Autorisations)":
-          (e&&e.code===2)?"Position indisponible — essaie dehors, ciel dégagé":
-          (e&&e.code===3)?"Trop long — réessaie en extérieur":"GPS : erreur";
-    posreadout.textContent=m;
-  },{enableHighAccuracy:true,maximumAge:10000,timeout:25000});
+  function begin(){
+    navigator.geolocation.getCurrentPosition(onGPS,gpsErr,{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+    try{if(gpsWatch!=null)navigator.geolocation.clearWatch(gpsWatch);}catch(e){}
+    gpsWatch=navigator.geolocation.watchPosition(onGPS,gpsErr,{enableHighAccuracy:true,maximumAge:10000,timeout:25000});
+  }
+  if(navigator.permissions&&navigator.permissions.query){
+    navigator.permissions.query({name:"geolocation"}).then(function(p){
+      if(p.state==="denied"){posreadout.textContent="Refusé — autorise la localisation (cadenas → Autorisations)";return;}
+      begin();
+    }).catch(begin);
+  }else begin();
 }
 locBtn.onclick=()=>{follow=!follow;locBtn.classList.toggle("on",follow);if(follow){if(!gps)startGPS();else map.setView(gps,Math.max(map.getZoom(),14));}};
-document.getElementById("gpsbtn").onclick=()=>{if(!gps){startGPS();posreadout.textContent="Recherche GPS… réessaie dans qques s";return;}selectDay(nearest(gps).i,true);};
+document.getElementById("gpsbtn").onclick=()=>{if(gps){selectDay(nearest(gps).i,true);}else{startGPS();}};
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 
 /* ===== PANNEAU ===== */
