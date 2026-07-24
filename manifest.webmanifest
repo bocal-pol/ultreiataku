@@ -1,0 +1,15 @@
+{
+  "name": "Ultreïataku — Compagnon du Chemin",
+  "short_name": "Ultreïataku",
+  "description": "Compagnon du pèlerinage Liège → Santiago (~2 260 km)",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "fr",
+  "background_color": "#1a1208",
+  "theme_color": "#1a1208",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
