@@ -1324,6 +1324,7 @@ function startGPS(){
 }
 locBtn.onclick=()=>{follow=!follow;locBtn.classList.toggle("on",follow);if(follow){if(!gps)startGPS();else map.setView(gps,Math.max(map.getZoom(),14));}};
 document.getElementById("gpsbtn").onclick=()=>{if(!gps){startGPS();posreadout.textContent="Recherche GPS… réessaie dans qques s";return;}selectDay(nearest(gps).i,true);};
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 
 /* ===== PANNEAU ===== */
 const sheet=document.getElementById("sheet"),body=document.getElementById("body"),daysel=document.getElementById("daysel");

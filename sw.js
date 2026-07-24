@@ -1,5 +1,5 @@
 /* Ultreïataku — service worker : appli hors-ligne + cache des tuiles carto */
-const CORE = 'ultreia-core-v2';
+const CORE = 'ultreia-core-v3';
 const TILES = 'ultreia-tiles-v1';
 const APP = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
@@ -24,8 +24,9 @@ self.addEventListener('fetch', e => {
   if (req.mode === 'navigate' || (url.origin === location.origin && /\/(index\.html)?$/.test(url.pathname))) {
     e.respondWith(
       fetch(req).then(r => {
-        if (r && r.status === 200) { const cl = r.clone(); caches.open(CORE).then(c => c.put(req, cl)); }
-        return r;
+        if (r && r.ok) { const cl = r.clone(); caches.open(CORE).then(c => c.put(req, cl)); return r; }
+        // site éteint (dépôt privé → 404) ou erreur : on sert la copie en cache
+        return caches.match(req).then(hit => hit || caches.match('./index.html')).then(hit => hit || r);
       }).catch(() => caches.match(req).then(hit => hit || caches.match('./index.html')))
     );
     return;
