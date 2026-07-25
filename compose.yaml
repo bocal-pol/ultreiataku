@@ -28,7 +28,7 @@ networks:
     # Réseaux externes partagés avec la stack SiteV26
     sitev26_data:
         external: true
-        name: sitev26-data
+        name: sitev26_data
     sitev26_app:
         external: true
         name: sitev26_app

@@ -60,6 +60,45 @@ return [
             'report' => false,
         ],
 
+        // ─── MinIO — ADR-U02 : jamais disk('public'), toujours disks dédiés ───
+        // Cf. bug_rule_merged_minio_disk : disk('public') interdit pour médias.
+
+        'minio_gpx' => [
+            'driver' => 's3',
+            'key' => env('MINIO_KEY'),
+            'secret' => env('MINIO_SECRET'),
+            'region' => env('MINIO_REGION', 'us-east-1'),
+            'bucket' => env('MINIO_BUCKET_GPX', 'ultreiataku-gpx'),
+            'endpoint' => env('MINIO_ENDPOINT', 'http://site-minio:9000'),
+            'use_path_style_endpoint' => true,
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'minio_journal' => [
+            'driver' => 's3',
+            'key' => env('MINIO_KEY'),
+            'secret' => env('MINIO_SECRET'),
+            'region' => env('MINIO_REGION', 'us-east-1'),
+            'bucket' => env('MINIO_BUCKET_JOURNAL', 'ultreiataku-journal'),
+            'endpoint' => env('MINIO_ENDPOINT', 'http://site-minio:9000'),
+            'use_path_style_endpoint' => true,
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'minio_images' => [
+            'driver' => 's3',
+            'key' => env('MINIO_KEY'),
+            'secret' => env('MINIO_SECRET'),
+            'region' => env('MINIO_REGION', 'us-east-1'),
+            'bucket' => env('MINIO_BUCKET_IMAGES', 'ultreiataku-images'),
+            'endpoint' => env('MINIO_ENDPOINT', 'http://site-minio:9000'),
+            'use_path_style_endpoint' => true,
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*
