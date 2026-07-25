@@ -3,7 +3,9 @@
    Mode sombre par défaut (OLED). Bascule jour via .light-mode.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cinzel:wght@400;600&display=swap');
+@import '@fontsource-variable/inter';
+@import '@fontsource/cinzel/latin-400.css';
+@import '@fontsource/cinzel/latin-600.css';
 
 /* ──────────────────────────────────────────────────────────
    Niveau 1 — Tokens primitifs

@@ -283,7 +283,7 @@ export function MapScreen() {
           <button
             key={action}
             type="button"
-            onClick={() => { if (mapRef.current) { action === 'zoomIn' ? mapRef.current.zoomIn() : mapRef.current.zoomOut(); } }}
+            onClick={() => { if (mapRef.current) { if (action === 'zoomIn') { mapRef.current.zoomIn(); } else { mapRef.current.zoomOut(); } } }}
             aria-label={action === 'zoomIn' ? 'Zoom avant' : 'Zoom arrière'}
             style={{
               width: 'var(--map-control-size)', height: 'var(--map-control-size)',
