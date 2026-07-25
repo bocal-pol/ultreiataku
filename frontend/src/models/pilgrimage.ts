@@ -28,6 +28,7 @@ export interface AccommodationModel {
   id: string;
   name: string;
   type: 'gite' | 'camping' | 'hostel' | 'hotel' | 'abbey' | 'donativo' | 'bivouac';
+  address: string | null;
   phone: string | null;
   website: string | null;
   email: string | null;
@@ -40,10 +41,14 @@ export interface AccommodationModel {
   hasWifi: boolean;
   stampsCredencial: boolean;
   bookingRequired: boolean;
+  bookingNoticeDays: number | null;
   bivouacLegal: boolean;
   bivouacNotes: string | null;
   isPrimary: boolean;
   notes: string | null;
+  /** ISO 8601 date string or null */
+  verifiedAt: string | null;
+  isObsolete: boolean;
 }
 
 export interface MealModel {
@@ -53,7 +58,10 @@ export interface MealModel {
   description: string | null;
   mealContext: 'restaurant' | 'bivouac_cooking' | 'grocery' | 'local_specialty';
   restaurantName: string | null;
+  restaurantAddress: string | null;
   priceEstimateEur: number | null;
+  kcalEstimate: number | null;
+  weightG: number | null;
   notes: string | null;
 }
 

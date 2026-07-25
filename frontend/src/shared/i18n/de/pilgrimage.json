@@ -26,6 +26,7 @@
       "meal_morning": "Morgen",
       "meal_lunch": "Mittagessen",
       "meal_dinner": "Abendessen",
+      "meal_snack": "Zwischenmahlzeit",
       "accommodation_alt": "Alternative",
       "bivouac_legal": "Biwak erlaubt",
       "bivouac_illegal": "Biwak nicht erlaubt"
@@ -66,7 +67,22 @@
         "kitchen": "Küche",
         "wifi": "WLAN",
         "stamp": "Pilgerstempel"
-      }
+      },
+      "price_free": "Kostenlos",
+      "booking_required": "Reservierung empfohlen",
+      "booking_required_days": "{{count}} Tage im Voraus buchen",
+      "capacity": "Kapazität: {{count}} Pilger",
+      "verified_months_ago_one": "Vor {{count}} Monat überprüft",
+      "verified_months_ago_other": "Vor {{count}} Monaten überprüft"
+    },
+    "meal": {
+      "context": {
+        "restaurant": "Restaurant",
+        "bivouac_cooking": "Biwakkochen",
+        "grocery": "Supermarkt / Geschäft",
+        "local_specialty": "Lokale Spezialität"
+      },
+      "daily_kcal": "Geschätzte Tagesration: {{kcal}} kcal"
     },
     "map": {
       "overlay_title": "T{{n}} · {{from}} → {{to}} · {{x}} km",

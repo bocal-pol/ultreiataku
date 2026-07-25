@@ -21,10 +21,10 @@ const WAYPOINT_ICONS: Record<string, { color: string; symbol: string }> = {
   crossroads:    { color: '#7d6340', symbol: '✕' },
 };
 
-function makeMarkerIcon(color: string, symbol: string) {
+function makeMarkerIcon(color: string, symbol: string, slug: string) {
   return L.divIcon({
     className: '',
-    html: `<div aria-hidden="true" style="
+    html: `<div data-testid="waypoint-marker-${slug}" aria-hidden="true" style="
       width:32px;height:32px;border-radius:50%;
       background:rgba(26,18,8,0.85);border:2px solid ${color};
       display:flex;align-items:center;justify-content:center;
@@ -41,7 +41,7 @@ export function MapScreen() {
   const { t } = useTranslation('pilgrimage');
 
   const { data: stage } = useStageDetail(code ?? '');
-  const mainTrace = stage?.gpxTraces.find(t => t.traceType === 'stage_main');
+  const mainTrace = stage?.gpxTraces.find(tr => tr.traceType === 'stage_main');
   const { data: gpxLine, isError: gpxError } = useGpxSimplified(mainTrace?.id ?? null);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -118,7 +118,7 @@ export function MapScreen() {
         const cfg = WAYPOINT_ICONS[wp.type] ?? WAYPOINT_ICONS['poi'];
         const color = cfg?.color ?? '#c8963c';
         const symbol = cfg?.symbol ?? '★';
-        const icon = makeMarkerIcon(color, symbol);
+        const icon = makeMarkerIcon(color, symbol, wp.slug);
 
         L.marker([wp.lat, wp.lng], { icon })
           .addTo(group)
@@ -178,7 +178,10 @@ export function MapScreen() {
   const layerKeys: LayerName[] = ['trail', 'detours', 'accommodations', 'water'];
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: 'var(--color-bg-map)' }}>
+    <div
+      data-testid="map-container"
+      style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: 'var(--color-bg-map)' }}
+    >
       {/* Carte */}
       <div
         ref={mapContainerRef}
@@ -379,24 +382,41 @@ export function MapScreen() {
 
       {/* Offline tiles notice */}
       {!navigator.onLine && (
-        <div role="status" style={{
-          position: 'absolute', top: '52px',
-          left: 'var(--space-4)', right: 'var(--space-4)',
-          backgroundColor: 'rgba(26,18,8,0.9)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-2) var(--space-3)',
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--color-text-secondary)',
-          zIndex: 1000,
-        }}>
+        <div
+          role="status"
+          data-testid="offline-notice"
+          style={{
+            position: 'absolute', top: '52px',
+            left: 'var(--space-4)', right: 'var(--space-4)',
+            backgroundColor: 'rgba(26,18,8,0.9)',
+            borderRadius: 'var(--radius-md)',
+            padding: 'var(--space-2) var(--space-3)',
+            fontSize: 'var(--font-size-xs)',
+            color: 'var(--color-text-secondary)',
+            zIndex: 1000,
+          }}
+        >
           {t('map.offline_tiles')}
         </div>
+      )}
+
+      {/* Backdrop sheet */}
+      {selectedWaypoint && (
+        <div
+          aria-hidden="true"
+          onClick={() => setSelectedWaypoint(null)}
+          style={{
+            position: 'absolute', inset: 0, backgroundColor: 'var(--sheet-backdrop)',
+            zIndex: 1050,
+          }}
+        />
       )}
 
       {/* Bottom sheet POI */}
       {selectedWaypoint && (
         <div
           role="dialog"
+          data-testid="poi-sheet"
           aria-label={selectedWaypoint.name}
           aria-modal="true"
           style={{
@@ -425,6 +445,7 @@ export function MapScreen() {
             </div>
             <button
               type="button"
+              data-testid="poi-sheet-close"
               onClick={() => setSelectedWaypoint(null)}
               aria-label={t('poi.close')}
               style={{
@@ -478,18 +499,6 @@ export function MapScreen() {
             </p>
           )}
         </div>
-      )}
-
-      {/* Backdrop sheet */}
-      {selectedWaypoint && (
-        <div
-          aria-hidden="true"
-          onClick={() => setSelectedWaypoint(null)}
-          style={{
-            position: 'absolute', inset: 0, backgroundColor: 'var(--sheet-backdrop)',
-            zIndex: 1050,
-          }}
-        />
       )}
     </div>
   );

@@ -26,6 +26,7 @@
       "meal_morning": "Ochtend",
       "meal_lunch": "Lunch",
       "meal_dinner": "Diner",
+      "meal_snack": "Tussendoortje",
       "accommodation_alt": "Alternatief",
       "bivouac_legal": "Bivak toegestaan",
       "bivouac_illegal": "Bivak niet toegestaan"
@@ -66,7 +67,22 @@
         "kitchen": "Keuken",
         "wifi": "Wi-Fi",
         "stamp": "Pelgrimsstempel"
-      }
+      },
+      "price_free": "Gratis",
+      "booking_required": "Reservering aanbevolen",
+      "booking_required_days": "{{count}} dagen van tevoren reserveren",
+      "capacity": "Capaciteit: {{count}} pelgrims",
+      "verified_months_ago_one": "{{count}} maand geleden geverifieerd",
+      "verified_months_ago_other": "{{count}} maanden geleden geverifieerd"
+    },
+    "meal": {
+      "context": {
+        "restaurant": "Restaurant",
+        "bivouac_cooking": "Bivakkoken",
+        "grocery": "Supermarkt / winkel",
+        "local_specialty": "Lokale specialiteit"
+      },
+      "daily_kcal": "Geschatte dagrantsoene: {{kcal}} kcal"
     },
     "map": {
       "overlay_title": "D{{n}} · {{from}} → {{to}} · {{x}} km",

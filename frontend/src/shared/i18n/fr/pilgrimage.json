@@ -26,6 +26,7 @@
       "meal_morning": "Matin",
       "meal_lunch": "Déjeuner",
       "meal_dinner": "Dîner",
+      "meal_snack": "En-cas",
       "accommodation_alt": "Alternative",
       "bivouac_legal": "Bivouac toléré",
       "bivouac_illegal": "Bivouac non autorisé"
@@ -66,7 +67,22 @@
         "kitchen": "Cuisine",
         "wifi": "Wi-Fi",
         "stamp": "Tampon credencial"
-      }
+      },
+      "price_free": "Gratuit",
+      "booking_required": "Réservation conseillée",
+      "booking_required_days": "Réserver {{count}} j à l'avance",
+      "capacity": "Capacité : {{count}} pèlerins",
+      "verified_months_ago_one": "Vérifié il y a {{count}} mois",
+      "verified_months_ago_other": "Vérifié il y a {{count}} mois"
+    },
+    "meal": {
+      "context": {
+        "restaurant": "Restaurant",
+        "bivouac_cooking": "Cuisine bivouac",
+        "grocery": "Épicerie / supermarché",
+        "local_specialty": "Spécialité locale"
+      },
+      "daily_kcal": "Ration estimée : {{kcal}} kcal"
     },
     "map": {
       "overlay_title": "J{{n}} · {{from}} → {{to}} · {{x}} km",

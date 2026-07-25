@@ -45,10 +45,14 @@ export interface AccommodationResponseDto {
   stamps_credencial: boolean;
   pilgrim_friendly: boolean;
   booking_required: boolean;
+  booking_notice_days: number | null;
   bivouac_legal: boolean;
   bivouac_notes: string | null;
   is_primary: boolean;
+  sort_order: number | null;
   notes: string | null;
+  verified_at: string | null;
+  is_obsolete: boolean;
 }
 
 export interface MealResponseDto {
@@ -58,7 +62,10 @@ export interface MealResponseDto {
   description: string | null;
   meal_context: 'restaurant' | 'bivouac_cooking' | 'grocery' | 'local_specialty';
   restaurant_name: string | null;
+  restaurant_address: string | null;
   price_estimate_eur: number | null;
+  kcal_estimate: number | null;
+  weight_g: number | null;
   notes: string | null;
 }
 

@@ -51,6 +51,7 @@ export function mapAccommodation(dto: AccommodationResponseDto): AccommodationMo
     id: dto.id,
     name: dto.name,
     type: dto.type,
+    address: dto.address,
     phone: dto.phone,
     website: dto.website,
     email: dto.email,
@@ -63,10 +64,13 @@ export function mapAccommodation(dto: AccommodationResponseDto): AccommodationMo
     hasWifi: dto.has_wifi,
     stampsCredencial: dto.stamps_credencial,
     bookingRequired: dto.booking_required,
+    bookingNoticeDays: dto.booking_notice_days,
     bivouacLegal: dto.bivouac_legal,
     bivouacNotes: dto.bivouac_notes,
     isPrimary: dto.is_primary,
     notes: dto.notes,
+    verifiedAt: dto.verified_at,
+    isObsolete: dto.is_obsolete,
   };
 }
 
@@ -78,7 +82,10 @@ export function mapMeal(dto: MealResponseDto): MealModel {
     description: dto.description,
     mealContext: dto.meal_context,
     restaurantName: dto.restaurant_name,
+    restaurantAddress: dto.restaurant_address,
     priceEstimateEur: dto.price_estimate_eur,
+    kcalEstimate: dto.kcal_estimate,
+    weightG: dto.weight_g,
     notes: dto.notes,
   };
 }
