@@ -1,0 +1,201 @@
+{
+  "pilgrimage": {
+    "stages": {
+      "list_title": "Via Mosana — Belgien",
+      "tab_be": "Belgien",
+      "tab_fr": "Frankreich",
+      "tab_es": "Spanien",
+      "empty_fr": "Diese Etappen erscheinen in V1.1. Belgien ist vollständig.",
+      "empty_es": "Diese Etappen erscheinen in V1.1. Belgien ist vollständig.",
+      "loading": "Belgisches Teilstück wird geladen…",
+      "fab_label": "Interaktive Karte",
+      "poi_highlight": "★ {{name}}"
+    },
+    "stage": {
+      "day_label": "T{{n}}",
+      "distance": "{{x}} km",
+      "elevation": "H+ {{y}} m",
+      "duration": "~{{h}}h{{m}}",
+      "practical_note": "Hinweis",
+      "water_points": "Wasserquellen",
+      "poi_section": "Sehenswürdigkeiten",
+      "meals_section": "Mahlzeiten und Verpflegung",
+      "night_section": "Für heute Nacht",
+      "see_on_map": "Auf der Karte anzeigen",
+      "back_to_stages": "Etappen",
+      "meal_morning": "Morgen",
+      "meal_lunch": "Mittagessen",
+      "meal_dinner": "Abendessen",
+      "accommodation_alt": "Alternative",
+      "bivouac_legal": "Biwak erlaubt",
+      "bivouac_illegal": "Biwak nicht erlaubt"
+    },
+    "poi": {
+      "detour_types": {
+        "on_path": "Auf dem Weg",
+        "short": "Kurzer Umweg",
+        "medium": "Mittlerer Umweg",
+        "long": "Langer Umweg"
+      },
+      "categories": {
+        "archaeology": "Archäologische Stätte",
+        "religious": "Religiöse Stätte",
+        "fortress": "Festung",
+        "nature": "Naturstätte",
+        "gastronomy": "Gastronomie",
+        "view": "Aussichtspunkt"
+      },
+      "booking_required": "Reservierung empfohlen",
+      "no_booking": "Keine Reservierung",
+      "detour_format": "{{km}} km hin und zurück · {{walk}} Min + {{visit}} Min",
+      "cost_format": "~{{cost}} EUR",
+      "close": "Info schließen"
+    },
+    "accommodation": {
+      "types": {
+        "gite": "Gîte",
+        "camping": "Camping",
+        "abbey": "Abtei",
+        "hostel": "Herberge",
+        "bivouac": "Biwak",
+        "hotel": "Hotel",
+        "donativo": "Donativo"
+      },
+      "amenities": {
+        "shower": "Dusche",
+        "kitchen": "Küche",
+        "wifi": "WLAN",
+        "stamp": "Pilgerstempel"
+      }
+    },
+    "map": {
+      "overlay_title": "T{{n}} · {{from}} → {{to}} · {{x}} km",
+      "toggle_layers": "Anzeigen / verbergen",
+      "layer_trail": "Tagesetappe",
+      "layer_detours": "Umwege",
+      "layer_accommodations": "Unterkünfte",
+      "layer_water": "Wasserquellen",
+      "center_gps": "Mein Standort",
+      "gps_unavailable": "Standort nicht verfügbar",
+      "gps_permission": "Ultreiataku möchte auf Ihren Standort zugreifen, um Sie auf der Karte anzuzeigen.",
+      "offline_tiles": "Karte nur teilweise offline verfügbar. Laden Sie den belgischen Abschnitt im verbundenen Modus herunter.",
+      "stage_prev": "← T{{n}}",
+      "stage_next": "T{{n}} →",
+      "back": "← T{{n}}",
+      "fullscreen_open": "Vollbild",
+      "fullscreen_close": "Vollbild beenden"
+    },
+    "journal": {
+      "title": "Reisetagebuch",
+      "new_entry": "Neuer Eintrag",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "placeholder_title": "Titel (optional)",
+      "placeholder_body": "Was möchtest du von diesem Tag festhalten…",
+      "tab_all": "Alle",
+      "tab_mine": "Meine Einträge",
+      "tab_public": "Öffentlich",
+      "visibility": {
+        "label": "Wer kann diesen Eintrag sehen?",
+        "private": "Nur ich",
+        "members": "Reisegefährten",
+        "public": "Familie und Freunde"
+      },
+      "mood": {
+        "label": "Wie war Ihr Tag?",
+        "great": "Großartig",
+        "good": "Guter Tag",
+        "neutral": "Normaler Tag",
+        "tired": "Müde",
+        "difficult": "Schwieriger Tag"
+      },
+      "sync_pending_one": "{{count}} Eintrag wartet auf Synchronisierung",
+      "sync_pending_other": "{{count}} Einträge warten auf Synchronisierung",
+      "offline_notice": "Wird synchronisiert, sobald Sie wieder online sind.",
+      "empty_all": "Noch keine Einträge in diesem Tagebuch.",
+      "empty_public": "Noch keine geteilten Einträge."
+    },
+    "pack": {
+      "categories": {
+        "portage": "Träger",
+        "sleeping": "Schlafen",
+        "cooking": "Kochen",
+        "water": "Wasser und Filtration",
+        "clothing": "Kleidung",
+        "hygiene": "Hygiene",
+        "health": "Gesundheit",
+        "navigation": "Navigation und Elektronik",
+        "misc": "Sonstiges"
+      },
+      "weight_status": {
+        "ok": "Im Zielbereich",
+        "warn": "Aufgepasst — {{delta}} kg Spielraum",
+        "over": "Zu schwer — {{delta}} kg über Ziel"
+      },
+      "base_label": "Basis",
+      "water_label": "+ Wasser: 2,0 kg",
+      "food_label": "+ Essen: 0,75 kg",
+      "total_label": "Geschätztes Gesamtgewicht: {{x}} kg",
+      "add_item": "Gegenstand hinzufügen",
+      "manage_scenarios": "Szenarien verwalten"
+    },
+    "trip": {
+      "roles": {
+        "organizer": "Organisator",
+        "participant": "Mitpilger",
+        "observer": "Familie"
+      },
+      "status": {
+        "planned": "Vorbereitung",
+        "active": "Laufend",
+        "completed": "Abgeschlossen",
+        "cancelled": "Abgebrochen"
+      },
+      "progress": "T{{current}}/{{total}} · {{km_done}} km / {{km_total}} km",
+      "next_stage": "Morgen: {{from}} → {{to}}",
+      "invite_cta": "Mitpilger einladen",
+      "share_cta": "Reise teilen",
+      "journal_cta": "Tagebuch ansehen",
+      "join_title": "{{name}} lädt Sie ein, gemeinsam zu wandern",
+      "join_accept": "Dieser Reise beitreten",
+      "join_decline": "Ablehnen",
+      "already_member": "Sie sind bereits Mitglied dieser Reise.",
+      "last_entry": "Letzte Neuigkeit",
+      "no_public_entry": "Noch keine geteilten Einträge."
+    },
+    "nav": {
+      "map": "Karte",
+      "stages": "Etappen",
+      "pack": "Rucksack",
+      "journal": "Tagebuch",
+      "profile": "Ich"
+    },
+    "placeholder": {
+      "trip_coming_soon": "Trips — demnächst",
+      "pack_coming_soon": "Rucksack — demnächst",
+      "journal_coming_soon": "Tagebuch — demnächst"
+    },
+    "error": {
+      "offline_fetch": "Keine Netzwerkverbindung. Die angezeigten Daten stammen aus Ihrem letzten Besuch.",
+      "offline_save": "Lokal gespeichert. Ihr Eintrag wird gesendet, sobald das Netzwerk verfügbar ist.",
+      "tiles_missing": "Karte nur teilweise offline. Laden Sie den belgischen Abschnitt im verbundenen Modus herunter.",
+      "sync_failed": "Synchronisierung fehlgeschlagen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+      "invite_invalid": "Dieser Einladungslink ist nicht mehr gültig. Fordern Sie einen neuen Link vom Reiseorganisator an.",
+      "session_expired": "Ihre Sitzung ist abgelaufen.",
+      "stage_not_found": "Diese Etappe existiert nicht oder ist nicht mehr verfügbar.",
+      "gpx_unavailable": "Der GPX-Track dieser Etappe ist noch nicht verfügbar.",
+      "retry": "Erneut versuchen"
+    },
+    "success": {
+      "entry_saved": "Eintrag gespeichert.",
+      "entry_synced": "Eintrag synchronisiert.",
+      "visibility_changed": "Sichtbarkeit aktualisiert.",
+      "joined_trip": "Sie sind jetzt Teil der Reise {{name}}.",
+      "invite_sent": "Einladung gesendet an {{email}}."
+    },
+    "offline": {
+      "banner": "Offline",
+      "banner_back": "Wieder online"
+    }
+  }
+}

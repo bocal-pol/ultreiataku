@@ -1,111 +1,298 @@
+/* ============================================================
+   Ultreiataku — Design System Tokens
+   Mode sombre par défaut (OLED). Bascule jour via .light-mode.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cinzel:wght@400;600&display=swap');
+
+/* ──────────────────────────────────────────────────────────
+   Niveau 1 — Tokens primitifs
+   ────────────────────────────────────────────────────────── */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* Couleurs nuit */
+  --color-night-950: #0d0904;
+  --color-night-900: #1a1208;
+  --color-night-800: #2a1f0f;
+  --color-night-700: #3d2e18;
+  --color-night-600: #5a4525;
+  --color-night-500: #7d6340;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Couleurs or */
+  --color-gold-400: #e8b86d;
+  --color-gold-500: #c8963c;
+  --color-gold-600: #a87830;
+  --color-gold-700: #8a5f22;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Couleurs sable */
+  --color-sand-50:  #fdf8f2;
+  --color-sand-100: #f5ede0;
+  --color-sand-200: #e8d9c4;
+  --color-sand-300: #d4c0a0;
+  --color-sand-700: #8a7256;
+  --color-sand-900: #3d2e18;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Couleurs carte / POI */
+  --color-trail-blue:    #4a90d9;
+  --color-detour-amber:  #e8983a;
+  --color-water-teal:    #2da8a8;
+  --color-camp-green:    #5a9e5a;
+  --color-abbey-purple:  #8b5e99;
+  --color-fortress-red:  #c04040;
+
+  /* Statuts */
+  --color-success-500: #5a9e5a;
+  --color-warning-500: #e8983a;
+  --color-error-500:   #c04040;
+  --color-info-500:    #4a90d9;
+
+  /* Poids sac */
+  --color-weight-ok:   #5a9e5a;
+  --color-weight-warn: #e8983a;
+  --color-weight-over: #c04040;
+
+  /* ── Typographie ── */
+  --font-family-interface: 'Inter', system-ui, sans-serif;
+  --font-family-heading:   'Cinzel', 'Georgia', serif;
+
+  --font-size-2xs: 0.625rem;
+  --font-size-xs:  0.75rem;
+  --font-size-sm:  0.875rem;
+  --font-size-md:  1rem;
+  --font-size-lg:  1.2rem;
+  --font-size-xl:  1.44rem;
+  --font-size-2xl: 1.728rem;
+  --font-size-3xl: 2.074rem;
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+
+  --line-height-tight:   1.2;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.7;
+
+  --letter-spacing-tight:  -0.01em;
+  --letter-spacing-wide:    0.05em;
+  --letter-spacing-wider:   0.1em;
+
+  /* ── Espacement ── */
+  --space-0:  0;
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* ── Rayons ── */
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-full: 9999px;
+
+  /* ── Ombres ── */
+  --shadow-sm:   0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md:   0 4px 8px rgba(0,0,0,0.5);
+  --shadow-lg:   0 8px 24px rgba(0,0,0,0.6);
+  --shadow-gold: 0 0 0 2px var(--color-gold-500);
+
+  /* ── Animation ── */
+  --duration-instant: 50ms;
+  --duration-fast:    150ms;
+  --duration-normal:  250ms;
+  --duration-slow:    400ms;
+  --duration-sheet:   300ms;
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --easing-sheet:   cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* ── Breakpoints (référence JS) ── */
+  --bp-sm:  375px;
+  --bp-md:  390px;
+  --bp-lg:  430px;
+  --bp-xl:  768px;
+  --bp-2xl: 1024px;
+
+  /* ── Navigation ── */
+  --nav-height:             56px;
+  --nav-safe-area:          env(safe-area-inset-bottom, 0px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* ──────────────────────────────────────────────────────────
+   Niveau 2 — Tokens sémantiques — Mode sombre (défaut)
+   ────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --color-bg-base:       var(--color-night-900);
+  --color-bg-elevated:   var(--color-night-800);
+  --color-bg-overlay:    var(--color-night-700);
+  --color-bg-sheet:      var(--color-night-800);
+  --color-bg-map:        var(--color-night-950);
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+  /* Texte */
+  --color-text-primary:   var(--color-sand-50);
+  --color-text-secondary: var(--color-sand-200);
+  --color-text-tertiary:  var(--color-night-500);
+  --color-text-inverse:   var(--color-night-900);
+  --color-text-accent:    var(--color-gold-500);
+
+  /* Bordures */
+  --color-border-subtle:  var(--color-night-700);
+  --color-border-default: var(--color-night-600);
+  --color-border-accent:  var(--color-gold-600);
+
+  /* Interactif */
+  --color-interactive-primary:        var(--color-gold-500);
+  --color-interactive-primary-hover:  var(--color-gold-400);
+  --color-interactive-primary-active: var(--color-gold-600);
+  --color-interactive-focus-ring:     var(--color-gold-400);
+
+  /* Statuts */
+  --color-status-success: var(--color-success-500);
+  --color-status-warning: var(--color-warning-500);
+  --color-status-error:   var(--color-error-500);
+  --color-status-info:    var(--color-info-500);
+
+  /* Carte */
+  --color-map-trail:       var(--color-trail-blue);
+  --color-map-detour:      var(--color-detour-amber);
+  --color-map-water:       var(--color-water-teal);
+  --color-map-camp:        var(--color-camp-green);
+  --color-map-poi-default: var(--color-gold-500);
+
+  /* Composants */
+  --stage-card-bg:       var(--color-bg-elevated);
+  --stage-card-radius:   var(--radius-xl);
+  --stage-card-padding:  var(--space-4);
+  --stage-card-border:   var(--color-border-subtle);
+  --stage-badge-size:    36px;
+  --stage-badge-bg:      var(--color-gold-500);
+  --stage-badge-text:    var(--color-text-inverse);
+
+  --btn-primary-bg:       var(--color-interactive-primary);
+  --btn-primary-text:     var(--color-text-inverse);
+  --btn-primary-height:   var(--space-14);
+  --btn-primary-radius:   var(--radius-lg);
+
+  --nav-bg:                   var(--color-bg-elevated);
+  --nav-border-top:           1px solid var(--color-border-subtle);
+  --nav-item-active-color:    var(--color-gold-500);
+  --nav-item-inactive-color:  var(--color-night-500);
+  --nav-item-min-width:       var(--space-11);
+
+  --fab-size:   56px;
+  --fab-bg:     var(--color-interactive-primary);
+  --fab-text:   var(--color-text-inverse);
+  --fab-radius: var(--radius-full);
+  --fab-shadow: var(--shadow-lg);
+  --fab-bottom: calc(var(--nav-height) + var(--nav-safe-area) + var(--space-4));
+  --fab-right:  var(--space-4);
+
+  --sheet-bg:          var(--color-bg-sheet);
+  --sheet-handle-color: var(--color-night-500);
+  --sheet-padding:     var(--space-6);
+  --sheet-max-height:  85vh;
+  --sheet-backdrop:    rgba(0,0,0,0.4);
+
+  --map-header-bg:    rgba(26,18,8,0.85);
+  --map-footer-bg:    rgba(26,18,8,0.90);
+  --map-control-bg:   var(--color-bg-elevated);
+  --map-control-size: 44px;
+
+  --sync-pending-color: var(--color-warning-500);
+  --sync-ok-color:      var(--color-success-500);
+  --sync-error-color:   var(--color-error-500);
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+/* ── Mode jour (basculement explicite) ── */
+.light-mode {
+  --color-bg-base:       var(--color-sand-50);
+  --color-bg-elevated:   var(--color-white);
+  --color-bg-overlay:    var(--color-sand-100);
+  --color-bg-sheet:      var(--color-white);
+  --color-text-primary:  var(--color-sand-900);
+  --color-text-secondary: var(--color-sand-700);
+  --color-text-accent:   var(--color-gold-700);
+  --stage-card-bg:       var(--color-white);
+  --nav-bg:              var(--color-white);
+}
+
+/* ──────────────────────────────────────────────────────────
+   Reset + Base
+   ────────────────────────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
-  margin: 0;
+  font-family: var(--font-family-interface);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+#root {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+h1, h2 {
+  font-family: var(--font-family-heading);
+  letter-spacing: var(--letter-spacing-wider);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+a {
+  color: var(--color-text-accent);
+  text-decoration: none;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Focus visible global — ring or */
+:focus-visible {
+  outline: 2px solid var(--color-interactive-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Utilitaire screen-reader uniquement */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Leaflet override minimal */
+.leaflet-container {
+  background: var(--color-bg-map) !important;
 }

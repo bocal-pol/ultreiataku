@@ -1,0 +1,201 @@
+{
+  "pilgrimage": {
+    "stages": {
+      "list_title": "Voie Mosane — Belgique",
+      "tab_be": "Belgique",
+      "tab_fr": "France",
+      "tab_es": "Espagne",
+      "empty_fr": "Ces étapes arrivent en V1.1. La Belgique est complète.",
+      "empty_es": "Ces étapes arrivent en V1.1. La Belgique est complète.",
+      "loading": "Téléchargement du tronçon Belgique…",
+      "fab_label": "Carte interactive",
+      "poi_highlight": "★ {{name}}"
+    },
+    "stage": {
+      "day_label": "J{{n}}",
+      "distance": "{{x}} km",
+      "elevation": "D+ {{y}} m",
+      "duration": "~{{h}}h{{m}}",
+      "practical_note": "À noter",
+      "water_points": "Points d'eau",
+      "poi_section": "Points d'intérêt",
+      "meals_section": "Repas et ravitaillement",
+      "night_section": "Pour ce soir",
+      "see_on_map": "Voir sur la carte",
+      "back_to_stages": "Étapes",
+      "meal_morning": "Matin",
+      "meal_lunch": "Déjeuner",
+      "meal_dinner": "Dîner",
+      "accommodation_alt": "Alternative",
+      "bivouac_legal": "Bivouac toléré",
+      "bivouac_illegal": "Bivouac non autorisé"
+    },
+    "poi": {
+      "detour_types": {
+        "on_path": "Sur le chemin",
+        "short": "Détour court",
+        "medium": "Détour moyen",
+        "long": "Détour long"
+      },
+      "categories": {
+        "archaeology": "Site archéologique",
+        "religious": "Site religieux",
+        "fortress": "Forteresse",
+        "nature": "Site naturel",
+        "gastronomy": "Gastronomie",
+        "view": "Point de vue"
+      },
+      "booking_required": "Réservation conseillée",
+      "no_booking": "Sans réservation",
+      "detour_format": "{{km}} km A/R · {{walk}} min + {{visit}} min",
+      "cost_format": "~{{cost}} EUR",
+      "close": "Fermer la fiche"
+    },
+    "accommodation": {
+      "types": {
+        "gite": "Gîte",
+        "camping": "Camping",
+        "abbey": "Abbaye",
+        "hostel": "Auberge",
+        "bivouac": "Bivouac",
+        "hotel": "Hôtel",
+        "donativo": "Donativo"
+      },
+      "amenities": {
+        "shower": "Douche",
+        "kitchen": "Cuisine",
+        "wifi": "Wi-Fi",
+        "stamp": "Tampon credencial"
+      }
+    },
+    "map": {
+      "overlay_title": "J{{n}} · {{from}} → {{to}} · {{x}} km",
+      "toggle_layers": "Afficher / masquer",
+      "layer_trail": "Trace du jour",
+      "layer_detours": "Détours",
+      "layer_accommodations": "Hébergements",
+      "layer_water": "Points d'eau",
+      "center_gps": "Ma position",
+      "gps_unavailable": "Position indisponible",
+      "gps_permission": "Ultreiataku souhaite accéder à votre position pour vous situer sur la carte.",
+      "offline_tiles": "Carte partiellement disponible hors ligne. Téléchargez le tronçon en mode connecté.",
+      "stage_prev": "← J{{n}}",
+      "stage_next": "J{{n}} →",
+      "back": "← J{{n}}",
+      "fullscreen_open": "Plein écran",
+      "fullscreen_close": "Quitter le plein écran"
+    },
+    "journal": {
+      "title": "Carnet de voyage",
+      "new_entry": "Nouvelle entrée",
+      "save": "Sauvegarder",
+      "cancel": "Annuler",
+      "placeholder_title": "Titre (facultatif)",
+      "placeholder_body": "Ce que tu veux retenir de cette journée…",
+      "tab_all": "Toutes",
+      "tab_mine": "Mes entrées",
+      "tab_public": "Publiques",
+      "visibility": {
+        "label": "Qui peut voir cette entrée ?",
+        "private": "Moi seul",
+        "members": "Compagnons du voyage",
+        "public": "Famille et proches"
+      },
+      "mood": {
+        "label": "Comment s'est passée cette journée ?",
+        "great": "Grande forme",
+        "good": "Bonne journée",
+        "neutral": "Journée ordinaire",
+        "tired": "Fatigué",
+        "difficult": "Journée difficile"
+      },
+      "sync_pending_one": "{{count}} entrée en attente de synchronisation",
+      "sync_pending_other": "{{count}} entrées en attente de synchronisation",
+      "offline_notice": "Sera synchronisée dès que vous retrouverez du réseau.",
+      "empty_all": "Pas encore d'entrée dans ce carnet.",
+      "empty_public": "Aucune entrée partagée pour l'instant."
+    },
+    "pack": {
+      "categories": {
+        "portage": "Portage",
+        "sleeping": "Couchage",
+        "cooking": "Cuisine",
+        "water": "Eau et filtration",
+        "clothing": "Vêtements",
+        "hygiene": "Hygiène",
+        "health": "Santé",
+        "navigation": "Navigation et électronique",
+        "misc": "Divers"
+      },
+      "weight_status": {
+        "ok": "Dans les clous",
+        "warn": "À surveiller — {{delta}} kg de marge",
+        "over": "Trop lourd — {{delta}} kg au-dessus de l'objectif"
+      },
+      "base_label": "Base",
+      "water_label": "+ eau : 2,0 kg",
+      "food_label": "+ nourriture : 0,75 kg",
+      "total_label": "Total estimé : {{x}} kg",
+      "add_item": "Ajouter un item",
+      "manage_scenarios": "Gérer les scénarios"
+    },
+    "trip": {
+      "roles": {
+        "organizer": "Organisateur",
+        "participant": "Compagnon",
+        "observer": "Famille"
+      },
+      "status": {
+        "planned": "Préparation",
+        "active": "En cours",
+        "completed": "Terminé",
+        "cancelled": "Annulé"
+      },
+      "progress": "J{{current}}/{{total}} · {{km_done}} km / {{km_total}} km",
+      "next_stage": "Demain : {{from}} → {{to}}",
+      "invite_cta": "Inviter un compagnon",
+      "share_cta": "Partager le voyage",
+      "journal_cta": "Voir le carnet",
+      "join_title": "{{name}} vous invite à marcher ensemble",
+      "join_accept": "Rejoindre ce voyage",
+      "join_decline": "Décliner",
+      "already_member": "Vous faites déjà partie de ce voyage.",
+      "last_entry": "Dernière nouvelle",
+      "no_public_entry": "Pas encore d'entrée partagée."
+    },
+    "nav": {
+      "map": "Carte",
+      "stages": "Étapes",
+      "pack": "Sac",
+      "journal": "Journal",
+      "profile": "Moi"
+    },
+    "placeholder": {
+      "trip_coming_soon": "Trips — à venir",
+      "pack_coming_soon": "Sac — à venir",
+      "journal_coming_soon": "Journal — à venir"
+    },
+    "error": {
+      "offline_fetch": "Pas de connexion réseau. Les données affichées sont celles de votre dernier accès.",
+      "offline_save": "Sauvegardé localement. Votre entrée sera envoyée dès que le réseau revient.",
+      "tiles_missing": "Carte partiellement hors ligne. Téléchargez le tronçon Belgique en mode connecté pour accéder à la carte complète sans réseau.",
+      "sync_failed": "La synchronisation a échoué. Vérifiez votre connexion et réessayez.",
+      "invite_invalid": "Ce lien d'invitation n'est plus valide. Demandez un nouveau lien à l'organisateur du voyage.",
+      "session_expired": "Votre session a expiré.",
+      "stage_not_found": "Cette étape n'existe pas ou n'est plus disponible.",
+      "gpx_unavailable": "La trace GPX de cette étape n'est pas encore disponible.",
+      "retry": "Réessayer"
+    },
+    "success": {
+      "entry_saved": "Entrée sauvegardée.",
+      "entry_synced": "Entrée synchronisée.",
+      "visibility_changed": "Visibilité mise à jour.",
+      "joined_trip": "Vous faites maintenant partie du voyage {{name}}.",
+      "invite_sent": "Invitation envoyée à {{email}}."
+    },
+    "offline": {
+      "banner": "Hors ligne",
+      "banner_back": "De retour en ligne"
+    }
+  }
+}
