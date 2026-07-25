@@ -1,6 +1,8 @@
 <?php
 
+use App\Modules\Pilgrimage\Http\Controllers\Api\AccommodationController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\GpxTraceController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\MealController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\RouteController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\StageController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\WaypointController;
@@ -9,9 +11,11 @@ use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Vague 1a — Routes API publiques (lecture Chemin)
+| Vague 1b — Hébergements + Repas
 |--------------------------------------------------------------------------
 |
-| Routes publiques : /api/pilgrimage/routes, /stages, /waypoints
+| Routes publiques : /api/pilgrimage/routes, /stages, /waypoints,
+|                    /accommodations, /meals
 | Routes auth (Bearer Passport) : /api/pilgrimage/gpx/{id}
 |
 */
@@ -28,6 +32,14 @@ Route::prefix('api/pilgrimage')->group(function () {
 
     Route::get('/waypoints', [WaypointController::class, 'index'])->name('api.pilgrimage.waypoints.index');
     Route::get('/waypoints/{slug}', [WaypointController::class, 'show'])->name('api.pilgrimage.waypoints.show');
+
+    // ─── Vague 1b — Hébergements & Repas (publics) ──────────────────────────
+
+    Route::get('/accommodations', [AccommodationController::class, 'index'])->name('api.pilgrimage.accommodations.index');
+    Route::get('/accommodations/{id}', [AccommodationController::class, 'show'])->name('api.pilgrimage.accommodations.show');
+
+    Route::get('/meals', [MealController::class, 'index'])->name('api.pilgrimage.meals.index');
+    Route::get('/meals/{id}', [MealController::class, 'show'])->name('api.pilgrimage.meals.show');
 
     // ─── GPX — authentifié (Bearer Passport) ────────────────────────────────
     // TODO ULTREIA-03 : brancher middleware auth:passport après intégration SSO

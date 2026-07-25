@@ -16,7 +16,7 @@ class StageController extends Controller
     /**
      * GET /api/pilgrimage/stages
      * Liste des stages, filtrable par route_id, difficulty, country.
-     * Supports: ?route_id=uuid, ?difficulty=easy, ?include=waypoints, ?per_page=15.
+     * Supports: ?route_id=uuid, ?difficulty=easy, ?include=waypoints,accommodations,meals, ?per_page=15.
      */
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -46,6 +46,14 @@ class StageController extends Controller
             $query->with('gpxTraces');
         }
 
+        if (in_array('accommodations', $includes, true)) {
+            $query->with('accommodations');
+        }
+
+        if (in_array('meals', $includes, true)) {
+            $query->with('meals');
+        }
+
         $perPage = min((int) $request->input('per_page', 15), 100);
         $stages = $query->orderBy('sort_order')->paginate($perPage);
 
@@ -54,7 +62,8 @@ class StageController extends Controller
 
     /**
      * GET /api/pilgrimage/stages/{code}
-     * Détail stage. Supports: ?include=waypoints,gpx_traces.
+     * Détail stage. Supports: ?include=waypoints,gpx_traces,accommodations,meals.
+     * Les accommodations sont triées is_primary first (RG-02).
      */
     public function show(Request $request, string $code): StageResource|JsonResponse
     {
@@ -68,6 +77,14 @@ class StageController extends Controller
 
         if (in_array('gpx_traces', $includes, true)) {
             $with[] = 'gpxTraces';
+        }
+
+        if (in_array('accommodations', $includes, true)) {
+            $with[] = 'accommodations';
+        }
+
+        if (in_array('meals', $includes, true)) {
+            $with[] = 'meals';
         }
 
         $stage = Stage::where('code', strtoupper($code))

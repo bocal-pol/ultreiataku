@@ -92,4 +92,19 @@ class Stage extends Model
         return $this->hasMany(GpxTrace::class, 'stage_id')
             ->where('trace_type', 'stage_main');
     }
+
+    // ─── Vague 1b ─────────────────────────────────────────────────────────────
+
+    public function accommodations(): HasMany
+    {
+        return $this->hasMany(Accommodation::class, 'stage_id')
+            ->orderByDesc('is_primary')
+            ->orderBy('sort_order');
+    }
+
+    public function meals(): HasMany
+    {
+        return $this->hasMany(Meal::class, 'stage_id')
+            ->orderBy('meal_type');
+    }
 }

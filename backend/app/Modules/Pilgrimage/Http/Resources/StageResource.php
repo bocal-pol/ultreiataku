@@ -34,6 +34,9 @@ class StageResource extends JsonResource
             'end_waypoint' => new WaypointResource($this->whenLoaded('endWaypoint')),
             'waypoints' => WaypointResource::collection($this->whenLoaded('waypoints')),
             'gpx_traces' => GpxTraceResource::collection($this->whenLoaded('gpxTraces')),
+            // Vague 1b
+            'accommodations' => AccommodationResource::collection($this->whenLoaded('accommodations')),
+            'meals' => MealResource::collection($this->whenLoaded('meals')),
         ];
     }
 }

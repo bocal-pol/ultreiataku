@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Providers;
 
+use App\Modules\Pilgrimage\Models\Accommodation;
 use App\Modules\Pilgrimage\Models\GpxTrace;
+use App\Modules\Pilgrimage\Observers\AccommodationObserver;
 use App\Modules\Pilgrimage\Observers\GpxTraceObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,5 +30,6 @@ class PilgrimageServiceProvider extends ServiceProvider
 
         // Observers
         GpxTrace::observe(GpxTraceObserver::class);
+        Accommodation::observe(AccommodationObserver::class);
     }
 }
