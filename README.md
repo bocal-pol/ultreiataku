@@ -135,6 +135,57 @@ Complémentaires (agents perso globaux) :
 - [ ] Réserver Grotte Scladina si passage un 1er dimanche du mois
 - [ ] Prévenir les gîtes 2 semaines avant
 
+
+---
+
+## Developpement (V1 — Laravel 13 + React 19)
+
+### Architecture
+
+- `backend/` — Laravel 13.21 + Filament 4.12 (panel `admin`, sans login natif — SSO arrive en ULTREIA-03)
+- `frontend/` — React 19 + Vite 8 + TanStack Query + react-router-dom + Tailwind 4 + Leaflet
+- `legacy/` — PWA HTML/JS originale (reference fonctionnelle tant que V1 n'est pas iso-fonctionnelle)
+
+### Demarrage
+
+```bash
+# Depuis la racine SiteV26
+
+# 1. Creer la base de donnees (une seule fois)
+docker exec sitev26-site-pgsql-1 psql -U sail -c "CREATE DATABASE ultreiataku OWNER sail;"
+
+# 2. Demarrer les services Ultreiataku
+docker compose -f InfraDocker/compose.yaml up -d ultreiataku-app ultreiataku-queue ultreiataku-frontend
+
+# 3. Synchroniser vendor/ initial dans le volume
+bash InfraDocker/scripts/sync-vendor.sh ultreiataku
+
+# 4. Activer le watch (sync code Windows -> volume)
+docker compose -f InfraDocker/compose.yaml watch ultreiataku-app
+
+# 5. Migrations (premiere fois)
+docker exec sitev26-ultreiataku-app-1 php artisan migrate
+
+# Backend admin : http://localhost:8096/admin
+# Frontend dev  : http://localhost:5181
+```
+
+### Conventions
+
+- DB : cluster partage `sql-pgsql`, base `ultreiataku`, `DB_PASSWORD=password` litteral (cf. bug_rule_shared_pgsql_db_password)
+- MinIO : buckets `ultreiataku-gpx` (traces GPX privees) + `ultreiataku-journal` (photos journal) — jamais `disk("public")`
+- Auth SSO : arrive en ULTREIA-03 — le panel Filament utilise le login par defaut en V0
+- i18n : fr/nl/de simultanement sur tous les champs texte
+- Tests : `docker exec sitev26-ultreiataku-app-1 php artisan test`
+- PHPStan : `docker exec sitev26-ultreiataku-app-1 ./vendor/bin/phpstan analyse` (niveau 6)
+- Pint : `docker exec sitev26-ultreiataku-app-1 ./vendor/bin/pint`
+
+### Prochaines etapes (backlog ULTREIA)
+
+- ULTREIA-01 : Configuration infra Docker complete (healthchecks, MinIO buckets)
+- ULTREIA-02 : CI GitHub Actions (lint + tests + PHPStan)
+- ULTREIA-03 : Auth SSO Passport depuis Auth SiteV26
+- ULTREIA-04 : i18n fondations fr/nl/de
 ---
 
 ## 🐚 Bon Chemin
