@@ -9,6 +9,8 @@ use UnitEnum;
 use App\Modules\Pilgrimage\Enums\TripStatus;
 use App\Modules\Pilgrimage\Filament\Resources\TripResource\Pages;
 use App\Modules\Pilgrimage\Models\Trip;
+use App\Modules\Pilgrimage\Filament\Resources\TripResource\RelationManagers\DeparturesRelationManager;
+use App\Modules\Pilgrimage\Filament\Resources\TripResource\RelationManagers\MembersRelationManager;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -148,7 +150,10 @@ class TripResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            MembersRelationManager::class,
+            DeparturesRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
