@@ -7,11 +7,19 @@ namespace App\Modules\Pilgrimage\Providers;
 use App\Modules\Pilgrimage\Models\Accommodation;
 use App\Modules\Pilgrimage\Models\Departure;
 use App\Modules\Pilgrimage\Models\GpxTrace;
+use App\Modules\Pilgrimage\Models\ItemAssignment;
+use App\Modules\Pilgrimage\Models\JournalEntry;
+use App\Modules\Pilgrimage\Models\JournalPhoto;
+use App\Modules\Pilgrimage\Models\PackScenario;
 use App\Modules\Pilgrimage\Models\Trip;
 use App\Modules\Pilgrimage\Observers\AccommodationObserver;
 use App\Modules\Pilgrimage\Observers\GpxTraceObserver;
 use App\Modules\Pilgrimage\Observers\OccupancyObserver;
 use App\Modules\Pilgrimage\Policies\DeparturePolicy;
+use App\Modules\Pilgrimage\Policies\ItemAssignmentPolicy;
+use App\Modules\Pilgrimage\Policies\JournalEntryPolicy;
+use App\Modules\Pilgrimage\Policies\JournalPhotoPolicy;
+use App\Modules\Pilgrimage\Policies\PackScenarioPolicy;
 use App\Modules\Pilgrimage\Policies\TripPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -47,5 +55,11 @@ class PilgrimageServiceProvider extends ServiceProvider
         // ULTREIA-33
         Gate::policy(Trip::class, TripPolicy::class);
         Gate::policy(Departure::class, DeparturePolicy::class);
+        // ULTREIA-40/41
+        Gate::policy(PackScenario::class, PackScenarioPolicy::class);
+        Gate::policy(ItemAssignment::class, ItemAssignmentPolicy::class);
+        // ULTREIA-53 — Journal
+        Gate::policy(JournalEntry::class, JournalEntryPolicy::class);
+        Gate::policy(JournalPhoto::class, JournalPhotoPolicy::class);
     }
 }

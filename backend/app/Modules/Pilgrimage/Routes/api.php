@@ -2,7 +2,10 @@
 
 use App\Modules\Pilgrimage\Http\Controllers\Api\AccommodationController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\GpxTraceController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\JournalEntryController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\JournalPhotoController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\MealController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\PackScenarioController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\RouteController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\StageController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\TripController;
@@ -14,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 | Vague 1a — Routes API publiques (lecture Chemin)
 | Vague 1b — Hébergements + Repas
 | Vague 1c — Trips + SSO (ULTREIA-03/30/31/32/35)
+| Vague 1d — Sac (ULTREIA-40/41/42/43)
+| Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54)
 |--------------------------------------------------------------------------
 */
 
@@ -85,5 +90,65 @@ Route::prefix('api/pilgrimage')->group(function () {
 
         Route::post('/trips/{id}/invite-email', [TripController::class, 'sendInvitationEmail'])
             ->name('api.pilgrimage.trips.invite-email');
+    });
+
+    // ─── Vague 1d — Sac (ULTREIA-43) — authentifié ──────────────────────────
+
+    Route::middleware('auth:api')->group(function () {
+
+        // Scénarios d'un pèlerin
+        Route::get('/pilgrims/{pilgrimId}/pack-scenarios', [PackScenarioController::class, 'indexForPilgrim'])
+            ->name('api.pilgrimage.pack-scenarios.index-for-pilgrim');
+
+        // CRUD scénarios
+        Route::get('/pack-scenarios/{id}', [PackScenarioController::class, 'show'])
+            ->name('api.pilgrimage.pack-scenarios.show');
+
+        Route::post('/pack-scenarios', [PackScenarioController::class, 'store'])
+            ->name('api.pilgrimage.pack-scenarios.store');
+
+        Route::put('/pack-scenarios/{id}', [PackScenarioController::class, 'update'])
+            ->name('api.pilgrimage.pack-scenarios.update');
+
+        // Ajouter un item à un scénario
+        Route::post('/pack-scenarios/{id}/items', [PackScenarioController::class, 'addItem'])
+            ->name('api.pilgrimage.pack-scenarios.items.add');
+
+        // Assignations par departure
+        Route::post('/departures/{id}/assignments', [PackScenarioController::class, 'addAssignment'])
+            ->name('api.pilgrimage.departures.assignments.add');
+    });
+
+    // ─── Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54) — authentifié ─
+
+    Route::middleware('auth:api')->group(function () {
+
+        // ULTREIA-54 : Journal d'un Trip (filtré par visibilité du lecteur, pagination curseur)
+        Route::get('/trips/{id}/journal', [JournalEntryController::class, 'index'])
+            ->name('api.pilgrimage.trips.journal.index');
+
+        // ULTREIA-51 : Sync offline — idempotence local_id, last-write-wins
+        Route::post('/journal/entries', [JournalEntryController::class, 'store'])
+            ->name('api.pilgrimage.journal.entries.store');
+
+        Route::get('/journal/entries/{entryId}', [JournalEntryController::class, 'show'])
+            ->name('api.pilgrimage.journal.entries.show');
+
+        Route::put('/journal/entries/{entryId}', [JournalEntryController::class, 'update'])
+            ->name('api.pilgrimage.journal.entries.update');
+
+        Route::delete('/journal/entries/{entryId}', [JournalEntryController::class, 'destroy'])
+            ->name('api.pilgrimage.journal.entries.destroy');
+
+        // ULTREIA-52 : Upload photo journal (strip EXIF, minio_journal)
+        Route::post('/journal/entries/{entryId}/photos', [JournalPhotoController::class, 'store'])
+            ->name('api.pilgrimage.journal.photos.store');
+
+        // ULTREIA-52 : Proxy stream MinIO — auth + policy — jamais d'URL directe
+        Route::get('/journal/photos/{id}', [JournalPhotoController::class, 'stream'])
+            ->name('api.pilgrimage.journal.photos.stream');
+
+        Route::delete('/journal/photos/{id}', [JournalPhotoController::class, 'destroy'])
+            ->name('api.pilgrimage.journal.photos.destroy');
     });
 });

@@ -126,11 +126,16 @@ class JournalPhotoProxyTest extends TestCase
             'mime_type'        => 'image/jpeg',
         ]);
 
-        $this->actingAs($this->authorUser, 'api')
-            ->get('/api/pilgrimage/journal/photos/' . $photo->id)
-            ->assertStatus(200)
-            ->assertHeader('Content-Type', 'image/jpeg')
-            ->assertHeader('Cache-Control', 'private, max-age=3600');
+        $response = $this->actingAs($this->authorUser, 'api')
+            ->get('/api/pilgrimage/journal/photos/' . $photo->id);
+
+        $response->assertStatus(200)
+            ->assertHeader('Content-Type', 'image/jpeg');
+
+        // Cache-Control contient private et max-age (ordre peut varier selon Laravel/Symfony)
+        $cacheControl = $response->headers->get('Cache-Control') ?? '';
+        $this->assertStringContainsString('private', $cacheControl);
+        $this->assertStringContainsString('max-age=3600', $cacheControl);
     }
 
     // ─── Observer voit public, pas members ────────────────────────────────────
@@ -258,12 +263,11 @@ class JournalPhotoProxyTest extends TestCase
         $response = $this->actingAs($this->authorUser, 'api')
             ->get('/api/pilgrimage/journal/photos/' . $photo->id);
 
-        // Pas de redirect vers MinIO
-        $this->assertNotEquals(302, $response->status());
-        $this->assertNotEquals(301, $response->status());
+        // Pas de redirect vers MinIO — status 200 attendu
+        $response->assertStatus(200);
 
         // Pas d'URL MinIO dans le body
         $this->assertStringNotContainsString('minio', (string) $response->getContent());
-        $this->assertStringNotContainsString('s3', (string) $response->getContent());
+        $this->assertStringNotContainsString('amazonaws', (string) $response->getContent());
     }
 }

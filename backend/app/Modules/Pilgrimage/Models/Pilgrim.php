@@ -16,6 +16,7 @@ class Pilgrim extends Model
 {
     /** @use HasFactory<PilgrimFactory> */
     use HasFactory;
+
     use HasUuids;
 
     /** @var list<string> */
@@ -62,5 +63,24 @@ class Pilgrim extends Model
     public function departures(): HasMany
     {
         return $this->hasMany(Departure::class, 'pilgrim_id');
+    }
+
+    // ─── Vague 1d — Sac ──────────────────────────────────────────────────────
+
+    public function packScenarios(): HasMany
+    {
+        return $this->hasMany(PackScenario::class, 'pilgrim_id');
+    }
+
+    public function itemAssignments(): HasMany
+    {
+        return $this->hasMany(ItemAssignment::class, 'assigned_to_pilgrim_id');
+    }
+
+    // ─── Vague 1e — Journal ───────────────────────────────────────────────────
+
+    public function journalEntries(): HasMany
+    {
+        return $this->hasMany(JournalEntry::class, 'pilgrim_id');
     }
 }

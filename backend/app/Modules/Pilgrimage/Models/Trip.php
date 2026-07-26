@@ -79,6 +79,14 @@ class Trip extends Model
         return $this->hasMany(Occupancy::class, 'trip_id');
     }
 
+    /**
+     * ULTREIA-50 — Entrées du carnet de voyage.
+     */
+    public function journalEntries(): HasMany
+    {
+        return $this->hasMany(JournalEntry::class, 'trip_id');
+    }
+
     // ─── Business methods ─────────────────────────────────────────────────────
 
     /**
