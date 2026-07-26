@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="compostel-route" xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Compostelle Belgique - Waypoints Liege-Rocroi</name>
+    <desc>Villes-etapes et POI majeurs Voie Mosane + Voie Monastique. Complementaire aux traces officielles (voir liens-traces-officielles.md).</desc>
+    <author><name>compostel-route skill</name></author>
+  </metadata>
+
+  <!-- ==================== VILLES-ETAPES ==================== -->
+
+  <wpt lat="50.6326" lon="5.5797">
+    <name>J0 - Liege (depart)</name>
+    <desc>Cathedrale Saint-Paul. Km 0. Retirer credencial ici.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.5461" lon="5.3129">
+    <name>J1 - Amay</name>
+    <desc>Km 22. Collegiale Sainte-Ode et Saint-Georges (roman XIe).</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.5183" lon="5.2402">
+    <name>J2 - Huy</name>
+    <desc>Km 33. Collegiale Notre-Dame + Li Rondia. Restaurant Le Crompire (pommes de terre bio).</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.4757" lon="5.0219">
+    <name>J3a - Sclayn (Grotte Scladina)</name>
+    <desc>Site archeologique Neandertalien. Visite 1er dimanche du mois 14h, reservation obligatoire grotte@scladina.be / 081 58 29 58.</desc>
+    <sym>Museum</sym>
+    <type>POI-majeur</type>
+  </wpt>
+
+  <wpt lat="50.4880" lon="5.0930">
+    <name>J3 - Andenne</name>
+    <desc>Km 51. Collegiale Sainte-Begge. Legende des Ours.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.4674" lon="4.8720">
+    <name>J4 - Namur</name>
+    <desc>Km 73. Citadelle, confluent Sambre-Meuse. AJ Felicien Rops.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.3266" lon="4.8779">
+    <name>J5 - Yvoir</name>
+    <desc>Km 91. Vallee mosane, Rochers de Freyr a proximite.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.2597" lon="4.9128">
+    <name>J6 - Dinant</name>
+    <desc>Km 105. Collegiale Notre-Dame, Rochers Bayard, Maison Sax, citadelle.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.2183" lon="4.8288">
+    <name>J7 - Hastiere</name>
+    <desc>Km 119. Abbaye romane XIe siecle.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.1360" lon="4.8283">
+    <name>J8 - Givet (FRANCE)</name>
+    <desc>Km 130. Passage frontiere. Fort de Charlemont (Vauban), eglise Saint-Hilaire.</desc>
+    <sym>Flag</sym>
+    <type>Etape-frontiere</type>
+  </wpt>
+
+  <wpt lat="50.1214" lon="4.7169">
+    <name>J9 - Doische (retour BE)</name>
+    <desc>Km 148. Debut Voie Monastique. Village Fagne typique.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.0787" lon="4.6188">
+    <name>J10 - Olloy-sur-Viroin</name>
+    <desc>Km 167. Reserve naturelle Viroin-Hermeton. Chateau de Vierves proche.</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="50.0533" lon="4.4933">
+    <name>J11 - Couvin</name>
+    <desc>Km 184. Grotte de Neptune (Petigny), brasserie des Fagnes (Nismes).</desc>
+    <sym>City</sym>
+    <type>Etape</type>
+  </wpt>
+
+  <wpt lat="49.9236" lon="4.5211">
+    <name>J12 - Rocroi (FRANCE)</name>
+    <desc>Km 204. Place d'armes en etoile Vauban. Gite donativo. Fin tronçon Belgique.</desc>
+    <sym>Flag</sym>
+    <type>Etape-finale</type>
+  </wpt>
+
+  <!-- ==================== POI MAJEURS ==================== -->
+
+  <wpt lat="50.6371" lon="5.5779">
+    <name>POI - Perron liegeois</name>
+    <desc>Place du Marche, Liege. Symbole des libertes liegeoises.</desc>
+    <sym>Monument</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.5188" lon="5.2401">
+    <name>POI - Li Rondia (Huy)</name>
+    <desc>Rosace 9m de diametre, Collegiale Notre-Dame de Huy.</desc>
+    <sym>Church</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.4589" lon="4.8617">
+    <name>POI - Citadelle de Namur</name>
+    <desc>Une des plus grandes citadelles d'Europe. Vue confluent Sambre-Meuse.</desc>
+    <sym>Monument</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.3253" lon="4.9058">
+    <name>POI - Chateau de Freyr</name>
+    <desc>XVIe. Jardins classes. Sur Meuse entre Yvoir et Dinant.</desc>
+    <sym>Monument</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.2540" lon="4.9124">
+    <name>POI - Rochers Bayard</name>
+    <desc>Pyramide rocheuse legendaire (4 fils Aymon), sortie sud de Dinant.</desc>
+    <sym>Scenic Area</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.2611" lon="4.9111">
+    <name>POI - Grotte la Merveilleuse (Dinant)</name>
+    <desc>Grotte a cristallisations. Visite ~1h.</desc>
+    <sym>Cave</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.1400" lon="4.8250">
+    <name>POI - Fort de Charlemont</name>
+    <desc>Vauban XVIIe. Panorama Meuse. Givet.</desc>
+    <sym>Monument</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.0783" lon="4.6069">
+    <name>POI - Reserve Viroin-Hermeton</name>
+    <desc>Reserve naturelle calcaire, orchidees, aigle botte. Ne pas bivouaquer dans la reserve.</desc>
+    <sym>Scenic Area</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="50.0714" lon="4.5083">
+    <name>POI - Grotte de Neptune</name>
+    <desc>Riviere souterraine navigable en barque. Petigny (Couvin).</desc>
+    <sym>Cave</sym>
+    <type>POI</type>
+  </wpt>
+
+  <wpt lat="49.9247" lon="4.5211">
+    <name>POI - Remparts Vauban Rocroi</name>
+    <desc>Circuit complet praticable a pied. Chef-d'oeuvre Vauban.</desc>
+    <sym>Monument</sym>
+    <type>POI</type>
+  </wpt>
+
+</gpx>

@@ -1,0 +1,40 @@
+# Ultreiataku — sous-dépôt
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+build/
+.output/
+coverage/
+
+# PHP / Laravel (préparation V1)
+vendor/
+bootstrap/cache/*.php
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/testing/
+storage/framework/views/
+storage/logs/*.log
+!**/.gitkeep
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Backup workflow — pendant la reconstruction V1
+# legacy/ contiendra la PWA actuelle une fois la V1 iso-fonctionnelle
+!legacy/
+
+# Docker
+compose.override.yml

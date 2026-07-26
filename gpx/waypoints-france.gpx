@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="compostel-route" xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Compostelle France - Waypoints Rocroi-SJPP + balade Faux de Verzy</name>
+    <desc>Villes-etapes Via Campaniensis + GR654 Voie de Vezelay (variante ouest Oradour). Complementaire aux traces officielles Peregrinos (calculitineraires.fr id=890940) et GR654 FFRandonnee.</desc>
+    <author><name>compostel-route skill</name></author>
+  </metadata>
+
+  <!-- ==================== VILLES-ETAPES PRINCIPALES ==================== -->
+
+  <wpt lat="49.9236" lon="4.5211">
+    <name>F00 - Rocroi (depart tronçon France)</name>
+    <desc>Km 0 (204 cumule depuis Liege). Place d'Armes etoile Vauban.</desc>
+    <sym>Flag</sym>
+  </wpt>
+
+  <wpt lat="49.7008" lon="4.4181">
+    <name>F-A2 - Signy-l'Abbaye</name>
+    <desc>Abbaye cistercienne 1135. Gite d'etape.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="49.5286" lon="4.2431">
+    <name>F-A4 - Chateau-Porcien</name>
+    <desc>Village perche sur l'Aisne.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="49.2583" lon="4.0317">
+    <name>F-A6 - REIMS (repos R1)</name>
+    <desc>Km ~105. Cathedrale ND UNESCO, basilique St-Remi, caves champagne. Tampon credencial sacristie.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="49.1439" lon="4.1594">
+    <name>F-B7 - Verzy</name>
+    <desc>Village vigneron grand cru Montagne de Reims. Nuit conseillee ici pour boucle Faux de Verzy au matin.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="49.9564" lon="4.3631">
+    <name>POI - Abbaye de Signy</name>
+    <desc>Vestiges abbaye cistercienne, village.</desc>
+    <sym>Church</sym>
+  </wpt>
+
+  <wpt lat="48.9575" lon="4.3650">
+    <name>F-B8 - Chalons-en-Champagne</name>
+    <desc>Collegiale ND-en-Vaux UNESCO chemins de St-Jacques.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="48.7256" lon="4.5844">
+    <name>F-C10 - Vitry-le-Francois</name>
+    <desc>Collegiale ND, ville reconstruite.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="48.5561" lon="4.7469">
+    <name>F-D11 - Giffaumont (Lac du Der)</name>
+    <desc>Plus grand lac artificiel de France. Grues cendrees (migration). Eglises a pans de bois.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+
+  <wpt lat="48.4772" lon="4.7708">
+    <name>F-D12 - Montier-en-Der</name>
+    <desc>Abbatiale Xe, haras.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="48.1128" lon="4.3708">
+    <name>F-D15 - Bar-sur-Seine</name>
+    <desc>Cote des Bar - champagne de vignerons.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.9928" lon="4.3672">
+    <name>F-E16 - Les Riceys</name>
+    <desc>Seul village de France avec 3 AOC.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.8567" lon="3.9739">
+    <name>F-E18 - Tonnerre</name>
+    <desc>Fosse Dionne (source turquoise), Hotel-Dieu 1293.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.8136" lon="3.7989">
+    <name>F-E19 - Chablis</name>
+    <desc>Capitale du blanc de Bourgogne.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.7982" lon="3.5730">
+    <name>F-E20 - AUXERRE (repos flottant)</name>
+    <desc>Cathedrale, abbaye St-Germain cryptes carolingiennes.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.6636" lon="3.7431">
+    <name>POI - Grottes d'Arcy-sur-Cure</name>
+    <desc>Peintures 28000 ans. Detour court 1 km. Visite guidee ~10 EUR.</desc>
+    <sym>Cave</sym>
+  </wpt>
+
+  <wpt lat="47.4664" lon="3.7489">
+    <name>F-F23 - VEZELAY (repos R2)</name>
+    <desc>Basilique Ste-Marie-Madeleine UNESCO. Depart historique Via Lemovicensis. CREDENCIAL N.2 ICI.</desc>
+    <sym>Flag</sym>
+  </wpt>
+
+  <wpt lat="47.4600" lon="3.5194">
+    <name>F-G24 - Clamecy</name>
+    <desc>Cite du flottage du bois.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.1786" lon="3.0164">
+    <name>F-G27 - La Charite-sur-Loire</name>
+    <desc>Prieure clunisien UNESCO. Traversee de la Loire.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="47.0844" lon="2.3964">
+    <name>F-H30 - BOURGES (repos R3)</name>
+    <desc>Cathedrale St-Etienne UNESCO. Palais Jacques-Coeur. Forestines.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.9481" lon="1.9931">
+    <name>F-I32 - Issoudun</name>
+    <desc>Tour Blanche (Richard Coeur de Lion).</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.8103" lon="1.6911">
+    <name>F-I34 - Chateauroux</name>
+    <desc>Couvent des Cordeliers.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.5883" lon="1.5203">
+    <name>F-J36 - Argenton-sur-Creuse</name>
+    <desc>Venise du Berry.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.5236" lon="1.5942">
+    <name>POI - Gargilesse-Dampierre</name>
+    <desc>Plus Beau Village de France. Maison George Sand. Vallee des peintres.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+
+  <wpt lat="46.3861" lon="1.6236">
+    <name>POI - Ruines de Crozant</name>
+    <desc>Forteresse medievale confluent Creuse-Sedelle. Paysage de Monet et Guillaumin.</desc>
+    <sym>Monument</sym>
+  </wpt>
+
+  <wpt lat="46.2372" lon="1.4869">
+    <name>F-J38 - La Souterraine</name>
+    <desc>Porte St-Jean, crypte. ICI: bifurcation variante ouest (Oradour).</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.2147" lon="1.0817">
+    <name>F-J39 - Le Dorat</name>
+    <desc>Collegiale St-Pierre - roman limousin granite.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.1225" lon="1.0489">
+    <name>F-J40 - Bellac</name>
+    <desc>Etape courte, ville de Jean Giraudoux.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="46.0378" lon="0.9561">
+    <name>POI - Mortemart</name>
+    <desc>Plus Beau Village de France. Halles, chateau des Ducs.</desc>
+    <sym>Scenic Area</sym>
+  </wpt>
+
+  <wpt lat="45.9339" lon="1.0328">
+    <name>F-J41 - ORADOUR-SUR-GLANE</name>
+    <desc>Village martyr 10 juin 1944. Ruines conservees + Centre de la Memoire. Prevoir 2-3h, silence. Entree village gratuite.</desc>
+    <sym>Monument</sym>
+  </wpt>
+
+  <wpt lat="45.8336" lon="1.2611">
+    <name>F-J42 - LIMOGES (repos R4)</name>
+    <desc>Cathedrale, gare Benedictins, porcelaine. ACHAT 2e PAIRE CHAUSSURES SI USURE.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="45.6531" lon="0.9803">
+    <name>F-K44 - Chalus</name>
+    <desc>Chateau ou Richard Coeur de Lion fut blesse a mort (1199).</desc>
+    <sym>Monument</sym>
+  </wpt>
+
+  <wpt lat="45.4158" lon="0.9203">
+    <name>F-K46 - Thiviers</name>
+    <desc>Capitale foie gras Perigord vert.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="45.1842" lon="0.7211">
+    <name>F-K48 - PERIGUEUX (repos R5)</name>
+    <desc>Cathedrale St-Front UNESCO (coupoles byzantines). Vesunna. Marche au gras.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="45.1835" lon="0.7248">
+    <name>POI - Eschif de Creyssac</name>
+    <desc>Loge de guet a colombages de 1347 sur les remparts du Puy-Saint-Front, quais de l'Isle. 100 m de St-Front. Photo ideale au soir depuis le pont Tournepiche.</desc>
+    <sym>Monument</sym>
+  </wpt>
+
+  <wpt lat="44.9436" lon="0.2158">
+    <name>F-L52 - Sainte-Foy-la-Grande</name>
+    <desc>Bastide XIIIe sur Dordogne. Marche du samedi remarquable.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="44.5817" lon="-0.0364">
+    <name>F-L54 - La Reole</name>
+    <desc>Ville d'Art et d'Histoire sur Garonne. Plus vieil hotel de ville de France.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="44.4319" lon="-0.2136">
+    <name>F-M55 - Bazas</name>
+    <desc>Cathedrale St-Jean-Baptiste UNESCO. Boeuf de Bazas.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="44.2942" lon="-0.2731">
+    <name>F-M56 - Captieux</name>
+    <desc>Entree foret des Landes. ATTENTION EAU: partir avec 2,5-3L.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.8903" lon="-0.4989">
+    <name>F-M58 - MONT-DE-MARSAN (repos R6)</name>
+    <desc>Confluence Douze-Midou. Musee Despiau-Wlerick.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.7581" lon="-0.5736">
+    <name>F-N59 - Saint-Sever</name>
+    <desc>Abbatiale UNESCO, chapiteaux polychromes.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.4886" lon="-0.7708">
+    <name>F-N61 - Orthez</name>
+    <desc>Pont Vieux fortifie XIIIe. Gaston Febus.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.4006" lon="-0.9419">
+    <name>F-N62 - Sauveterre-de-Bearn</name>
+    <desc>Village medieval au-dessus du gave d'Oloron. Pont de la Legende.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.3264" lon="-1.0328">
+    <name>F-N63 - Saint-Palais</name>
+    <desc>Capitale Basse-Navarre. Musee des chemins de St-Jacques.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.2839" lon="-1.0703">
+    <name>POI - Stele de Gibraltar</name>
+    <desc>Convergence des 3 voies (Tours, Vezelay, Le Puy). Lieu symbolique majeur.</desc>
+    <sym>Monument</sym>
+  </wpt>
+
+  <wpt lat="43.2617" lon="-1.0800">
+    <name>F-O64 - Ostabat-Asme</name>
+    <desc>Village-etape medieval. Gites chaleureux, chants basques.</desc>
+    <sym>City</sym>
+  </wpt>
+
+  <wpt lat="43.1636" lon="-1.2367">
+    <name>F-O65 - SAINT-JEAN-PIED-DE-PORT (ARRIVEE - repos R7-R8)</name>
+    <desc>Km ~1150 (1350 cumule). Porte St-Jacques UNESCO, citadelle Vauban, accueil pelerin 39 rue de la Citadelle. CREDENCIAL N.3. Preparer Roncevaux (25 km, D+ 1250 m).</desc>
+    <sym>Flag</sym>
+  </wpt>
+
+  <!-- ==================== BALADE - FAUX DE VERZY (boucle ~4 km) ==================== -->
+
+  <trk>
+    <name>BALADE - Faux de Verzy (boucle 4 km)</name>
+    <desc>Boucle depuis le parking des Faux (D34 au-dessus de Verzy). Hetres tortillards ONF + point de vue Mont Sinai sur le vignoble. Caillebotis, facile, 1h30. Ideal au matin J8 avant de repartir vers Chalons.</desc>
+    <type>Balade POI</type>
+    <trkseg>
+      <trkpt lat="49.1447" lon="4.1725"><ele>270</ele><name>Parking des Faux (D34)</name></trkpt>
+      <trkpt lat="49.1430" lon="4.1750"><ele>275</ele></trkpt>
+      <trkpt lat="49.1415" lon="4.1780"><ele>278</ele><name>Zone des Faux - caillebotis</name></trkpt>
+      <trkpt lat="49.1400" lon="4.1810"><ele>280</ele><name>Faux remarquables (parapluies)</name></trkpt>
+      <trkpt lat="49.1385" lon="4.1790"><ele>282</ele></trkpt>
+      <trkpt lat="49.1370" lon="4.1750"><ele>283</ele><name>Point de vue du Mont Sinai</name></trkpt>
+      <trkpt lat="49.1385" lon="4.1710"><ele>280</ele></trkpt>
+      <trkpt lat="49.1410" lon="4.1690"><ele>276</ele></trkpt>
+      <trkpt lat="49.1435" lon="4.1705"><ele>272</ele></trkpt>
+      <trkpt lat="49.1447" lon="4.1725"><ele>270</ele><name>Retour parking</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <!-- Liaison Verzy village -> parking des Faux (1,5 km) -->
+  <trk>
+    <name>LIAISON - Verzy village -> parking des Faux</name>
+    <desc>Montee depuis le village de Verzy vers le plateau (D34), ~1,5 km, D+ 80 m</desc>
+    <type>Liaison</type>
+    <trkseg>
+      <trkpt lat="49.1439" lon="4.1594"><ele>190</ele><name>Verzy village</name></trkpt>
+      <trkpt lat="49.1445" lon="4.1650"><ele>230</ele></trkpt>
+      <trkpt lat="49.1447" lon="4.1725"><ele>270</ele><name>Parking des Faux</name></trkpt>
+    </trkseg>
+  </trk>
+
+</gpx>

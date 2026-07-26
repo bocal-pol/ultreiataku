@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="compostel-route" xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Compostelle Espagne - Waypoints SJPP-Santiago (Camino del Norte)</name>
+    <desc>Approche basque francaise (SJPP-Bidarray-Itxassou-Ascain-Irun) puis Camino del Norte integral. POI verifies. Traces officielles: Gronze + Editorial Buen Camino (cf. liens-traces-officielles-espagne.md).</desc>
+    <author><name>compostel-route skill</name></author>
+  </metadata>
+
+  <!-- ===== APPROCHE FRANCAISE ===== -->
+  <wpt lat="43.1636" lon="-1.2367"><name>E00 - Saint-Jean-Pied-de-Port (depart)</name><desc>Km 0 (1350 cumule). Credencial n.3.</desc><sym>Flag</sym></wpt>
+  <wpt lat="43.2660" lon="-1.3450"><name>E01 - Bidarray</name><desc>Km 21. Vallee de la Nive.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3280" lon="-1.4070"><name>E02 - Itxassou</name><desc>Km 34. Cerises noires. Pas de Roland a proximite.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3400" lon="-1.4470"><name>POI - Espelette</name><desc>Village du piment AOP (J3 en chemin).</desc><sym>Scenic Area</sym></wpt>
+  <wpt lat="43.3440" lon="-1.6210"><name>E03 - Ascain</name><desc>Km 55. Pied de la Rhune.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3439" lon="-1.7658"><name>POI - ILE DES FAISANS</name><desc>Bidassoa Hendaye-Irun. Plus petit condominium du monde (traite des Pyrenees 1659, souverainete alternee 6 mois FR/ES). Acces interdit - se contemple des rives.</desc><sym>Monument</sym></wpt>
+  <wpt lat="43.3380" lon="-1.7890"><name>E04 - IRUN (entree Espagne)</name><desc>Km 74. Premier albergue espagnol.</desc><sym>Flag</sym></wpt>
+
+  <!-- ===== EUSKADI ===== -->
+  <wpt lat="43.3210" lon="-1.9860"><name>E05 - San Sebastian / Donostia</name><desc>La Concha. Pintxos vieille ville.</desc><sym>City</sym></wpt>
+  <wpt lat="43.2840" lon="-2.1700"><name>E06 - Zarautz</name><sym>City</sym></wpt>
+  <wpt lat="43.2950" lon="-2.3520"><name>E07 - Deba</name><desc>Via flysch de Zumaia.</desc><sym>City</sym></wpt>
+  <wpt lat="43.2670" lon="-2.4970"><name>E08 - Markina-Xemein</name><desc>Etape dure D+750.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3130" lon="-2.6800"><name>E09 - Gernika</name><desc>Arbre de Gernika, musee de la Paix.</desc><sym>City</sym></wpt>
+  <wpt lat="43.2630" lon="-2.9350"><name>E11 - BILBAO (repos R1)</name><desc>Guggenheim, casco viejo. Bilan chaussures (Decathlon).</desc><sym>City</sym></wpt>
+  <wpt lat="43.3200" lon="-3.0200"><name>E12 - Portugalete</name><desc>Pont transbordeur UNESCO 1893.</desc><sym>City</sym></wpt>
+
+  <!-- ===== CANTABRIE (terre du grand-pere) ===== -->
+  <wpt lat="43.3850" lon="-3.2150"><name>E13 - Castro Urdiales (ENTREE CANTABRIE)</name><desc>Eglise Santa Maria face ocean.</desc><sym>Flag</sym></wpt>
+  <wpt lat="43.4150" lon="-3.4100"><name>E14 - Laredo</name><desc>Plage de la Salve. Bac vers Santona.</desc><sym>City</sym></wpt>
+  <wpt lat="43.4410" lon="-3.4570"><name>E15 - SANTONA</name><desc>Capitale mondiale de l'anchois. Conserveries. Marais (oiseaux).</desc><sym>City</sym></wpt>
+  <wpt lat="43.4460" lon="-3.4430"><name>POI - Fuerte de San Martin (depart sentier Faro)</name><desc>Point de depart de la rando Faro del Caballo.</desc><sym>Trailhead</sym></wpt>
+  <wpt lat="43.4620" lon="-3.4230"><name>POI - FARO DEL CABALLO</name><desc>763 marches dans la falaise du Monte Buciero. 7,5 km A/R ~3h. Pas d'eau sur le sentier. Baignade possible par mer calme.</desc><sym>Lighthouse</sym></wpt>
+  <wpt lat="43.4550" lon="-3.6400"><name>E16 - Guemes</name><desc>Albergue mythique du Padre Ernesto (donativo).</desc><sym>Lodging</sym></wpt>
+  <wpt lat="43.4620" lon="-3.8050"><name>E17 - SANTANDER (repos R2)</name><desc>Bac Somo. Magdalena, Sardinero.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3880" lon="-4.1060"><name>E19 - SANTILLANA DEL MAR (repos R3)</name><desc>ARRET VOULU. Ville des trois mensonges. Collegiale romane. Casonas.</desc><sym>Flag</sym></wpt>
+  <wpt lat="43.3260" lon="-4.0650"><name>POI - Cartes (variante familiale J19b)</name><desc>Village medieval du Camino Real. Torreon, casonas, Ensemble Historique-Artistique.</desc><sym>Scenic Area</sym></wpt>
+  <wpt lat="43.3130" lon="-4.0370"><name>POI - COHICILLOS - village du grand-pere</name><desc>Vallee familiale (commune de Cartes). Ermita de San Cipriano, hameaux, cimetiere. ROMERIA DE SAN CIPRIANO LE 16 SEPTEMBRE - un des plus anciens pelerinages de Cantabrie. Viser cette date pour J19b si possible.</desc><sym>Flag</sym></wpt>
+  <wpt lat="43.3650" lon="-4.0860"><name>POI - Puente San Miguel / REOCIN (variante J19b)</name><desc>Vallee du Saja, terre miniere historique. Entre Cartes et Santillana.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3770" lon="-4.1220"><name>POI - ALTAMIRA</name><desc>Sixtine de la prehistoire. Musee + neo-grotte. RESERVER (quota). 2 km de Santillana.</desc><sym>Museum</sym></wpt>
+  <wpt lat="43.3860" lon="-4.2910"><name>E20 - Comillas</name><desc>El Capricho de Gaudi.</desc><sym>City</sym></wpt>
+  <wpt lat="43.3850" lon="-4.3970"><name>E21 - San Vicente de la Barquera</name><desc>Pont de la Maza, panorama Picos de Europa.</desc><sym>City</sym></wpt>
+
+  <!-- ===== ASTURIES ===== -->
+  <wpt lat="43.3750" lon="-4.5410"><name>E22 - Colombres (ENTREE ASTURIES)</name><desc>Maisons d'indianos.</desc><sym>Flag</sym></wpt>
+  <wpt lat="43.4210" lon="-4.7550"><name>E23 - Llanes</name><desc>Premiere sidra.</desc><sym>City</sym></wpt>
+  <wpt lat="43.4475" lon="-4.8905"><name>POI - PLAYA DE GULPIYURI</name><desc>Plage interieure 40 m (doline). 600 m de detour du chemin a Naves (J24). Monument Naturel. Verifier la maree (pas d'eau a maree basse).</desc><sym>Beach</sym></wpt>
+  <!-- Module Picos de Europa (optionnel - hors chemin, acces bus/taxi) -->
+  <wpt lat="43.1460" lon="-4.6490"><name>PICOS - Santo Toribio de Liebana</name><desc>Lignum Crucis. Fin du Camino Lebaniego (72 km depuis San Vicente, UNESCO). Certificat Lebaniega.</desc><sym>Church</sym></wpt>
+  <wpt lat="43.1444" lon="-4.8117"><name>PICOS - Fuente De (teleferique)</name><desc>Telepherique +750 m en 4 min. Base de la rando Horcados Rojos.</desc><sym>Summit</sym></wpt>
+  <wpt lat="43.1800" lon="-4.8400"><name>PICOS - Torre de los Horcados Rojos (2506 m)</name><desc>Rando depuis El Cable: 11 km A/R, D+ 600 m, 4-5 h. Haute montagne - renoncer par brouillard.</desc><sym>Summit</sym></wpt>
+  <wpt lat="43.2777" lon="-4.9902"><name>PICOS - Mirador de la Reina</name><desc>Route des lacs de Covadonga (navette ete depuis Cangas de Onis).</desc><sym>Scenic Area</sym></wpt>
+  <wpt lat="43.2470" lon="-4.8330"><name>PICOS - Invernales del Texu</name><desc>Etables d'hivernage traditionnelles, sentier Poncebos-Bulnes (2 h de montee, funiculaire en descente).</desc><sym>Scenic Area</sym></wpt>
+  <wpt lat="43.4620" lon="-5.0560"><name>E25 - Ribadesella</name><desc>Fabada. Grotte Tito Bustillo (UNESCO, reserver).</desc><sym>City</sym></wpt>
+  <wpt lat="43.4810" lon="-5.4360"><name>E27 - Villaviciosa</name><desc>Capitale de la sidra.</desc><sym>City</sym></wpt>
+  <wpt lat="43.5410" lon="-5.6640"><name>E28 - GIJON (repos R4)</name><desc>Cimavilla, San Lorenzo, sidrerias.</desc><sym>City</sym></wpt>
+  <wpt lat="43.5560" lon="-5.9250"><name>E29 - Aviles</name><desc>Vieille ville meconnue.</desc><sym>City</sym></wpt>
+  <wpt lat="43.5590" lon="-6.2430"><name>E31 - Soto de Luina</name><desc>Cudillero a proximite (village amphitheatre).</desc><sym>City</sym></wpt>
+  <wpt lat="43.5420" lon="-6.5370"><name>E33 - LUARCA (repos R5 flottant)</name><desc>Villa blanche. Option excursion Obona (taxi/bus vers Tineo ~40 min).</desc><sym>City</sym></wpt>
+  <wpt lat="43.3600" lon="-6.4800"><name>POI - Monasterio de Obona (HORS CHEMIN)</name><desc>Sur le Camino PRIMITIVO, ~35 km dans les terres. Excursion depuis Luarca (R5) ou a faire plus tard sur le Primitivo.</desc><sym>Church</sym></wpt>
+
+  <!-- ===== GALICE ===== -->
+  <wpt lat="43.5370" lon="-7.0430"><name>E36 - RIBADEO (ENTREE GALICE)</name><desc>Pont de la ria. Premier pulpo.</desc><sym>Flag</sym></wpt>
+  <wpt lat="43.5540" lon="-7.1570"><name>POI - Praia As Catedrais (excursion)</name><desc>Arches monumentales a maree basse. 10 km ouest de Ribadeo - excursion bus/taxi soir J36. Quota ete: reserver.</desc><sym>Scenic Area</sym></wpt>
+  <wpt lat="43.4280" lon="-7.3630"><name>E38 - MONDONEDO</name><desc>Cathedrale agenouillee. Tarta de Mondonedo.</desc><sym>City</sym></wpt>
+  <wpt lat="43.2980" lon="-7.6810"><name>E40 - Vilalba</name><desc>Queso San Simon.</desc><sym>City</sym></wpt>
+  <wpt lat="43.0380" lon="-8.0230"><name>E43 - Sobrado dos Monxes</name><desc>Monastere cistercien 1142. Albergue monastique.</desc><sym>Church</sym></wpt>
+  <wpt lat="42.9300" lon="-8.1630"><name>E44 - Arzua (jonction Camino Frances)</name><desc>Queixo Arzua-Ulloa.</desc><sym>City</sym></wpt>
+  <wpt lat="42.8810" lon="-8.5450"><name>E46 - SANTIAGO DE COMPOSTELA - ARRIVEE</name><desc>Km ~905 (2500 cumule depuis Liege). Praza do Obradoiro. Compostela + certificat distance a l'Oficina del Peregrino (Rua Carretas 33).</desc><sym>Flag</sym></wpt>
+
+</gpx>

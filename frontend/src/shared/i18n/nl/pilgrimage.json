@@ -1,0 +1,217 @@
+{
+  "pilgrimage": {
+    "stages": {
+      "list_title": "Maasvallei Route — België",
+      "tab_be": "België",
+      "tab_fr": "Frankrijk",
+      "tab_es": "Spanje",
+      "empty_fr": "Deze etappes komen in V1.1. België is volledig.",
+      "empty_es": "Deze etappes komen in V1.1. België is volledig.",
+      "loading": "Belgisch gedeelte downloaden…",
+      "fab_label": "Interactieve kaart",
+      "poi_highlight": "★ {{name}}"
+    },
+    "stage": {
+      "day_label": "D{{n}}",
+      "distance": "{{x}} km",
+      "elevation": "D+ {{y}} m",
+      "duration": "~{{h}}u{{m}}",
+      "practical_note": "Let op",
+      "water_points": "Waterpunten",
+      "poi_section": "Bezienswaardigheden",
+      "meals_section": "Maaltijden en bevoorrading",
+      "night_section": "Overnachting",
+      "see_on_map": "Bekijk op de kaart",
+      "back_to_stages": "Etappes",
+      "meal_morning": "Ochtend",
+      "meal_lunch": "Lunch",
+      "meal_dinner": "Diner",
+      "meal_snack": "Tussendoortje",
+      "accommodation_alt": "Alternatief",
+      "bivouac_legal": "Bivak toegestaan",
+      "bivouac_illegal": "Bivak niet toegestaan"
+    },
+    "poi": {
+      "detour_types": {
+        "on_path": "Op het pad",
+        "short": "Korte omweg",
+        "medium": "Middellange omweg",
+        "long": "Lange omweg"
+      },
+      "categories": {
+        "archaeology": "Archeologische site",
+        "religious": "Religieuze site",
+        "fortress": "Burcht",
+        "nature": "Natuursite",
+        "gastronomy": "Gastronomie",
+        "view": "Uitkijkpunt"
+      },
+      "booking_required": "Reservering aanbevolen",
+      "no_booking": "Geen reservering",
+      "detour_format": "{{km}} km heen en terug · {{walk}} min + {{visit}} min",
+      "cost_format": "~{{cost}} EUR",
+      "close": "Fiche sluiten"
+    },
+    "accommodation": {
+      "types": {
+        "gite": "Gîte",
+        "camping": "Camping",
+        "abbey": "Abdij",
+        "hostel": "Herberg",
+        "bivouac": "Bivak",
+        "hotel": "Hotel",
+        "donativo": "Donativo"
+      },
+      "amenities": {
+        "shower": "Douche",
+        "kitchen": "Keuken",
+        "wifi": "Wi-Fi",
+        "stamp": "Pelgrimsstempel"
+      },
+      "price_free": "Gratis",
+      "booking_required": "Reservering aanbevolen",
+      "booking_required_days": "{{count}} dagen van tevoren reserveren",
+      "capacity": "Capaciteit: {{count}} pelgrims",
+      "verified_months_ago_one": "{{count}} maand geleden geverifieerd",
+      "verified_months_ago_other": "{{count}} maanden geleden geverifieerd"
+    },
+    "meal": {
+      "context": {
+        "restaurant": "Restaurant",
+        "bivouac_cooking": "Bivakkoken",
+        "grocery": "Supermarkt / winkel",
+        "local_specialty": "Lokale specialiteit"
+      },
+      "daily_kcal": "Geschatte dagrantsoene: {{kcal}} kcal"
+    },
+    "map": {
+      "overlay_title": "D{{n}} · {{from}} → {{to}} · {{x}} km",
+      "toggle_layers": "Tonen / verbergen",
+      "layer_trail": "Dagetappe",
+      "layer_detours": "Omwegen",
+      "layer_accommodations": "Overnachtingen",
+      "layer_water": "Waterpunten",
+      "center_gps": "Mijn positie",
+      "gps_unavailable": "Positie niet beschikbaar",
+      "gps_permission": "Ultreiataku wil uw locatie gebruiken om u op de kaart te tonen.",
+      "offline_tiles": "Kaart gedeeltelijk offline beschikbaar. Download het Belgische gedeelte wanneer u verbonden bent.",
+      "stage_prev": "← D{{n}}",
+      "stage_next": "D{{n}} →",
+      "back": "← D{{n}}",
+      "fullscreen_open": "Volledig scherm",
+      "fullscreen_close": "Volledig scherm verlaten"
+    },
+    "journal": {
+      "title": "Reisdagboek",
+      "new_entry": "Nieuw bericht",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "placeholder_title": "Titel (optioneel)",
+      "placeholder_body": "Wat wil je onthouden van deze dag…",
+      "tab_all": "Alle",
+      "tab_mine": "Mijn berichten",
+      "tab_public": "Publiek",
+      "visibility": {
+        "label": "Wie kan dit bericht zien?",
+        "private": "Alleen ik",
+        "members": "Reisgenoten",
+        "public": "Familie en vrienden"
+      },
+      "mood": {
+        "label": "Hoe was uw dag?",
+        "great": "Uitstekend",
+        "good": "Goede dag",
+        "neutral": "Gewone dag",
+        "tired": "Moe",
+        "difficult": "Moeilijke dag"
+      },
+      "sync_pending_one": "{{count}} bericht wacht op synchronisatie",
+      "sync_pending_other": "{{count}} berichten wachten op synchronisatie",
+      "offline_notice": "Wordt gesynchroniseerd zodra u netwerk heeft.",
+      "empty_all": "Nog geen berichten in dit dagboek.",
+      "empty_public": "Nog geen gedeelde berichten."
+    },
+    "pack": {
+      "categories": {
+        "portage": "Drager",
+        "sleeping": "Slaapmateriaal",
+        "cooking": "Koken",
+        "water": "Water en filtratie",
+        "clothing": "Kleding",
+        "hygiene": "Hygiëne",
+        "health": "Gezondheid",
+        "navigation": "Navigatie en elektronica",
+        "misc": "Diversen"
+      },
+      "weight_status": {
+        "ok": "Binnen de norm",
+        "warn": "Opletten — {{delta}} kg marge",
+        "over": "Te zwaar — {{delta}} kg boven doel"
+      },
+      "base_label": "Basis",
+      "water_label": "+ water: 2,0 kg",
+      "food_label": "+ eten: 0,75 kg",
+      "total_label": "Geschat totaal: {{x}} kg",
+      "add_item": "Item toevoegen",
+      "manage_scenarios": "Scenario's beheren"
+    },
+    "trip": {
+      "roles": {
+        "organizer": "Organisator",
+        "participant": "Reisgenoot",
+        "observer": "Familie"
+      },
+      "status": {
+        "planned": "Voorbereiding",
+        "active": "Bezig",
+        "completed": "Afgerond",
+        "cancelled": "Geannuleerd"
+      },
+      "progress": "D{{current}}/{{total}} · {{km_done}} km / {{km_total}} km",
+      "next_stage": "Morgen: {{from}} → {{to}}",
+      "invite_cta": "Reisgenoot uitnodigen",
+      "share_cta": "Reis delen",
+      "journal_cta": "Dagboek bekijken",
+      "join_title": "{{name}} nodigt u uit om samen te wandelen",
+      "join_accept": "Deze reis vervoegen",
+      "join_decline": "Weigeren",
+      "already_member": "U bent al lid van deze reis.",
+      "last_entry": "Laatste nieuws",
+      "no_public_entry": "Nog geen gedeelde berichten."
+    },
+    "nav": {
+      "map": "Kaart",
+      "stages": "Etappes",
+      "pack": "Rugzak",
+      "journal": "Dagboek",
+      "profile": "Ik"
+    },
+    "placeholder": {
+      "trip_coming_soon": "Trips — binnenkort",
+      "pack_coming_soon": "Rugzak — binnenkort",
+      "journal_coming_soon": "Dagboek — binnenkort"
+    },
+    "error": {
+      "offline_fetch": "Geen netwerkverbinding. De getoonde gegevens zijn van uw laatste bezoek.",
+      "offline_save": "Lokaal opgeslagen. Uw bericht wordt verzonden zodra het netwerk beschikbaar is.",
+      "tiles_missing": "Kaart gedeeltelijk offline. Download het Belgische gedeelte in verbonden modus voor volledige offline toegang.",
+      "sync_failed": "Synchronisatie mislukt. Controleer uw verbinding en probeer opnieuw.",
+      "invite_invalid": "Deze uitnodigingslink is niet meer geldig. Vraag een nieuwe link aan bij de reisorganisator.",
+      "session_expired": "Uw sessie is verlopen.",
+      "stage_not_found": "Deze etappe bestaat niet of is niet meer beschikbaar.",
+      "gpx_unavailable": "De GPX-track van deze etappe is nog niet beschikbaar.",
+      "retry": "Opnieuw proberen"
+    },
+    "success": {
+      "entry_saved": "Bericht opgeslagen.",
+      "entry_synced": "Bericht gesynchroniseerd.",
+      "visibility_changed": "Zichtbaarheid bijgewerkt.",
+      "joined_trip": "U maakt nu deel uit van de reis {{name}}.",
+      "invite_sent": "Uitnodiging verzonden naar {{email}}."
+    },
+    "offline": {
+      "banner": "Offline",
+      "banner_back": "Weer online"
+    }
+  }
+}

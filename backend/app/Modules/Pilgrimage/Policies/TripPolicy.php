@@ -1,0 +1,162 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\Pilgrimage\Policies;
+
+use App\Models\User;
+use App\Modules\Pilgrimage\Enums\TripMemberRole;
+use App\Modules\Pilgrimage\Models\Departure;
+use App\Modules\Pilgrimage\Models\Pilgrim;
+use App\Modules\Pilgrimage\Models\Trip;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+/**
+ * ULTREIA-33 — Politique d'accès aux Trips.
+ *
+ * Matrice (specs §4.3) :
+ *   organizer     → CRUD complet sur son Trip, invitations, membres
+ *   participant   → lecture, création Departure (le sien)
+ *   observer      → lecture seule (pas d'occupancy)
+ *
+ * L'utilisateur passé est le User Eloquent local (lié au SSO).
+ * Le Pilgrim est résolu par user_id.
+ */
+class TripPolicy
+{
+    use HandlesAuthorization;
+
+    public function viewAny(User $user): bool
+    {
+        // Tout utilisateur authentifié peut voir la liste de ses trips
+        return true;
+    }
+
+    public function view(User $user, Trip $trip): bool
+    {
+        $pilgrim = $this->resolveOrganizer($user);
+
+        if ($pilgrim === null) {
+            return false;
+        }
+
+        return $trip->hasMember($pilgrim->id)
+            || $trip->organizer_id === $pilgrim->id;
+    }
+
+    public function create(User $user): bool
+    {
+        // Tout pilgrim authentifié peut créer un Trip
+        return $this->resolvePilgrim($user) !== null;
+    }
+
+    /**
+     * Seul l'organizer peut modifier le Trip.
+     */
+    public function update(User $user, Trip $trip): bool
+    {
+        return $this->isOrganizer($user, $trip);
+    }
+
+    public function delete(User $user, Trip $trip): bool
+    {
+        return $this->isOrganizer($user, $trip);
+    }
+
+    /**
+     * Inviter un membre = pouvoir de l'organizer.
+     */
+    public function invite(User $user, Trip $trip): bool
+    {
+        return $this->isOrganizer($user, $trip);
+    }
+
+    /**
+     * Modifier les rôles / retirer un membre = organizer.
+     */
+    public function manageMember(User $user, Trip $trip): bool
+    {
+        return $this->isOrganizer($user, $trip);
+    }
+
+    /**
+     * Voir l'occupancy : organizer ou participant (pas observer).
+     */
+    public function viewOccupancy(User $user, Trip $trip): bool
+    {
+        $pilgrim = $this->resolvePilgrim($user);
+
+        if ($pilgrim === null) {
+            return false;
+        }
+
+        $role = $trip->roleOf($pilgrim->id);
+
+        return in_array($role, [TripMemberRole::Organizer, TripMemberRole::Participant], true);
+    }
+
+    /**
+     * Créer un Departure :
+     *   - organizer  → peut créer pour n'importe quel membre
+     *   - participant → uniquement le sien
+     *   - observer   → interdit
+     */
+    public function createDeparture(User $user, Trip $trip): bool
+    {
+        $pilgrim = $this->resolvePilgrim($user);
+
+        if ($pilgrim === null) {
+            return false;
+        }
+
+        $role = $trip->roleOf($pilgrim->id);
+
+        return in_array($role, [TripMemberRole::Organizer, TripMemberRole::Participant], true);
+    }
+
+    /**
+     * Modifier un Departure :
+     *   - organizer → tout
+     *   - participant → uniquement le sien
+     */
+    public function updateDeparture(User $user, Trip $trip, Departure $departure): bool
+    {
+        $pilgrim = $this->resolvePilgrim($user);
+
+        if ($pilgrim === null) {
+            return false;
+        }
+
+        $role = $trip->roleOf($pilgrim->id);
+
+        if ($role === TripMemberRole::Organizer) {
+            return true;
+        }
+
+        if ($role === TripMemberRole::Participant) {
+            return $departure->pilgrim_id === $pilgrim->id;
+        }
+
+        return false;
+    }
+
+    // ─── Helpers ──────────────────────────────────────────────────────────────
+
+    private function isOrganizer(User $user, Trip $trip): bool
+    {
+        $pilgrim = $this->resolveOrganizer($user);
+
+        return $pilgrim !== null && $trip->organizer_id === $pilgrim->id;
+    }
+
+    private function resolvePilgrim(User $user): ?Pilgrim
+    {
+        return Pilgrim::query()->where('user_id', $user->id)->first();
+    }
+
+    // Alias pour la clarté sémantique (resolveOrganizer = resolvePilgrim ici)
+    private function resolveOrganizer(User $user): ?Pilgrim
+    {
+        return $this->resolvePilgrim($user);
+    }
+}

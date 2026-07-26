@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="compostel-route reconstitution" xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Compostelle France - Trace reconstituee (16 segments)</name>
+    <desc>Reconstitution du trace Rocroi -> SJPP (Via Campaniensis + GR654 branche nord + variante ouest Oradour) par villes-etapes. Vue d'ensemble UNIQUEMENT - la precision au metre vient de la trace officielle Peregrinos (calculitineraires.fr id=890940) et des GPX GR654 FFRandonnee. Cf. liens-traces-officielles-france.md</desc>
+    <author><name>compostel-route skill (reconstitution)</name></author>
+  </metadata>
+
+  <trk>
+    <name>SEG-A - Rocroi -> Reims (105 km / 6 etapes)</name>
+    <desc>Ardennes puis Champagne crayeuse via Signy-l'Abbaye, Wasigny, Chateau-Porcien</desc>
+    <type>Via Campaniensis</type>
+    <trkseg>
+      <trkpt lat="49.9236" lon="4.5211"><name>Rocroi</name></trkpt>
+      <trkpt lat="49.8500" lon="4.5500"></trkpt>
+      <trkpt lat="49.7900" lon="4.6000"><name>Sormonne (J1)</name></trkpt>
+      <trkpt lat="49.7400" lon="4.5100"></trkpt>
+      <trkpt lat="49.7008" lon="4.4181"><name>Signy-l'Abbaye (J2)</name></trkpt>
+      <trkpt lat="49.6600" lon="4.3500"></trkpt>
+      <trkpt lat="49.6200" lon="4.2800"><name>Wasigny (J3)</name></trkpt>
+      <trkpt lat="49.5700" lon="4.2600"></trkpt>
+      <trkpt lat="49.5286" lon="4.2431"><name>Chateau-Porcien (J4)</name></trkpt>
+      <trkpt lat="49.4700" lon="4.1900"></trkpt>
+      <trkpt lat="49.4200" lon="4.1400"><name>Roizy (J5)</name></trkpt>
+      <trkpt lat="49.3400" lon="4.0800"></trkpt>
+      <trkpt lat="49.2583" lon="4.0317"><name>REIMS (J6 + R1)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-B - Reims -> Chalons (47 km / 2 etapes) - Montagne de Reims</name>
+    <desc>Vignobles grand cru via Verzenay et Verzy (Faux de Verzy au matin J8)</desc>
+    <type>Via Campaniensis</type>
+    <trkseg>
+      <trkpt lat="49.2583" lon="4.0317"><name>Reims</name></trkpt>
+      <trkpt lat="49.2100" lon="4.0900"></trkpt>
+      <trkpt lat="49.1620" lon="4.1470"><name>Verzenay</name></trkpt>
+      <trkpt lat="49.1439" lon="4.1594"><name>Verzy (J7) - Faux au matin</name></trkpt>
+      <trkpt lat="49.1000" lon="4.2000"></trkpt>
+      <trkpt lat="49.0400" lon="4.2400"><name>Conde-sur-Marne</name></trkpt>
+      <trkpt lat="48.9950" lon="4.3000"></trkpt>
+      <trkpt lat="48.9575" lon="4.3650"><name>CHALONS-EN-CHAMPAGNE (J8)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-C - Chalons -> Vitry-le-Francois (34 km / 2 etapes)</name>
+    <desc>Vallee de la Marne</desc>
+    <type>Via Campaniensis</type>
+    <trkseg>
+      <trkpt lat="48.9575" lon="4.3650"><name>Chalons</name></trkpt>
+      <trkpt lat="48.9000" lon="4.4400"></trkpt>
+      <trkpt lat="48.8400" lon="4.5000"><name>La Chaussee-sur-Marne (J9)</name></trkpt>
+      <trkpt lat="48.7800" lon="4.5500"></trkpt>
+      <trkpt lat="48.7256" lon="4.5844"><name>VITRY-LE-FRANCOIS (J10)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-D - Vitry -> Bar-sur-Seine (100 km / 5 etapes) - Lac du Der</name>
+    <desc>Lac du Der, Champagne humide, Cote des Bar</desc>
+    <type>Via Campaniensis</type>
+    <trkseg>
+      <trkpt lat="48.7256" lon="4.5844"><name>Vitry</name></trkpt>
+      <trkpt lat="48.6400" lon="4.6600"></trkpt>
+      <trkpt lat="48.5561" lon="4.7469"><name>Giffaumont - Lac du Der (J11)</name></trkpt>
+      <trkpt lat="48.4772" lon="4.7708"><name>Montier-en-Der (J12)</name></trkpt>
+      <trkpt lat="48.4200" lon="4.7500"></trkpt>
+      <trkpt lat="48.3700" lon="4.7300"><name>Soulaines-Dhuys (J13)</name></trkpt>
+      <trkpt lat="48.3500" lon="4.6300"></trkpt>
+      <trkpt lat="48.3500" lon="4.5300"><name>Dienville - Lac d'Amance (J14)</name></trkpt>
+      <trkpt lat="48.2300" lon="4.4500"></trkpt>
+      <trkpt lat="48.1128" lon="4.3708"><name>BAR-SUR-SEINE (J15)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-E - Bar-sur-Seine -> Auxerre (96 km / 5 etapes)</name>
+    <desc>Cote des Bar, Tonnerrois, Chablis</desc>
+    <type>Via Campaniensis</type>
+    <trkseg>
+      <trkpt lat="48.1128" lon="4.3708"><name>Bar-sur-Seine</name></trkpt>
+      <trkpt lat="47.9928" lon="4.3672"><name>Les Riceys (J16)</name></trkpt>
+      <trkpt lat="47.9300" lon="4.1100"><name>Etourvy (J17)</name></trkpt>
+      <trkpt lat="47.8567" lon="3.9739"><name>Tonnerre (J18)</name></trkpt>
+      <trkpt lat="47.8136" lon="3.7989"><name>Chablis (J19)</name></trkpt>
+      <trkpt lat="47.7982" lon="3.5730"><name>AUXERRE (J20 - repos flottant)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-F - Auxerre -> VEZELAY (52 km / 3 etapes)</name>
+    <desc>Vallee de la Cure. Grottes d'Arcy. Arrivee colline eternelle</desc>
+    <type>Via Campaniensis</type>
+    <trkseg>
+      <trkpt lat="47.7982" lon="3.5730"><name>Auxerre</name></trkpt>
+      <trkpt lat="47.7300" lon="3.6500"></trkpt>
+      <trkpt lat="47.6630" lon="3.7350"><name>Vermenton (J21)</name></trkpt>
+      <trkpt lat="47.6640" lon="3.7430"><name>Arcy-sur-Cure - grottes (J22)</name></trkpt>
+      <trkpt lat="47.5600" lon="3.7500"></trkpt>
+      <trkpt lat="47.4664" lon="3.7489"><name>VEZELAY (J23 + R2) - Credencial n.2</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-G - Vezelay -> La Charite-sur-Loire (75 km / 4 etapes) - GR654 nord</name>
+    <desc>Nivernais via Clamecy, Varzy, Chateauneuf-Val-de-Bargis</desc>
+    <type>GR654 branche nord</type>
+    <trkseg>
+      <trkpt lat="47.4664" lon="3.7489"><name>Vezelay</name></trkpt>
+      <trkpt lat="47.4600" lon="3.6300"></trkpt>
+      <trkpt lat="47.4600" lon="3.5200"><name>Clamecy (J24)</name></trkpt>
+      <trkpt lat="47.4100" lon="3.4400"></trkpt>
+      <trkpt lat="47.3600" lon="3.3800"><name>Varzy (J25)</name></trkpt>
+      <trkpt lat="47.3200" lon="3.2400"></trkpt>
+      <trkpt lat="47.2800" lon="3.1200"><name>Chateauneuf-Val-de-Bargis (J26)</name></trkpt>
+      <trkpt lat="47.2300" lon="3.0600"></trkpt>
+      <trkpt lat="47.1786" lon="3.0164"><name>LA CHARITE-SUR-LOIRE (J27)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-H - La Charite -> BOURGES (53 km / 3 etapes)</name>
+    <desc>Traversee Loire puis Champagne berrichonne</desc>
+    <type>GR654 branche nord</type>
+    <trkseg>
+      <trkpt lat="47.1786" lon="3.0164"><name>La Charite</name></trkpt>
+      <trkpt lat="47.1570" lon="2.9050"><name>Sancergues (J28)</name></trkpt>
+      <trkpt lat="47.1400" lon="2.7200"></trkpt>
+      <trkpt lat="47.1300" lon="2.5500"><name>Sainte-Solange (J29)</name></trkpt>
+      <trkpt lat="47.0844" lon="2.3964"><name>BOURGES (J30 + R3)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-I - Bourges -> Chateauroux (66 km / 4 etapes)</name>
+    <desc>Berry via Charost, Issoudun, Neuvy-Pailloux</desc>
+    <type>Liaison Berry</type>
+    <trkseg>
+      <trkpt lat="47.0844" lon="2.3964"><name>Bourges</name></trkpt>
+      <trkpt lat="47.0400" lon="2.2600"></trkpt>
+      <trkpt lat="46.9900" lon="2.1200"><name>Charost (J31)</name></trkpt>
+      <trkpt lat="46.9480" lon="1.9930"><name>Issoudun (J32)</name></trkpt>
+      <trkpt lat="46.8900" lon="1.8600"><name>Neuvy-Pailloux (J33)</name></trkpt>
+      <trkpt lat="46.8103" lon="1.6911"><name>CHATEAUROUX (J34)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-J - Chateauroux -> LIMOGES via ORADOUR (150 km / 8 etapes)</name>
+    <desc>Vallee de la Creuse, Marche, variante ouest GR654 par Le Dorat, Bellac, Oradour-sur-Glane</desc>
+    <type>GR654 + variante ouest</type>
+    <trkseg>
+      <trkpt lat="46.8103" lon="1.6911"><name>Chateauroux</name></trkpt>
+      <trkpt lat="46.7200" lon="1.6300"><name>Velles (J35)</name></trkpt>
+      <trkpt lat="46.5880" lon="1.5200"><name>Argenton-sur-Creuse (J36)</name></trkpt>
+      <trkpt lat="46.5240" lon="1.5940"><name>Gargilesse</name></trkpt>
+      <trkpt lat="46.3860" lon="1.6240"><name>Crozant (J37)</name></trkpt>
+      <trkpt lat="46.3000" lon="1.5500"></trkpt>
+      <trkpt lat="46.2370" lon="1.4870"><name>La Souterraine (J38) - bifurcation variante ouest</name></trkpt>
+      <trkpt lat="46.2200" lon="1.2800"></trkpt>
+      <trkpt lat="46.2147" lon="1.0820"><name>Le Dorat (J39)</name></trkpt>
+      <trkpt lat="46.1225" lon="1.0490"><name>Bellac (J40)</name></trkpt>
+      <trkpt lat="46.0380" lon="0.9560"><name>Mortemart</name></trkpt>
+      <trkpt lat="45.9339" lon="1.0328"><name>ORADOUR-SUR-GLANE (J41)</name></trkpt>
+      <trkpt lat="45.8800" lon="1.1500"></trkpt>
+      <trkpt lat="45.8336" lon="1.2611"><name>LIMOGES (J42 + R4) - 2e paire chaussures</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-K - Limoges -> PERIGUEUX (110 km / 6 etapes)</name>
+    <desc>Monts de Chalus, Perigord vert via Thiviers et Sorges</desc>
+    <type>GR654</type>
+    <trkseg>
+      <trkpt lat="45.8336" lon="1.2611"><name>Limoges</name></trkpt>
+      <trkpt lat="45.7900" lon="1.1400"><name>Aixe-sur-Vienne</name></trkpt>
+      <trkpt lat="45.7100" lon="1.0800"><name>Flavignac (J43)</name></trkpt>
+      <trkpt lat="45.6530" lon="0.9800"><name>Chalus (J44)</name></trkpt>
+      <trkpt lat="45.5400" lon="0.9700"><name>La Coquille (J45)</name></trkpt>
+      <trkpt lat="45.4160" lon="0.9200"><name>Thiviers (J46)</name></trkpt>
+      <trkpt lat="45.3000" lon="0.8600"><name>Sorges (J47)</name></trkpt>
+      <trkpt lat="45.1842" lon="0.7211"><name>PERIGUEUX (J48 + R5) - Eschif de Creyssac</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-L - Perigueux -> La Reole (117 km / 6 etapes)</name>
+    <desc>Vallee de l'Isle, Dordogne, Entre-deux-Mers</desc>
+    <type>GR654</type>
+    <trkseg>
+      <trkpt lat="45.1842" lon="0.7211"><name>Perigueux</name></trkpt>
+      <trkpt lat="45.1450" lon="0.5300"><name>Saint-Astier (J49)</name></trkpt>
+      <trkpt lat="45.0400" lon="0.3600"><name>Mussidan (J50)</name></trkpt>
+      <trkpt lat="44.9800" lon="0.2000"></trkpt>
+      <trkpt lat="44.9770" lon="0.0600"><name>Villefranche-de-Lonchat (J51)</name></trkpt>
+      <trkpt lat="44.9440" lon="0.2160"><name>Sainte-Foy-la-Grande (J52) - marche sam</name></trkpt>
+      <trkpt lat="44.7800" lon="0.1500"></trkpt>
+      <trkpt lat="44.6500" lon="0.0800"><name>Monsegur (J53)</name></trkpt>
+      <trkpt lat="44.5820" lon="-0.0360"><name>LA REOLE (J54)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-M - La Reole -> MONT-DE-MARSAN (92 km / 4 etapes) - Landes</name>
+    <desc>Bazadais puis foret des Landes. EAU RARE - 2,5-3L chaque matin. Pas de bivouac sauvage.</desc>
+    <type>GR654</type>
+    <trkseg>
+      <trkpt lat="44.5820" lon="-0.0360"><name>La Reole</name></trkpt>
+      <trkpt lat="44.4320" lon="-0.2140"><name>Bazas (J55) - ravito 48h</name></trkpt>
+      <trkpt lat="44.2940" lon="-0.2730"><name>Captieux (J56)</name></trkpt>
+      <trkpt lat="44.1500" lon="-0.3000"></trkpt>
+      <trkpt lat="44.0330" lon="-0.3250"><name>Roquefort (J57)</name></trkpt>
+      <trkpt lat="43.9600" lon="-0.4200"></trkpt>
+      <trkpt lat="43.8900" lon="-0.4990"><name>MONT-DE-MARSAN (J58 + R6)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-N - Mont-de-Marsan -> Saint-Palais (92 km / 5 etapes)</name>
+    <desc>Chalosse puis Bearn via Saint-Sever, Hagetmau, Orthez, Sauveterre</desc>
+    <type>GR654</type>
+    <trkseg>
+      <trkpt lat="43.8900" lon="-0.4990"><name>Mont-de-Marsan</name></trkpt>
+      <trkpt lat="43.7580" lon="-0.5740"><name>Saint-Sever (J59)</name></trkpt>
+      <trkpt lat="43.6550" lon="-0.5930"><name>Hagetmau (J60)</name></trkpt>
+      <trkpt lat="43.5700" lon="-0.6800"></trkpt>
+      <trkpt lat="43.4890" lon="-0.7710"><name>Orthez (J61)</name></trkpt>
+      <trkpt lat="43.4010" lon="-0.9420"><name>Sauveterre-de-Bearn (J62)</name></trkpt>
+      <trkpt lat="43.3260" lon="-1.0330"><name>SAINT-PALAIS (J63)</name></trkpt>
+    </trkseg>
+  </trk>
+
+  <trk>
+    <name>SEG-O - Saint-Palais -> SAINT-JEAN-PIED-DE-PORT (32 km / 2 etapes)</name>
+    <desc>Basse-Navarre. Stele de Gibraltar (convergence des 3 voies), Ostabat, arrivee SJPP</desc>
+    <type>GR654 final</type>
+    <trkseg>
+      <trkpt lat="43.3260" lon="-1.0330"><name>Saint-Palais</name></trkpt>
+      <trkpt lat="43.2840" lon="-1.0700"><name>Stele de Gibraltar</name></trkpt>
+      <trkpt lat="43.2620" lon="-1.0800"><name>Ostabat-Asme (J64)</name></trkpt>
+      <trkpt lat="43.2200" lon="-1.1500"></trkpt>
+      <trkpt lat="43.1636" lon="-1.2367"><name>SAINT-JEAN-PIED-DE-PORT (J65 + R7-R8) - FIN FRANCE - Credencial n.3</name></trkpt>
+    </trkseg>
+  </trk>
+
+</gpx>

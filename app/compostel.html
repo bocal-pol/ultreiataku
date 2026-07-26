@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#1a1208">
+<title>Ultreïataku — Compagnon du Chemin</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="%231a1208"/><g fill="none" stroke="%23c8963c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 26C9 20 6.5 13 8 9.5M16 26c7-6 9.5-13 8-16.5M8 9.5a3.2 3.2 0 0 1 4.3-2 3.2 3.2 0 0 1 3.7 1 3.2 3.2 0 0 1 3.7-1 3.2 3.2 0 0 1 4.3 2"/><path d="M16 26 11 11M16 26l5-15M16 26 8.5 13M16 26 23.5 13"/></g></svg>'>
+<link rel="stylesheet" href="vendor/leaflet.css">
+<style>
+  :root{--be:#c8792a;--fr:#2f5d3a;--es:#a83232;--bg:#f5ead8;--panel:#fffdf8;--ink:#1a1208;--muted:#9a8060;--want:#b8352f;--line:#ddd0b8;--go:#2f7d4f;--skip:#a99a80;--gold:#c8963c;--ocre:#8a6020;--nuit:#1a1208;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);overflow:hidden}
+  #map{position:fixed;inset:0;background:#dfe6df;z-index:1}
+  .ic{vertical-align:middle;flex:0 0 auto}
+  #top b,.ovhead b,.daytitle h2,.md h1,.md h2{font-family:Georgia,'Times New Roman',serif;letter-spacing:.4px}
+  #top b{color:#f5ead8}
+  #top{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:8px;padding:9px 13px;background:linear-gradient(#2a1d0e,#1a1208);color:#fff;z-index:1200;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  #top b{font-size:15px;letter-spacing:.3px;display:flex;align-items:center;gap:7px}
+  #top .pos{font-size:11.5px;opacity:.92;margin-left:auto;text-align:right;line-height:1.3;max-width:55%}
+  .mapbtn{position:fixed;right:12px;z-index:1200;width:46px;height:46px;border:none;border-radius:12px;background:#fff;color:#8a6020;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}
+  #zin{bottom:288px}#zout{bottom:236px}#loc{bottom:184px}#lyr{bottom:132px}
+  .mapbtn.on{background:#8a6020;color:#fff}
+  #sheet{position:fixed;left:0;right:0;bottom:0;z-index:1300;background:var(--panel);border-radius:18px 18px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.28);max-height:74%;display:flex;flex-direction:column;transition:transform .25s ease}
+  #sheet.collapsed #body{max-height:0;padding-top:0;padding-bottom:0;overflow:hidden;opacity:0}
+  #grip{padding:9px 0 5px;text-align:center;cursor:pointer;flex:0 0 auto}
+  #grip .bar{display:inline-block;width:42px;height:5px;border-radius:3px;background:#cfcabd}
+  #head{padding:0 16px 10px;flex:0 0 auto}
+  #selrow{display:flex;gap:8px}
+  select{flex:1 1 0;min-width:0;width:100%;padding:11px;border-radius:10px;border:1px solid var(--line);background:#fbfaf6;font-size:14px;color:var(--ink);text-overflow:ellipsis}
+  #gpsbtn{padding:0 13px;border:none;border-radius:10px;background:#f3ead9;color:#8a6020;font-weight:600;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
+  #body{padding:0 16px 26px;overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:64vh;transition:max-height .26s ease,padding .26s ease,opacity .2s ease}
+  .daytitle{display:flex;align-items:center;gap:9px;margin:4px 0 2px;flex-wrap:wrap}
+  .flag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;color:#fff;letter-spacing:.3px}
+  .flag.BE{background:var(--be)}.flag.FR{background:var(--fr)}.flag.ES{background:var(--es)}
+  .flag.BX{background:#0e8a8a}.flag.PC{background:#6a4a9c}
+  .daytitle h2{font-size:18px;margin:0}
+  .sub{color:var(--muted);font-size:13px;margin:2px 0 12px}
+  .banner{display:flex;gap:9px;border-radius:12px;padding:11px 13px;margin:10px 0;font-size:13.5px;line-height:1.45;align-items:flex-start}
+  .rest{background:#eaf3ff;border:1px solid #cfe0f5;color:#1c3f66}
+  .rest.demi{background:#fff6e6;border:1px solid #f0dcae;color:#7a5410}
+  .note{background:#f6f4ee;border:1px solid var(--line);color:#4a4f45}
+  .faune{background:#fbf1e4;border:1px solid #ecd8b8;color:#7a5410}
+  .busb{background:#e9eef5;border:1px solid #cbd9ec;color:#2d4d70}
+  .join{background:#e2f2f2;border:1px solid #b6dede;color:#0e6a6a}
+  .join .ic{color:#0e8a8a}
+  .infos{display:flex;flex-direction:column;gap:9px;margin:12px 0}
+  .inforow{display:flex;gap:10px;font-size:13.5px;line-height:1.4}
+  .inforow .ic{color:#8a6020;margin-top:1px}
+  .inforow .lbl{font-weight:600;display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  h3.sec{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:18px 0 4px;display:flex;align-items:center;gap:7px}
+  .alt{border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:9px 0}
+  .alt.want{border-color:#e6c3bf;background:#fdf5f4}
+  .alt .n{display:flex;gap:8px;align-items:flex-start;font-weight:600;font-size:14px}
+  .alt .n .ic{margin-top:1px;color:#5a6b52}
+  .alt.want .n .ic{color:var(--want)}
+  .badge{display:inline-block;font-size:11px;font-weight:600;color:var(--muted);background:#f0eee6;border-radius:20px;padding:2px 9px;margin:7px 0 0}
+  .alt .m{font-size:12.5px;color:var(--muted);margin:6px 0 0;line-height:1.4}
+  .choice{display:flex;gap:8px;margin-top:10px}
+  .choice button{flex:1;border:1px solid var(--line);background:#fbfaf6;border-radius:9px;padding:9px;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+  .choice button.go.sel{background:var(--go);color:#fff;border-color:var(--go)}
+  .choice button.skip.sel{background:var(--skip);color:#fff;border-color:var(--skip)}
+  .onpath{font-size:12.5px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px}
+  .empty{color:var(--muted);font-size:14px;padding:12px 0;display:flex;gap:8px;align-items:center}
+  .daynav{display:flex;justify-content:space-between;gap:8px;margin:8px 0 12px}
+  .daynav button{flex:1;border:1px solid var(--line);background:#f6f4ee;border-radius:9px;padding:9px;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+  .daynav button.next{background:#f3ead9;color:#8a6020}
+  .flip{transform:scaleX(-1)}
+  .hidden{display:none!important}
+  .overlay{position:fixed;inset:0;z-index:1500;background:var(--bg);display:flex;flex-direction:column}
+  .ovhead{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(#2a1d0e,#1a1208);color:#fff}
+  .ovhead b{font-size:16px}
+  .ovhead button{background:rgba(255,255,255,.16);border:none;color:#fff;border-radius:9px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  #menuclose{margin-left:auto}
+  #menubtn{background:rgba(255,255,255,.16);border:none;color:#fff;border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+  #menulist{padding:12px 14px;overflow-y:auto}
+  .menuintro{color:var(--muted);font-size:13px;margin:2px 2px 14px;line-height:1.5}
+  .menuitem{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+  .menuitem .ic{color:#8a6020}
+  #guidebody{padding:16px 18px 44px;overflow-y:auto;-webkit-overflow-scrolling:touch;line-height:1.55}
+  .md h1{font-size:20px;margin:14px 0 8px}
+  .md h2{font-size:17px;margin:18px 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
+  .md h3{font-size:13px;margin:14px 0 4px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+  .md p{margin:8px 0}.md ul,.md ol{margin:8px 0;padding-left:22px}.md li{margin:3px 0}
+  .md blockquote{border-left:3px solid #cbd9ec;background:#f3ead9;margin:10px 0;padding:8px 12px;border-radius:0 8px 8px 0}
+  .md code{background:#f0eee6;border-radius:5px;padding:1px 5px;font-size:12.5px}
+  .md pre{background:#f0eee6;padding:10px;border-radius:8px;overflow-x:auto;font-size:12px}
+  .md hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+  .md table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px;display:block;overflow-x:auto}
+  .md th,.md td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  .md th{background:#f3ead9}
+  .gpxline{font-size:12px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:10px;line-height:1.5}
+  .gpxline code{background:#f0eee6;border-radius:5px;padding:1px 5px;font-size:11px}
+  .leaflet-control-attribution{font-size:10px}
+  @media(min-width:780px){#sheet{left:auto;right:16px;bottom:16px;top:62px;width:410px;border-radius:16px;max-height:none}#sheet.collapsed{transform:none}.mapbtn{right:442px}}
+  /* ===== Habillage Ultreïataku ===== */
+  #top{border-bottom:1px solid rgba(200,150,60,.35)}
+  #top .pos{color:#e9d9bd;opacity:.9}
+  .mapbtn{border-radius:50%;background:#fffdf8;color:#8a6020;border:1px solid #e4d5b6;box-shadow:0 2px 10px rgba(26,18,8,.22)}
+  .mapbtn.on{background:#c8963c;color:#1a1208;border-color:#c8963c}
+  #sheet{border-top:2px solid #c8963c;box-shadow:0 -6px 26px rgba(26,18,8,.30)}
+  #grip .bar{background:#d8c6a0}
+  select{border-color:#e0d2b4;background:#fbf4e6}
+  #gpsbtn{background:#f3ead9;color:#8a6020}
+  .flag{font-family:Georgia,serif;letter-spacing:.5px}
+  .sub b{color:#8a6020}
+  h3.sec{color:#8a6020}
+  .alt{border-color:#e4d5b6;background:#fffdf8}
+  .alt.want{border-color:#d8b26a;background:#fbf1dd}
+  .alt .n .ic{color:#8a6020}.alt.want .n .ic{color:#b8352f}
+  .badge{background:#f0e6d0;color:#8a6020}
+  .choice button{background:#fbf4e6;border-color:#e0d2b4;color:#4a3010}
+  .choice button.go.sel{background:#8a6020;color:#f5ead8;border-color:#8a6020}
+  .choice button.skip.sel{background:#a99a80;color:#fff;border-color:#a99a80}
+  .rest{background:#f6ecd6;border-color:#e6cf9f;color:#6b4e1e}
+  .rest.demi{background:#fbf1dd;border-color:#e6cf9f;color:#7a5410}
+  .note{background:#f4ece0;border-color:#e0d2b4;color:#4a3010}
+  .busb{background:#ece3d2;border-color:#d8c6a0;color:#4a3010}
+  .gpxline{border-top-color:#e4d5b6}.gpxline code,.md code{background:#f0e6d0}
+  .inforow .lbl{color:#9a8060}
+  .menuitem{background:#fffdf8;border-color:#e4d5b6;border-left:3px solid #c8963c;font-family:Georgia,serif}
+  .menuitem .ic{color:#8a6020}
+  .md h2{border-bottom-color:#e4d5b6;color:#4a3010}.md h3{color:#8a6020}
+  .md blockquote{border-left-color:#c8963c;background:#faf3e4;color:#4a3010}
+  .md table th{background:#f3ead9}
+  /* ===== Écran d'accueil ===== */
+  #splash{position:fixed;inset:0;z-index:3000;background:#1a1208;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;transition:opacity .55s ease}
+  #splash.gone{opacity:0;pointer-events:none}
+  #splash .eyebrow{color:#c8963c;font-size:12px;letter-spacing:5px;font-family:Inter,system-ui,sans-serif;text-transform:uppercase;margin-bottom:6px}
+  #splash .name{font-family:Georgia,serif;font-size:46px;letter-spacing:3px;color:#f5ead8;margin:16px 0 6px}
+  #splash .name span{color:#c8963c}
+  #splash .cri{font-family:Georgia,serif;font-style:italic;color:rgba(245,234,216,.55);font-size:18px;margin-bottom:4px}
+  #splash .devise{font-family:Georgia,serif;font-style:italic;color:#c8963c;font-size:15px;margin-bottom:30px}
+  #splash button{background:#c8963c;color:#1a1208;border:none;border-radius:30px;padding:14px 26px;font-size:15px;font-weight:600;font-family:Georgia,serif;letter-spacing:.5px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  #splash .foot{position:absolute;bottom:26px;left:0;right:0;color:#9a8060;font-size:11px;letter-spacing:2px;font-family:Inter,system-ui,sans-serif}
+  /* ===== Menu en cartes groupées ===== */
+  .mgroup{font-size:11px;letter-spacing:1.5px;color:#9a8060;text-transform:uppercase;margin:16px 4px 8px;font-family:system-ui,sans-serif}
+  .menuitem{align-items:center;padding:15px 14px;margin-bottom:9px}
+  .menuitem .mtxt{flex:1;display:flex;flex-direction:column;min-width:0}
+  .menuitem .mt{font-family:Georgia,serif;font-size:15.5px;color:#1a1208}
+  .menuitem .md2{font-size:12px;color:#9a8060;margin-top:1px;font-family:system-ui,sans-serif}
+  .menuitem .chev{color:#c8b58a;flex:0 0 auto}
+  /* ===== Fiches en pages éditoriales ===== */
+  #guidebody{font-size:15px;line-height:1.5;padding:16px 18px 48px}
+  .md h1{font-size:22px;line-height:1.25;margin:2px 0 14px}
+  .md h2{border-bottom:none;font-size:17px;color:#4a3010;padding:0;margin:24px 0 9px}
+  .md h2::after{content:"";display:block;width:44px;height:3px;background:#c8963c;border-radius:2px;margin-top:7px}
+  .md h3{font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#8a6020;margin:16px 0 4px}
+  .md p{margin:0 0 9px}
+  .md ul,.md ol{margin:4px 0 12px;padding-left:22px}
+  .md li{margin:3px 0;line-height:1.45}
+  .md ul li::marker{color:#c8963c}
+  .md blockquote{font-size:14.5px;line-height:1.5;border-left:3px solid #c8963c;background:#f7efe0;color:#5a4520;border-radius:0 10px 10px 0;padding:11px 14px;margin:12px 0}
+  .md hr{border:none;border-top:1px solid #e4d5b6;margin:16px 0}
+  .md table{border:none;border-collapse:collapse;font-size:12.5px;display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;border-radius:12px;box-shadow:0 0 0 1px #e4d5b6}
+  .md th{border:none;border-bottom:1px solid #e4d5b6;background:#f3ead9;color:#8a6020;font-weight:600;padding:9px 11px;white-space:nowrap}
+  .md td{border:none;border-bottom:1px solid #ede0c8;padding:9px 11px;white-space:nowrap}
+  .md tbody tr:nth-child(even){background:#fdf8ee}
+  .md th:first-child,.md td:first-child{white-space:normal;min-width:104px}
+  /* ===== Cases à cocher (checklists + colonnes solo/duo) ===== */
+  .cbx{display:inline-block;width:17px;height:17px;border:2px solid #c8963c;border-radius:5px;vertical-align:-3px;margin-right:8px;position:relative;box-sizing:border-box}
+  .cbx.on{background:#8a6020;border-color:#8a6020}
+  .cbx.on::after{content:"";position:absolute;left:4px;top:0;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(43deg)}
+  .md li.chk{list-style:none;margin-left:-18px}
+  .md li.chk::marker{content:""}
+  .md td .cbx{margin-right:0}
+  .md td.ck{text-align:center}
+  /* ===== Ergonomie smartphone (marche, une main, plein soleil) ===== */
+  .mapbtn{width:50px;height:50px}
+  #zin{bottom:302px}#zout{bottom:246px}#loc{bottom:190px}#lyr{bottom:134px}
+  #body{font-size:14.5px}
+  .alt .n{font-size:15px}.alt .m{font-size:13px}
+  .inforow{font-size:14.5px}
+  .banner{font-size:14px}
+  .choice button{padding:13px 10px;font-size:14px}
+  .daynav button{padding:12px 8px;font-size:13px}
+  #gpsbtn{padding:0 15px;font-size:14px}
+  select{padding:13px;font-size:15px}
+  .ovhead button,#menubtn{width:42px;height:42px}
+  @media(min-width:780px){.mapbtn{right:442px}#sheet.collapsed #body{max-height:none;padding:0 16px 26px;opacity:1}}
+  /* ===== Mode nuit (lecture au gîte, sans éblouir) ===== */
+  #nightbtn{background:rgba(255,255,255,.16);border:none;color:#f5ead8;border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;margin-left:8px}
+  html.night{--bg:#120d07;--panel:#211812;--ink:#efe3ce;--muted:#b39c74;--line:#3a2c1c}
+  html.night #map{filter:brightness(.68) contrast(1.04) saturate(.85)}
+  html.night .mapbtn{background:#211812;color:#e0b866;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+  html.night .mapbtn.on{background:#c8963c;color:#1a1208}
+  html.night select{background:#1a130c;color:var(--ink);border-color:var(--line)}
+  html.night #gpsbtn{background:#2c2114;color:#e0b866}
+  html.night .menuitem .mt{color:var(--ink)}
+  html.night .rest{background:#16233a;border-color:#2a3f5f;color:#bcd3f0}
+  html.night .rest.demi{background:#2e2410;border-color:#4a3a18;color:#e3c98a}
+  html.night .note{background:#1c1810;border-color:var(--line);color:#cfc4ab}
+  html.night .faune{background:#2a1e10;border-color:#4a3418;color:#e3c98a}
+  html.night .busb{background:#182230;border-color:#2c4058;color:#a9c2df}
+  html.night .join{background:#0e2626;border-color:#1e4a4a;color:#8fd6d6}
+  html.night .alt{border-color:var(--line)}
+  html.night .alt.want{background:#2a1614;border-color:#6e2e2a}
+  html.night .badge{background:#2c2418;color:var(--muted)}
+  html.night .choice button{background:#1a130c;color:var(--ink);border-color:var(--line)}
+  html.night .daynav button{background:#1a130c;color:var(--ink);border-color:var(--line)}
+  html.night .daynav button.next{background:#2c2114;color:#e0b866}
+  html.night .md blockquote{background:#241a0d;color:#e3d3b0;border-left-color:#c8963c}
+  html.night .md th{background:#2a2013;color:#e0b866;border-bottom-color:var(--line)}
+  html.night .md td{border-bottom-color:#33281a}
+  html.night .md tbody tr:nth-child(even){background:#1b140d}
+  html.night .md table{box-shadow:0 0 0 1px var(--line)}
+  html.night .md code,html.night .md pre{background:#2a2013;color:#e3d3b0}
+  html.night .md hr{border-top-color:var(--line)}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="top">
+  <button id="menubtn" aria-label="Menu préparation"></button>
+  <b><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#c8963c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px"><path d="M12 21C6.5 16 4.5 10.5 6 7M12 21c5.5-5 7.5-10.5 6-14M6 7a2.6 2.6 0 0 1 3.5-1.6A2.6 2.6 0 0 1 12 6.2a2.6 2.6 0 0 1 2.5-.8A2.6 2.6 0 0 1 18 7"/><path d="M12 21 8.3 8.5M12 21l3.7-12.5M12 21 6.2 10M12 21 17.8 10"/></svg> Ultreïataku</b>
+  <div class="pos" id="posreadout">GPS inactif</div>
+  <button id="nightbtn" aria-label="Mode nuit"></button>
+</div>
+<button class="mapbtn" id="zin" aria-label="Zoom +"></button>
+<button class="mapbtn" id="zout" aria-label="Zoom −"></button>
+<button class="mapbtn" id="loc" aria-label="Suivre ma position"></button>
+<button class="mapbtn" id="lyr" aria-label="Changer de fond de carte"></button>
+<div id="sheet" class="collapsed">
+  <div id="grip"><span class="bar"></span></div>
+  <div id="head"><div id="selrow">
+    <select id="daysel"><option value="">— Choisir l'étape du jour —</option></select>
+    <button id="gpsbtn"></button>
+  </div></div>
+  <div id="body"></div>
+</div>
+
+<div id="menu" class="overlay hidden">
+  <div class="ovhead"><b>Préparer mon Chemin</b><button id="menuclose" aria-label="Fermer"></button></div>
+  <div id="menulist"></div>
+</div>
+<div id="guide" class="overlay hidden">
+  <div class="ovhead"><button id="guideback" aria-label="Retour"></button><b id="guidetitle"></b></div>
+  <div id="guidebody" class="md"></div>
+</div>
+
+<div id="splash">
+  <div class="eyebrow">Mobilité · Pèlerinage · Saint-Jacques</div>
+  <svg width="94" height="94" viewBox="0 0 24 24" fill="none" stroke="#c8963c" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C6.5 16 4.5 10.5 6 7M12 21c5.5-5 7.5-10.5 6-14M6 7a2.6 2.6 0 0 1 3.5-1.6A2.6 2.6 0 0 1 12 6.2a2.6 2.6 0 0 1 2.5-.8A2.6 2.6 0 0 1 18 7"/><path d="M12 21 8.3 8.5M12 21l3.7-12.5M12 21 6.2 10M12 21 17.8 10"/></svg>
+  <div class="name">Ultreïa<span>taku</span></div>
+  <div class="cri">« Ultreïa !  Et suseïa ! »</div>
+  <div class="devise">Se préparer à aller plus loin</div>
+  <button id="splashenter">Entrer sur le Chemin</button>
+  <div class="foot">LIÈGE → SANTIAGO · ~2 260 KM · HORS-LIGNE</div>
+</div>
+
+<script src="vendor/leaflet.js"></script>
+<script src="traces.js"></script>
+<script src="variants.js"></script>
+<script src="days.js"></script>
+<script src="guides.js"></script>
+<script>
+/* ===== ICÔNES (style Lucide, SVG inline) ===== */
+const P={
+ pin:'<path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+ nav:'<path d="M3 11 22 2l-9 19-2-8-8-2z"/>',
+ mtn:'<path d="m8 3 4 8 5-5 5 15H2z"/>',
+ bed:'<path d="M3 20V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v11"/><path d="M3 14h18"/><path d="M7 14v-3h4v3"/>',
+ food:'<path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3v7"/>',
+ heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+ moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
+ check:'<path d="M20 6 9 17l-5-5"/>',
+ arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+ plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
+ minus:'<path d="M5 12h14"/>',
+ locate:'<line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="7"/>',
+ layers:'<path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+ info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+ clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+ route:'<circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/>',
+ bus:'<path d="M4 6h16v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 11h16"/><path d="M8 17v2"/><path d="M16 17v2"/><circle cx="8" cy="14" r="1"/><circle cx="16" cy="14" r="1"/>',
+ menu:'<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>',
+ x:'<path d="M18 6 6 18"/><path d="M6 6l12 12"/>',
+ bag:'<path d="M6 8a6 6 0 0 1 12 0v10a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z"/><path d="M9 8a3 3 0 0 1 6 0"/><path d="M6 15h12"/>',
+ list:'<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/>',
+ activity:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+ cross:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/>',
+ id:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M13 10h5M13 14h5M6.5 15.2c.6-1.4 4.4-1.4 5 0"/>',
+ coin:'<circle cx="12" cy="12" r="9"/><path d="M14.5 9.3a3 3 0 1 0 0 5.4M12 6.5v11"/>',
+ cloud:'<path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.7 1.5A3.5 3.5 0 0 0 6.5 19z"/>',
+ paw:'<circle cx="7" cy="10" r="1.5"/><circle cx="12" cy="8.5" r="1.5"/><circle cx="17" cy="10" r="1.5"/><path d="M12 12c-2.2 0-4 1.8-4 3.5A2.5 2.5 0 0 0 10.5 18h3A2.5 2.5 0 0 0 16 15.5c0-1.7-1.8-3.5-4-3.5z"/>',
+ chev:'<path d="M9 6l6 6-6 6"/>'
+};
+function ic(n,s=18,cls=""){return `<svg class="ic ${cls}" viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[n]}</svg>`;}
+document.getElementById("zin").innerHTML=ic("plus",22);
+document.getElementById("zout").innerHTML=ic("minus",22);
+document.getElementById("loc").innerHTML=ic("locate",20);
+document.getElementById("lyr").innerHTML=ic("layers",20);
+document.getElementById("gpsbtn").innerHTML=ic("locate",16)+"Détecter";
+
+/* ===== DONNÉES ===== */
+const START=[50.6326,5.5797,"Liège (Cathédrale Saint-Paul)"];
+const S=[
+{c:"BE",d:1,to:[50.5510,5.3600,"Ombret (Amay)"],km:21,note:"Le chemin quitte la Meuse par le plateau puis redescend de Villers-le-Temple vers Ombret, au bord de l'eau — c'est là qu'on dort.",lg:"Camping Les Îles d'Ombret (bord de Meuse). Amay et sa collégiale à ~2 km.",fd:"Delhaize Amay (2 km) + boulangerie · salade liégeoise, sirop de Liège",alt:[]},
+{c:"BE",d:2,to:[50.5183,5.2402,"Huy"],km:11,lg:"Gîte des Compagnons (donativo) ou camping Sandaya",fd:"Le Crompire (friterie bio) · tarte al djote",alt:[
+  {n:"Le Crompire — friterie bio",t:"path",w:1,m:"vérifier s'il est toujours à Huy"},{n:"Li Rondia (rosace de la collégiale)",t:"path"},{n:"Citadelle de Huy",t:"walk",m:"téléphérique ou montée à pied"}]},
+{c:"BE",d:3,to:[50.4880,5.0930,"Andenne"],km:18,lg:"Gîte communal / chambres d'hôtes à Sclayn",fd:"Delhaize Andenne · pistolet andennais",alt:[
+  {n:"Grotte Scladina (Sclayn)",t:"hike",w:1,m:"Néandertalien 100 000 ans · 1er dim/mois 14h — réserver 081 58 29 58"},{n:"Collégiale Sainte-Begge",t:"path"}]},
+{c:"BE",d:4,to:[50.4674,4.8720,"Namur"],km:22,rest:1,links:[{t:"Approche Liège (Pascal)",go:"BEJ4"},{t:"Approche Bruxelles (Christophe)",go:"BXJ3"}],join:"jonction duo — ton compagnon arrive de Bruxelles à pied (~66 km, ~3 jours). Retrouvailles à Namur ; vous repartez ensemble dès le Jour 5. Son tracé (pointillé teal) et le point de jonction sont sur la carte.",lg:"AJ Félicien Rops (~27 €) ou accueil paroissial cathédrale",fd:"Marché du samedi · escavèche de Meuse, biétrumé",alt:[
+  {n:"Citadelle de Namur",t:"walk",m:"une des plus grandes d'Europe"},{n:"Confluent Sambre-Meuse (Le Grognon)",t:"path"}]},
+{c:"BE",d:5,to:[50.3266,4.8779,"Yvoir"],km:18,links:[{t:"Approche Liège (Pascal)",go:"BEJ4"},{t:"Approche Bruxelles (Christophe)",go:"BXJ3"}],lg:"Camping Les Trieux ou chambres d'hôtes",fd:"Proxy Delhaize · truite, fraises de Wépion (saison)",alt:[
+  {n:"Forteresse de Poilvache",t:"hike",w:1,m:"ruines XIIIe sur éperon · +250 m D+"},{n:"Rochers de Freÿr",t:"path"}]},
+{c:"BE",d:6,to:[50.2597,4.9128,"Dinant"],km:14,lg:"Gîte paroissial Notre-Dame (donativo) ou camping Bocq-Meuse",fd:"Flamiche dinantaise, couque de Dinant, Leffe",alt:[
+  {n:"Rochers Bayard",t:"path",w:1},{n:"Château de Freÿr + jardins",t:"walk",w:1,m:"traverser rive gauche"},{n:"Citadelle de Dinant",t:"walk",w:1,m:"408 marches ou téléphérique"},{n:"Grotte la Merveilleuse",t:"walk"},{n:"Maison Adolphe Sax",t:"path"}]},
+{c:"BE",d:7,to:[50.2183,4.8288,"Hastière"],km:14,lg:"Gîte de l'Abbaye (donativo, ambiance monastique)",fd:"Fromage d'abbaye · ravitailler à Dinant la veille",alt:[
+  {n:"Passage d'eau de Waulsort",t:"path",w:1,m:"dernier passeur manuel de Wallonie"},{n:"Château-Thierry (vue extérieure)",t:"far",w:1,m:"site fermé — vue depuis le Point du Drapeau, ~4 km A/R"},{n:"Abbaye d'Hastière",t:"path"}]},
+{c:"BE",d:8,to:[50.1360,4.8283,"Givet (FR)"],km:11,lg:"Camping du Bout du Monde (rive Meuse) ou chambres d'hôtes",fd:"SuperU · boudin blanc de Rethel, cacasse à cul nu",alt:[
+  {n:"Fort de Charlemont (Vauban)",t:"path",w:1},{n:"Tour Grégoire (donjon XIe)",t:"path",w:1},{n:"Église Saint-Hilaire",t:"path"}]},
+{c:"BE",d:9,to:[50.1214,4.7169,"Doische (BE)"],km:18,note:"Retour Belgique — début Voie Monastique",lg:"Chambres d'hôtes (repas sur commande la veille)",fd:"Peu de commerces — ravitailler à Givet 48 h",alt:[{n:"Village de Hierges",t:"path"}]},
+{c:"BE",d:10,to:[50.0787,4.6188,"Olloy-sur-Viroin"],km:19,lg:"Gîte du Viroin ou AJ Vierves-sur-Viroin",fd:"Delhaize Nismes · fromage de l'Hermeton",alt:[
+  {n:"Roche à Lomme (Dourbes)",t:"hike",w:1,m:"panorama + site archéo, patrimoine exceptionnel"},{n:"Château de Vierves",t:"hike"}]},
+{c:"BE",d:11,to:[50.0533,4.4933,"Couvin"],km:17,lg:"Gîte de la Fagne ou camping Le Roptai (Nismes)",fd:"Delhaize · jambon d'Ardennes, bière Chimay",alt:[
+  {n:"Grotte de Neptune (Petigny)",t:"hike",w:1,m:"rivière souterraine en barque"},{n:"Brasserie des Fagnes (Nismes)",t:"path"}]},
+{c:"BE",d:12,to:[49.9236,4.5211,"Rocroi (FR)"],km:20,rest:1,note:"Fin tronçon Belgique",lg:"Gîte donativo (association jacquaire)",fd:"Carrefour Contact · cacasse, salade au lard",alt:[
+  {n:"Brûly-de-Pesche (bunker 1940)",t:"path"},{n:"Rocroi — ville étoilée Vauban",t:"path"}]},
+
+{c:"FR",d:2,to:[49.7008,4.4181,"Signy-l'Abbaye"],km:15,lg:"Gîte d'étape de Signy-l'Abbaye",fd:"Boulangerie + épicerie · potée champenoise",alt:[{n:"Abbaye de Signy",t:"path"}]},
+{c:"FR",d:4,to:[49.5286,4.2431,"Château-Porcien"],km:17,lg:"Chambre d'hôtes / gîte communal",fd:"Petite épicerie — anticiper"},
+{c:"FR",d:6,to:[49.2583,4.0317,"Reims"],km:22,rest:1,lg:"CIS de Champagne (~30 €) ou accueil diocésain",fd:"Halles du Boulingrin · jambon de Reims, biscuit rose",alt:[
+  {n:"Cathédrale Notre-Dame (UNESCO)",t:"path",w:1},{n:"Caves de champagne",t:"walk",m:"jour de repos"},{n:"Basilique Saint-Remi (UNESCO)",t:"path"}]},
+{c:"FR",d:7,to:[49.1439,4.1594,"Verzy"],km:20,lg:"Chambres d'hôtes vigneronnes (réserver)",fd:"Champagne de vigneron grand cru",alt:[
+  {n:"Faux de Verzy (boucle 4 km)",t:"walk",w:1,m:"hêtres tortillards — au lever du jour J8"},{n:"Phare de Verzenay",t:"path"}]},
+{c:"FR",d:8,to:[48.9575,4.3650,"Châlons-en-Champagne"],km:27,lg:"Hôtels + accueil paroissial cathédrale",fd:"Marché mer/sam · pied de cochon à la Sainte-Menehould",alt:[{n:"Notre-Dame-en-Vaux (UNESCO)",t:"path"}]},
+{c:"FR",d:10,to:[48.7256,4.5844,"Vitry-le-François"],km:34,lg:"Camping municipal / hôtels centre",fd:"Super U"},
+{c:"FR",d:11,to:[48.5561,4.7469,"Giffaumont — Lac du Der"],km:22,lg:"Campings du Lac du Der (réserver l'été)",fd:"Supérette saisonnière + restos du lac",alt:[{n:"Lac du Der (grues en migration)",t:"path"}]},
+{c:"FR",d:12,to:[48.4772,4.7708,"Montier-en-Der"],km:15,lg:"Gîte communal",fd:"Intermarché",alt:[{n:"Abbatiale + haras national",t:"path"}]},
+{c:"FR",d:15,to:[48.1128,4.3708,"Bar-sur-Seine"],km:23,lg:"Gîte / hôtel",fd:"Intermarché · champagne Côte des Bar, chaource",alt:[{n:"Côte des Bar (champagne de vignerons)",t:"path"}]},
+{c:"FR",d:16,to:[47.9928,4.3672,"Les Riceys"],km:18,lg:"Gîte / chambre d'hôtes",fd:"Rosé des Riceys (3 AOC)"},
+{c:"FR",d:18,to:[47.8567,3.9739,"Tonnerre"],km:24,lg:"Gîte / hôtel",fd:"Super U · œufs en meurette",alt:[{n:"Fosse Dionne",t:"path"}]},
+{c:"FR",d:19,to:[47.8136,3.7989,"Chablis"],km:18,lg:"Gîte de Chablis",fd:"Gougères + chablis (avec modération)",alt:[{n:"Dégustation Chablis",t:"path"}]},
+{c:"FR",d:20,to:[47.7982,3.5730,"Auxerre"],km:20,rest:1,note:"repos flottant possible",lg:"AJ (~25 €) + accueil paroissial",fd:"Marchés mar/ven/dim · jambon à la chablisienne",alt:[
+  {n:"Abbaye Saint-Germain (cryptes carolingiennes)",t:"path"},{n:"Cathédrale Saint-Étienne",t:"path"}]},
+{c:"FR",d:22,to:[47.6636,3.7431,"Arcy-sur-Cure"],km:16,lg:"Gîte d'étape",fd:"Épicerie — ravitailler à Auxerre",alt:[{n:"Grottes d'Arcy (peintures 28 000 ans)",t:"walk"}]},
+{c:"FR",d:23,to:[47.4664,3.7489,"Vézelay"],km:18,rest:1,lg:"Hôtellerie de Vézelay (accueil pèlerin) / centre Ste-Madeleine",fd:"Escargots, époisses, bœuf bourguignon",alt:[
+  {n:"Basilique Sainte-Marie-Madeleine (UNESCO)",t:"path",w:1},{n:"Credencial n°2 à retirer ici",t:"path",w:1}]},
+{c:"FR",d:24,to:[47.4600,3.5194,"Clamecy"],km:23,lg:"Refuge / gîte",fd:"Intermarché · andouillette"},
+{c:"FR",d:27,to:[47.1786,3.0164,"La Charité-sur-Loire"],km:17,lg:"Accueil pèlerin du prieuré (donativo)",fd:"Casino · crottin de Chavignol",alt:[{n:"Prieuré clunisien (UNESCO)",t:"path"}]},
+{c:"FR",d:30,to:[47.0844,2.3964,"Bourges"],km:17,rest:1,lg:"AJ Cujas (~25 €) + accueil diocésain",fd:"Halles au Blé · forestines, pâté berrichon",alt:[
+  {n:"Cathédrale Saint-Étienne (UNESCO)",t:"path",w:1},{n:"Palais Jacques-Cœur",t:"path"}]},
+{c:"FR",d:32,to:[46.9481,1.9931,"Issoudun"],km:15,lg:"Refuge / gîte",fd:"Intermarché"},
+{c:"FR",d:34,to:[46.8103,1.6911,"Châteauroux"],km:14,lg:"Gîte / hôtel",fd:"Marché · pâté aux pommes de terre"},
+{c:"FR",d:36,to:[46.5883,1.5203,"Argenton-sur-Creuse"],km:16,lg:"Gîte d'étape",fd:"Super U",alt:[
+  {n:"Gargilesse (Plus Beau Village)",t:"path"},{n:"Ruines de Crozant",t:"path"}]},
+{c:"FR",d:38,to:[46.2372,1.4869,"La Souterraine"],km:20,note:"bifurcation variante ouest → Oradour",lg:"Gîte pèlerin",fd:"Intermarché"},
+{c:"FR",d:39,to:[46.2147,1.0817,"Le Dorat"],km:25,lg:"Gîte",fd:"Épicerie · bœuf limousin",alt:[{n:"Collégiale romane limousine",t:"path"}]},
+{c:"FR",d:40,to:[46.1225,1.0489,"Bellac"],km:13,lg:"Gîte",fd:"Carrefour Contact"},
+{c:"FR",d:41,to:[45.9339,1.0328,"Oradour-sur-Glane"],km:25,lg:"Chambres d'hôtes Oradour / Saint-Junien",fd:"Supérette (bourg reconstruit) · pique-nique — recueillement",alt:[
+  {n:"Village martyr + Centre de la Mémoire",t:"path",w:1,m:"gratuit, 2-3 h, silence"},{n:"Mortemart (Plus Beau Village)",t:"path"}]},
+{c:"FR",d:42,to:[45.8336,1.2611,"Limoges"],km:24,rest:1,lg:"AJ (~25 €) + hôtels gare",fd:"Halles centrales · boudin aux châtaignes, clafoutis",alt:[
+  {n:"Acheter la 2e paire de chaussures",t:"path",w:1,m:"usure ~1500-2000 km"},{n:"Gare des Bénédictins",t:"path"}]},
+{c:"FR",d:44,to:[45.6531,0.9803,"Châlus"],km:32,lg:"Refuge / gîte",fd:"Supérette",alt:[{n:"Château (mort de Richard Cœur de Lion)",t:"path"}]},
+{c:"FR",d:46,to:[45.4158,0.9203,"Thiviers"],km:33,lg:"Refuge (Sorges ouvert plus tard en saison)",fd:"Marché sam · foie gras du Périgord vert",alt:[{n:"Foie gras (marché / conserverie)",t:"path"}]},
+{c:"FR",d:48,to:[45.1842,0.7211,"Périgueux"],km:36,rest:1,lg:"Accueil pèlerin + AJ",fd:"Marché du Coderc · magret, pommes sarladaises, cabécou",alt:[
+  {n:"Cathédrale Saint-Front (UNESCO)",t:"path",w:1},{n:"Eschif de Creyssac",t:"path",w:1,m:"loge de guet 1347 sur les quais de l'Isle"},{n:"Vesunna (musée gallo-romain)",t:"walk"}]},
+{c:"FR",d:52,to:[44.9436,0.2158,"Sainte-Foy-la-Grande"],km:18,lg:"Refuge associatif",fd:"Marché du samedi (un des plus beaux de France)"},
+{c:"FR",d:54,to:[44.5817,-0.0364,"La Réole"],km:17,lg:"Gîte",fd:"Marché · lamproie à la bordelaise"},
+{c:"FR",d:55,to:[44.4319,-0.2136,"Bazas"],km:20,lg:"Gîte communal",fd:"Super U · bœuf de Bazas grillé aux sarments",alt:[{n:"Cathédrale Saint-Jean-Baptiste (UNESCO)",t:"path"}]},
+{c:"FR",d:56,to:[44.2942,-0.2731,"Captieux"],km:22,note:"entrée forêt des Landes — eau rare, 2,5-3 L/matin",lg:"Gîte communal (⚠ pas de bivouac dans les Landes)",fd:"Épicerie — ravitailler à Bazas 48 h"},
+{c:"FR",d:58,to:[43.8903,-0.4989,"Mont-de-Marsan"],km:50,rest:1,note:"cumul de 2 étapes landaises",lg:"Hôtels + camping",fd:"Marché mar/sam · garbure landaise, pastis landais"},
+{c:"FR",d:59,to:[43.7581,-0.5736,"Saint-Sever"],km:17,lg:"Gîte",fd:"Carrefour Contact · poulet fermier des Landes",alt:[{n:"Abbatiale (UNESCO)",t:"path"}]},
+{c:"FR",d:61,to:[43.4886,-0.7708,"Orthez"],km:41,lg:"Gîte pèlerin",fd:"Marché · garbure béarnaise, Ossau-Iraty",alt:[{n:"Pont Vieux fortifié",t:"path"}]},
+{c:"FR",d:62,to:[43.4006,-0.9419,"Sauveterre-de-Béarn"],km:21,lg:"Gîte de Sauveterre",fd:"Épicerie · truite du gave",alt:[{n:"Pont de la Légende (panorama)",t:"path"}]},
+{c:"FR",d:63,to:[43.3264,-1.0328,"Saint-Palais"],km:13,lg:"Gîte pèlerin",fd:"Carrefour Contact · axoa de veau"},
+{c:"FR",d:64,to:[43.2617,-1.0800,"Ostabat-Asme"],km:12,lg:"Gîtes historiques (Ospitalia — ambiance)",fd:"Dîner d'étape, chants basques",alt:[{n:"Stèle de Gibraltar (convergence des 3 voies)",t:"path"}]},
+{c:"FR",d:65,to:[43.1636,-1.2367,"Saint-Jean-Pied-de-Port"],km:20,rest:1,note:"Fin France — bascule vers le Norte (pas Roncevaux)",lg:"Nombreux gîtes rue de la Citadelle (réserver 2-3 j avant)",fd:"Marché lundi · piperade, gâteau basque, Irouléguy",alt:[
+  {n:"Credencial n°3",t:"path",w:1},{n:"Citadelle Vauban + Porte Saint-Jacques",t:"path"}]},
+
+{c:"ES",d:1,to:[43.2660,-1.3450,"Bidarray"],km:21,note:"approche basque française",lg:"Gîte de Bidarray",fd:"Truite du gave, fromage de brebis"},
+{c:"ES",d:2,to:[43.3280,-1.4070,"Itxassou"],km:13,lg:"Gîte d'Itxassou",fd:"Cerises noires (confiture, clafoutis)",alt:[{n:"Pas de Roland",t:"path"}]},
+{c:"ES",d:3,to:[43.3440,-1.6210,"Ascain"],km:21,lg:"Gîte d'Ascain",fd:"Axoa à Espelette (midi), gâteau basque",alt:[{n:"Espelette (village du piment)",t:"path"}]},
+{c:"ES",d:4,to:[43.3380,-1.7890,"Irun (Espagne)"],km:19,lg:"Albergue d'Irun (1er albergue espagnol)",fd:"Premiers pintxos · Eroski",alt:[
+  {n:"Île des Faisans",t:"path",w:1,m:"plus petit condominium du monde — vue depuis les rives"}]},
+{c:"ES",d:5,to:[43.3210,-1.9860,"San Sebastián"],km:25,lg:"Albergue (été tendu — arriver tôt)",fd:"Pintxos Parte Vieja — capitale mondiale",alt:[{n:"Baie de la Concha",t:"path"}]},
+{c:"ES",d:6,to:[43.2840,-2.1700,"Zarautz"],km:22,lg:"Albergue de Zarautz",fd:"Menú del día poisson · txakoli (vignoble Getaria)"},
+{c:"ES",d:7,to:[43.2950,-2.3520,"Deba"],km:22,lg:"Albergue de Deba (gare)",fd:"Poisson grillé",alt:[{n:"Flysch de Zumaia",t:"path"}]},
+{c:"ES",d:8,to:[43.2670,-2.4970,"Markina-Xemein"],km:24,note:"étape dure — D+ 750 m",lg:"Albergue de Markina",fd:"Menú campagnard"},
+{c:"ES",d:9,to:[43.3130,-2.6800,"Gernika"],km:25,lg:"Albergue de Gernika",fd:"Marché lundi · pimientos de Gernika",alt:[{n:"Arbre de Gernika + Musée de la Paix",t:"path"}]},
+{c:"ES",d:11,to:[43.2630,-2.9350,"Bilbao"],km:32,rest:1,lg:"Albergue / pension (jour de repos)",fd:"Pintxos Plaza Nueva · bacalao al pil-pil",alt:[
+  {n:"Musée Guggenheim",t:"walk",w:1},{n:"Casco Viejo",t:"path"}]},
+{c:"ES",d:12,to:[43.3200,-3.0200,"Portugalete"],km:19,lg:"Albergue de Portugalete",fd:"Menú ouvrier",alt:[{n:"Pont transbordeur (UNESCO 1893)",t:"path"}]},
+{c:"ES",d:13,to:[43.3850,-3.2150,"Castro Urdiales"],km:25,note:"Entrée en Cantabrie — terre du grand-père",lg:"Albergue de Castro Urdiales",fd:"Premier menú cantabre · poissons de la baie",alt:[{n:"Santa María (gothique face océan)",t:"path"}]},
+{c:"ES",d:14,to:[43.4150,-3.4100,"Laredo"],km:26,lg:"Albergue de Laredo",fd:"Sardines · plage de la Salvé"},
+{c:"ES",d:15,to:[43.4410,-3.4570,"Santoña"],km:5,rest:"demi",note:"étape courte + bac de Laredo",lg:"Pension / albergue (pour être libre l'après-midi)",fd:"Anchois de Santoña — les meilleurs du monde",alt:[
+  {n:"Faro del Caballo (763 marches)",t:"hike",w:1,m:"après-midi dédié · 7,5 km A/R, pas d'eau sur le sentier"},{n:"Anchois de Santoña (conserveries)",t:"path",w:1}]},
+{c:"ES",d:16,to:[43.4550,-3.6400,"Güemes"],km:21,lg:"Albergue du Padre Ernesto (donativo, dîner commun)",fd:"Dîner communautaire inclus",alt:[{n:"Albergue de Güemes (l'expérience humaine)",t:"path",w:1}]},
+{c:"ES",d:17,to:[43.4620,-3.8050,"Santander"],km:15,rest:1,note:"Traversée de la baie EN BATEAU : lanchas Los Reginas depuis Somo → Santander (~20 min, fréquent, ~3 €). Il n'y a pas de pont piéton — le chemin monte dans le bateau.",lg:"Albergue / pension (repos)",fd:"Rabas · marché de la Esperanza",alt:[{n:"Palacio de la Magdalena + Sardinero",t:"path"}]},
+{c:"ES",d:18,to:[43.3830,-4.0550,"Requejada"],km:22,lg:"Albergue",fd:"Menú del día"},
+{c:"ES",d:19,to:[43.3880,-4.1060,"Santillana del Mar"],km:9,rest:1,note:"Variante familiale J19b conseillée (Cohicillos, ~24 km)",lg:"Pension / posada dans une casona",fd:"Cocido montañés · quesada pasiega",alt:[
+  {n:"COHICILLOS — le village du grand-père",t:"hike",w:1,m:"variante J19b · romería San Cipriano le 16 sept · GPX variante dispo"},{n:"Cartes (village médiéval du Camino Real)",t:"path",w:1},{n:"Grottes d'Altamira",t:"walk",w:1,m:"la Sixtine préhistorique — réserver, quota"},{n:"Collégiale Santa Juliana",t:"path"}]},
+{c:"ES",d:20,to:[43.3860,-4.2910,"Comillas"],km:22,lg:"Albergue de Comillas",fd:"Menú",alt:[{n:"El Capricho de Gaudí",t:"path"}]},
+{c:"ES",d:21,to:[43.3850,-4.3970,"San Vicente de la Barquera"],km:12,lg:"Albergue de San Vicente",fd:"Sorropotún (marmite de thon)",alt:[
+  {n:"Panorama Picos (pont de la Maza)",t:"path"}]},
+{c:"ES",d:22,to:[43.3750,-4.5410,"Colombres"],km:17,note:"Entrée Asturies",lg:"Albergue de Colombres",fd:"Premier menú asturien",alt:[{n:"Traversée des Picos (Liébana → Ribadesella)",t:"far",w:1,goto:"PCJ1",m:"Au départ de San Vicente : bifurquer vers la montagne au lieu de la côte. « J'y vais » ouvre la 1re étape PC (→ Cades). 7 étapes PC, rejoint le Norte à Ribadesella."},{n:"Casas de indianos (musée émigration)",t:"path"}]},
+{c:"ES",d:23,to:[43.4210,-4.7550,"Llanes"],km:23,lg:"Albergue de Llanes",fd:"Premier culín de sidra"},
+{c:"ES",d:24,to:[43.4230,-4.9300,"Nueva"],km:20,lg:"Albergue de Nueva",fd:"Menú rural",alt:[
+  {n:"Playa de Gulpiyuri",t:"walk",w:1,m:"600 m à Naves — plage intérieure ; vérifier la marée · GPX variante dispo"},{n:"Bufones de Pría",t:"path"}]},
+{c:"ES",d:25,to:[43.4620,-5.0560,"Ribadesella"],km:12,lg:"Albergue de Ribadesella",fd:"Fabada asturiana",alt:[
+  {n:"Grotte Tito Bustillo (UNESCO)",t:"walk",m:"réserver"},{n:"MODULE PICOS — volet Covadonga",t:"far",w:1,m:"Mirador de la Reina + Invernales del Texu"}]},
+{c:"ES",d:27,to:[43.4810,-5.4360,"Villaviciosa"],km:37,lg:"Albergue de Villaviciosa",fd:"Capitale de la sidra (llagar)"},
+{c:"ES",d:28,to:[43.5410,-5.6640,"Gijón"],km:30,rest:1,note:"étape longue",lg:"Albergue / pension (repos)",fd:"Sidrerías Cimavilla · cachopo (à partager)",alt:[{n:"Cimavilla + Elogio del Horizonte",t:"path"}]},
+{c:"ES",d:29,to:[43.5560,-5.9250,"Avilés"],km:25,lg:"Albergue d'Avilés",fd:"Menú vieille ville · fruits de mer"},
+{c:"ES",d:31,to:[43.5590,-6.2430,"Soto de Luiña"],km:38,lg:"Albergue de Soto",fd:"Menú",alt:[{n:"Cudillero (village amphithéâtre)",t:"walk"}]},
+{c:"ES",d:33,to:[43.5420,-6.5370,"Luarca"],km:34,rest:1,lg:"Albergue de Luarca (repos)",fd:"Merluza a la sidra · marisco",alt:[
+  {n:"Monastère d'Obona",t:"far",w:1,m:"sur le Primitivo — excursion taxi/bus depuis Luarca"}]},
+{c:"ES",d:34,to:[43.5400,-6.7220,"Navia"],km:20,lg:"Albergue de Navia",fd:"Menú"},
+{c:"ES",d:36,to:[43.5370,-7.0430,"Ribadeo"],km:37,note:"Entrée en Galice",lg:"Albergue de Ribadeo",fd:"Premier pulpo á feira",alt:[
+  {n:"Praia As Catedrais",t:"far",m:"excursion marée basse — autorisation été"},{n:"Premier pulpo á feira",t:"path"}]},
+{c:"ES",d:37,to:[43.4690,-7.2990,"Lourenzá"],km:28,lg:"Albergue de Lourenzá",fd:"Faba de Lourenzá"},
+{c:"ES",d:38,to:[43.4280,-7.3630,"Mondoñedo"],km:9,lg:"Albergue (étape courte)",fd:"Tarta de Mondoñedo · menú",alt:[{n:"Cathédrale agenouillée",t:"path"}]},
+{c:"ES",d:40,to:[43.2980,-7.6810,"Vilalba"],km:40,lg:"Albergue Xunta",fd:"Queso San Simón, capón de Vilalba"},
+{c:"ES",d:42,to:[43.1500,-7.8800,"Miraz"],km:34,lg:"Albergue (Confraternity of St James)",fd:"Dîner d'albergue"},
+{c:"ES",d:43,to:[43.0380,-8.0230,"Sobrado dos Monxes"],km:25,lg:"Albergue du monastère cistercien",fd:"Dîner + vêpres possibles",alt:[{n:"Monastère cistercien (1142)",t:"path",w:1}]},
+{c:"ES",d:44,to:[42.9300,-8.1630,"Arzúa"],km:22,note:"jonction du Camino Francés — le choc de la foule",lg:"Albergue (réserver dès ici)",fd:"Queixo Arzúa-Ulloa"},
+{c:"ES",d:45,to:[42.9050,-8.3600,"O Pedrouzo"],km:19,lg:"Albergue (réserver)",fd:"Menú del peregrino"},
+{c:"ES",d:46,to:[42.8810,-8.5450,"SANTIAGO DE COMPOSTELA"],km:20,rest:1,note:"ARRIVÉE — ~2260 km depuis Liège",lg:"Pension vieille ville (réserver) / Parador (mythique)",fd:"Mariscada, tarta de Santiago, albariño",alt:[
+  {n:"Cathédrale + Botafumeiro",t:"path",w:1},{n:"Compostela (Oficina del Peregrino) + certificat de distance",t:"path",w:1},{n:"Praza do Obradoiro",t:"path"}]},
+/* ===== BRANCHE OPTIONNELLE : TRAVERSÉE DES PICOS DE EUROPA (alternative à J22-J24 ; rejoint le Norte à Ribadesella) ===== */
+{c:"PC",d:1,prev:"ESJ21",from:[43.3850,-4.3970,"San Vicente de la Barquera"],to:[43.2830,-4.3930,"Cades"],km:28,note:"Départ de la traversée depuis San Vicente (ES J21). Camino Lebaniego (UNESCO). RANDONNÉE — pas de matériel spécial.",lg:"Albergue de Cades (Lebaniego)",fd:"Menú · produits de Liébana"},
+{c:"PC",d:2,from:[43.2830,-4.3930,"Cades"],to:[43.1600,-4.5600,"Cabañes"],km:25,note:"Camino Lebaniego — randonnée sur sentier balisé.",lg:"Albergue de Cabañes",fd:"Cocido lebaniego"},
+{c:"PC",d:3,from:[43.1600,-4.5600,"Cabañes"],to:[43.1556,-4.6297,"Potes"],km:19,note:"Arrivée à Potes + Santo Toribio de Liébana (Lignum Crucis) — la Lebaniega est délivrée ici.",lg:"Albergues / pensions de Potes",fd:"Cocido lebaniego, orujo"},
+{c:"PC",d:4,from:[43.1556,-4.6297,"Potes"],to:[43.1442,-4.8119,"Fuente Dé"],km:23,note:"Potes → Fuente Dé (marche ou bus). Téléphérique El Cable + A/R Torre de los Horcados Rojos (2506 m). Sentiers de montagne, pas de matériel technique par beau temps.",lg:"Hôtel-refuge de Fuente Dé / Áliva",fd:"Menú montagnard"},
+{c:"PC",d:5,from:[43.1442,-4.8119,"Fuente Dé"],to:[43.2447,-4.7517,"Sotres"],km:18,note:"Traversée du massif — 3 niveaux : FACILE (bus par la vallée d'Espinama) · INTERMÉDIAIRE sans matériel d'escalade (ton profil : Áliva → Sotres, ou la variante Cabaña Verónica & Bulnes ci-dessous — chaussures montantes, bâtons, pas de vertige, refuges) · HAUTE (grande traversée alpine, experts). ⚠️ Névés possibles mai-juin sur les cols ; renoncer par brouillard.",lg:"Refuge/albergue de Sotres (plus haut village des Asturies)",fd:"Fromage Cabrales, cocido",alt:[{n:"Variante par Cabaña Verónica & Bulnes",t:"hike",w:1,m:"Intermédiaire SANS escalade : Horcados Rojos → refuge Cabaña Verónica → Vega de Urriellu (pied du Naranjo de Bulnes) → Bulnes → Poncebos → Sotres. Exposé mais non technique. GPX dispo."}]},
+{c:"PC",d:6,from:[43.2447,-4.7517,"Sotres"],to:[43.2980,-4.8120,"Arenas de Cabrales"],km:15,note:"Sotres → Poncebos → Arenas de Cabrales. Randonnée (grande descente). Ruta del Cares (Poncebos↔Caín) en option — superbe et non technique.",lg:"Albergue d'Arenas de Cabrales",fd:"Fromage Cabrales à la source, sidra"},
+{c:"PC",d:7,from:[43.2980,-4.8120,"Arenas de Cabrales"],to:[43.3086,-5.0556,"Covadonga"],km:30,bus:"Arenas de Cabrales → Cangas de Onís → Covadonga par la vallée (AS-114), ~30-40 min. Pas de petit chemin court ici (soit la nationale, soit un détour montagne de ~34 km) : on prend le bus. Ce n'est donc PAS 30 km à marcher.",note:"HALTE à Covadonga : sanctuaire, basilique, Santa Cueva. Option montée aux lacs de Covadonga + Mirador de la Reina (bus depuis Cangas). Nuit à Covadonga ou Cangas.",lg:"Hôtel/albergue à Covadonga ou Cangas de Onís",fd:"Fabada, queso Gamonéu",alt:[{n:"Variante montagne à pied (~34 km)",t:"hike",w:1,m:"Si tu es VRAIMENT en forme : rejoindre Covadonga par les petits chemins de montagne au lieu du bus. ~34 km, longue et exigeante, mais sans matériel technique. Sinon, reste sur le bus."}]},
+{c:"PC",d:8,from:[43.3086,-5.0556,"Covadonga"],to:[43.3880,-5.1830,"Arriondas"],km:19,note:"Descente à pied par petits chemins (par Cangas de Onís puis vallée du Sella). Halte à Arriondas, au bord du Sella.",lg:"Albergue d'Arriondas",fd:"Menú · capitale de la descente du Sella en canoë"},
+{c:"PC",d:9,next:"ESJ25",from:[43.3880,-5.1830,"Arriondas"],to:[43.4620,-5.0560,"Ribadesella"],km:23,note:"Vallée du Sella par petits chemins jusqu'à Ribadesella → RETOUR sur le Camino del Norte (ES J25).",lg:"Albergue de Ribadesella",fd:"Arroz con leche, sidra"},
+/* ===== BRANCHE OPTIONNELLE : APPROCHE DU COMPAGNON DEPUIS BRUXELLES (rejoint le tracé principal à Namur, Jour 4) ===== */
+{c:"BX",d:1,prev:"START",from:[50.8466,4.3517,"Bruxelles"],to:[50.7169,4.6118,"Wavre"],km:28,note:"Approche du compagnon depuis Bruxelles (Grand-Place) vers Wavre par la Forêt de Soignes puis la vallée de la Dyle. Étape la plus longue (28 km) — partir tôt.",lg:"Wavre : hôtels du centre (Ibis, Best Western), chambres d'hôtes ; camping à proximité",fd:"Wavre : Delhaize/Carrefour, boulangeries, restos du centre"},
+{c:"BX",d:2,from:[50.7169,4.6118,"Wavre"],to:[50.5613,4.6969,"Gembloux"],km:20,note:"Wavre → Gembloux à travers la campagne brabançonne. Étape roulante (20 km).",lg:"Gembloux : hôtels & chambres d'hôtes (ville de Gembloux Agro-Bio Tech), gîtes ruraux alentour",fd:"Gembloux : commerces du centre, boulangeries, marché du vendredi"},
+{c:"BX",d:3,next:"BEJ5",from:[50.5613,4.6969,"Gembloux"],to:[50.4674,4.8720,"Namur"],km:18,rest:1,links:[{t:"Approche Liège (Pascal)",go:"BEJ4"},{t:"Approche Bruxelles (Christophe)",go:"BXJ3"}],join:"tu rejoins Pascal (et Mike) à Namur — son Jour 4. Jour de repos commun à Namur, puis vous repartez ensemble dès le Jour 5 (départ Namur).",note:"Gembloux → Namur, arrivée au confluent Sambre-Meuse. JONCTION avec le tracé principal — jour de repos à Namur avec le groupe.",lg:"Namur : AJ Félicien Rops (~27 €) ou accueil paroissial de la cathédrale (même hébergement que Pascal)",fd:"Namur : marché du samedi · escavèche de Meuse, biétrumé"}
+];
+const CNAME={BE:"Belgique",FR:"France",ES:"Espagne",PC:"Picos (traversée)",BX:"Bruxelles"};
+const CCOL={BE:"#c8792a",FR:"#2f5d3a",ES:"#a83232",PC:"#6a4a9c",BX:"#0e8a8a"};
+const TBADGE={path:"sur le chemin",walk:"détour court (< 2 km A/R)",hike:"détour (2-4 km A/R)",far:"excursion — hors chemin (transport)"};
+const TICON={path:"pin",walk:"nav",hike:"nav",far:"mtn"};
+const BALISE={
+ BE:"coquille Saint-Jacques + flèche jaune (Via Mosana puis Via Monastique). Suis le balisage sur le terrain — le GPX n'est qu'un secours.",
+ FR:"blanc-rouge du GR®654 + coquille (Via Campaniensis puis Voie de Vézelay). Suis les marques peintes ; le GPX complète.",
+ ES:"flèches jaunes + coquille (Camino del Norte) — omniprésentes, faciles à suivre. ⚠️ L'approche basque française (Bidarray→Irun) suit des GR (blanc-rouge) sans balisage jacquaire continu : GPX utile."
+};
+const FAUNE={
+ BE:"Vipère péliade (landes/rochers au soleil), sangliers (chasse sept-fév), tiques (Lyme) en forêt. Loup de retour en Ardenne, très farouche.",
+ FR:"Vipères (aspic/péliade), sangliers, tiques. Chiens de troupeau (patous) en estive vers les Pyrénées : contourner au calme.",
+ ES:"Vipères (de Seoane au nord), sangliers, tiques. Chiens de troupeau (mastines) autour des troupeaux : ne pas courir, contourner large.",
+ PC:"⚠️ Montagne cantabrique : ours brun (rarissime, ouest) + loup + gros chiens de troupeau (mastines) + vipères. Faire du bruit en terrain fermé, nourriture à l'abri. Détails : prep/faune-dangereuse.md."
+};
+let CHOICES={};try{CHOICES=JSON.parse(localStorage.getItem("compostel-choices")||"{}");}catch(e){}
+function saveChoices(){try{localStorage.setItem("compostel-choices",JSON.stringify(CHOICES));}catch(e){}}
+function stageId(st){return st.c+"J"+st.d;}
+/* GPX de variantes disponibles par étape (branche « visite ») */
+const VG={
+ "BEJ3":{"Scladina":"BE-J3-variante-Scladina.gpx"},
+ "BEJ5":{"Poilvache":"BE-J5-variante-Poilvache.gpx"},
+ "BEJ7":{"Château-Thierry":"BE-J7-variante-Chateau-Thierry.gpx"},
+ "BEJ10":{"Roche à Lomme":"BE-J10-variante-Roche-a-Lomme.gpx"},
+ "BEJ11":{"Neptune":"BE-J11-variante-Grotte-de-Neptune.gpx"},
+ "FRJ7":{"Faux de Verzy":"FR-J7-variante-Faux-de-Verzy.gpx"},
+ "ESJ15":{"Faro del Caballo":"ES-J15-variante-Faro-del-Caballo.gpx"},
+ "ESJ19":{"COHICILLOS":"ES-J19b-variante-familiale-Cohicillos.gpx","Altamira":"ES-J19-variante-Altamira.gpx"},
+ "ESJ22":{"Liébana":"ES-J21-variante-Picos-Liebana.gpx"},
+ "ESJ24":{"Gulpiyuri":"ES-J24-variante-Gulpiyuri.gpx"},
+ "ESJ25":{"Covadonga":"ES-J25-variante-Picos-Covadonga.gpx"},
+ "ESJ31":{"Cudillero":"ES-J31-variante-Cudillero.gpx"},
+ "PCJ5":{"Cabaña Verónica":"PC-J5-variante-Bulnes-Urriellu.gpx"},
+ "PCJ7":{"montagne":"PC-J7-variante-Montagne.gpx"}
+};
+function variantFile(id,name){const m=VG[id];if(!m)return null;for(const k in m){if(name.indexOf(k)>=0)return m[k];}return null;}
+let variantLayers=[];
+function clearVariants(){variantLayers.forEach(l=>{try{map.removeLayer(l);}catch(e){}});variantLayers=[];}
+function drawVariants(st,id){clearVariants();if(typeof VAR==="undefined")return;(st.alt||[]).forEach((a,idx)=>{if((CHOICES[id]||{})[idx]==='go'){const f=variantFile(id,a.n);if(f&&VAR[f])variantLayers.push(L.polyline(VAR[f],{color:"#b8352f",weight:4,opacity:.95,dashArray:"6 6"}).addTo(map));}});}
+let dayLayer=null;
+function dayKey(i){const st=S[i];let n=0;for(let k=0;k<=i;k++)if(S[k].c===st.c)n++;return st.c+"-"+String(n).padStart(2,'0');}
+function drawDay(i){if(dayLayer){map.removeLayer(dayLayer);dayLayer=null;}const key=dayKey(i);if(typeof DAY!=="undefined"&&DAY[key]&&DAY[key].length>1)dayLayer=L.polyline(DAY[key],{color:CCOL[S[i].c],weight:5,opacity:.95}).addTo(map);}
+
+/* ===== CARTE LEAFLET (fond OSM / topo) ===== */
+const map=L.map('map',{zoomControl:false,attributionControl:true}).setView([46,1],6);
+const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'});
+const topo=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'© OpenTopoMap (CC-BY-SA)'});
+osm.addTo(map);let baseTopo=false;
+document.getElementById("lyr").onclick=()=>{baseTopo=!baseTopo;if(baseTopo){map.removeLayer(osm);topo.addTo(map);}else{map.removeLayer(topo);osm.addTo(map);}document.getElementById("lyr").classList.toggle("on",baseTopo);};
+
+const TRACKS=[["BE",typeof TRACE_BE!=="undefined"?TRACE_BE:[]],["FR",typeof TRACE_FR!=="undefined"?TRACE_FR:[]],["ES",typeof TRACE_ES!=="undefined"?TRACE_ES:[]]];
+const lines=[];
+TRACKS.forEach(([c,pts])=>{if(pts&&pts.length>1){lines.push(L.polyline(pts,{color:"#b0a99b",weight:2,opacity:.5}).addTo(map));}});
+if(typeof TRACE_BXL!=="undefined"&&TRACE_BXL.length>1){
+  L.polyline(TRACE_BXL,{color:"#0e8a8a",weight:2,opacity:.5,dashArray:"7 6"}).addTo(map).bindTooltip("Approche compagnon · Bruxelles → Namur",{sticky:true});
+  L.circleMarker(TRACE_BXL[0],{radius:7,color:"#fff",weight:2,fillColor:"#0e8a8a",fillOpacity:1}).addTo(map).bindTooltip("Bruxelles — départ compagnon (clique pour voir son Jour 1)",{direction:"top"}).on('click',function(){var j=dayDepartingFrom("Bruxelles");if(j>=0)selectDay(j,false);});
+}
+if(lines.length){const fg=L.featureGroup(lines);map.fitBounds(fg.getBounds(),{padding:[40,40]});}
+function dayDepartingFrom(townName){for(let j=0;j<S.length;j++){const dep=S[j].from?S[j].from[2]:(j===0?START[2]:S[j-1].to[2]);if(dep===townName)return j;}return -1;}
+L.circleMarker(START,{radius:6,color:"#fff",weight:2,fillColor:"#8a6020",fillOpacity:1}).addTo(map).bindTooltip("Liège (départ J1)").on('click',()=>selectDay(0,false));
+
+const markers=[];
+S.forEach((st,i)=>{
+  const hw=st.alt&&st.alt.some(a=>a.w);
+  const col=st.rest?"#3b7fd0":(hw?"#b8352f":CCOL[st.c]);
+  const m=L.circleMarker([st.to[0],st.to[1]],{radius:st.rest?7:5,color:"#fff",weight:2,fillColor:col,fillOpacity:1}).addTo(map);
+  m.bindTooltip(st.to[2]);
+  m.on('click',()=>{const j=dayDepartingFrom(st.to[2]);selectDay(j>=0?j:i,false);});
+  markers.push(m);
+});
+function highlight(i){markers.forEach((m,k)=>m.setStyle({radius:k===i?9:(S[k].rest?7:5),weight:k===i?3:2}));}
+
+/* boutons zoom + suivi + GPS */
+document.getElementById("zin").onclick=()=>map.zoomIn();
+document.getElementById("zout").onclick=()=>map.zoomOut();
+let follow=false,gps=null,gpsMarker=null,gpsCircle=null;
+const posreadout=document.getElementById("posreadout"),locBtn=document.getElementById("loc");
+function nearest(pos){let b=-1,bd=1e9;for(let i=0;i<S.length;i++){const d=hav(pos,[S[i].to[0],S[i].to[1]]);if(d<bd){bd=d;b=i;}}return{i:b,km:bd};}
+function hav(a,b){const R=6371,dLa=(b[0]-a[0])*Math.PI/180,dLo=(b[1]-a[1])*Math.PI/180,la1=a[0]*Math.PI/180,la2=b[0]*Math.PI/180;const h=Math.sin(dLa/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+function onGPS(p){
+  gps=[p.coords.latitude,p.coords.longitude];const acc=p.coords.accuracy||0;
+  if(!gpsMarker){gpsMarker=L.circleMarker(gps,{radius:8,color:"#fff",weight:3,fillColor:"#2b6edc",fillOpacity:1}).addTo(map);gpsCircle=L.circle(gps,{radius:acc,color:"#2b6edc",weight:1,fillColor:"#2b6edc",fillOpacity:.12}).addTo(map);}
+  else{gpsMarker.setLatLng(gps);gpsCircle.setLatLng(gps).setRadius(acc);}
+  const n=nearest(gps);posreadout.innerHTML="proche de "+S[n.i].to[2]+" (~"+n.km.toFixed(1)+" km)";
+  if(follow)map.setView(gps,Math.max(map.getZoom(),14));
+}
+let gpsWatch=null;
+function gpsErr(e){
+  posreadout.textContent=
+    (e&&e.code===1)?"Refusé — autorise la localisation (cadenas → Autorisations)":
+    (e&&e.code===2)?"Position indisponible — active la localisation du téléphone + « Précise »":
+    (e&&e.code===3)?"Trop long — réessaie dehors, ciel dégagé":
+    "GPS : "+((e&&e.message)||"erreur inconnue");
+}
+function startGPS(){
+  if(!window.isSecureContext){posreadout.textContent="GPS bloqué : page non sécurisée (ouvre en https)";return;}
+  if(!navigator.geolocation){posreadout.textContent="GPS indisponible sur ce navigateur";return;}
+  posreadout.textContent="Recherche GPS…";
+  function begin(){
+    navigator.geolocation.getCurrentPosition(onGPS,gpsErr,{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+    try{if(gpsWatch!=null)navigator.geolocation.clearWatch(gpsWatch);}catch(e){}
+    gpsWatch=navigator.geolocation.watchPosition(onGPS,gpsErr,{enableHighAccuracy:true,maximumAge:10000,timeout:25000});
+  }
+  if(navigator.permissions&&navigator.permissions.query){
+    navigator.permissions.query({name:"geolocation"}).then(function(p){
+      if(p.state==="denied"){posreadout.textContent="Refusé — autorise la localisation (cadenas → Autorisations)";return;}
+      begin();
+    }).catch(begin);
+  }else begin();
+}
+locBtn.onclick=()=>{follow=!follow;locBtn.classList.toggle("on",follow);if(follow){if(!gps)startGPS();else map.setView(gps,Math.max(map.getZoom(),14));}};
+document.getElementById("gpsbtn").onclick=()=>{if(gps){selectDay(nearest(gps).i,true);}else{startGPS();}};
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
+
+/* ===== PANNEAU ===== */
+const sheet=document.getElementById("sheet"),body=document.getElementById("body"),daysel=document.getElementById("daysel");
+const shortName=n=>String(n).replace(/\s*\([^)]*\)/g,"").replace(/\s*—.*$/,"").trim();
+const COLC={BE:"#c8792a",FR:"#3f8a52",ES:"#cc4b45",PC:"#b5603a",BX:"#0e8a8a"};
+S.forEach((st,i)=>{const dep=st.from?st.from[2]:(i===0?START[2]:S[i-1].to[2]);const o=document.createElement("option");o.value=i;o.textContent=`J${st.d} · ${shortName(dep)}`;if(COLC[st.c])o.style.color=COLC[st.c];daysel.appendChild(o);});
+daysel.onchange=()=>{if(daysel.value!=="")selectDay(+daysel.value,true);};
+document.getElementById("grip").onclick=()=>sheet.classList.toggle("collapsed");
+function altHtml(st,idx,a){
+  const id=stageId(st),chosen=(CHOICES[id]||{})[idx];
+  let h=`<div class="n">${ic(TICON[a.t],18)}<span>${a.w?ic("heart",15)+" ":""}${a.n}</span></div><div class="badge">${TBADGE[a.t]}</div>`;
+  if(a.m)h+=`<div class="m">${a.m}</div>`;
+  if(a.t!=="path")h+=`<div class="choice"><button class="go ${chosen==='go'?'sel':''}" data-i="${idx}" data-v="go">${ic("check",15)} J'y vais</button><button class="skip ${chosen==='skip'?'sel':''}" data-i="${idx}" data-v="skip">${ic("arrow",15)} Je reste sur le chemin</button></div>`;
+  else h+=`<div class="onpath">${ic("pin",14)} Sur le chemin — tu passeras devant</div>`;
+  const vf=variantFile(id,a.n);
+  if(vf)h+=`<div class="m">${ic("route",13)} Trace « visite » : gpx/reel/jours/${vf}</div>`;
+  return `<div class="alt ${a.w?'want':''}">${h}</div>`;
+}
+function selectDay(i,center){
+  daysel.value=i;const st=S[i],id=stageId(st);highlight(i);daysel.style.color=(typeof COLC!=="undefined"&&COLC[st.c])||"";
+  let rest="";
+  if(st.rest==="demi")rest=`<div class="banner rest demi">${ic("clock",18)}<div><b>Demi-journée</b> — étape courte aujourd'hui : profite de l'après-midi.</div></div>`;
+  else if(st.rest)rest=`<div class="banner rest">${ic("moon",18)}<div><b>Demain : jour de repos à ${st.to[2]}.</b> Ce soir tu peux veiller — pas de réveil aux aurores.</div></div>`;
+  const note=st.note&&!st.rest?`<div class="banner note">${ic("info",18)}<div>${st.note}</div></div>`:"";
+  const fromName=st.from?st.from[2]:(i===0?START[2]:S[i-1].to[2]);
+  const findStage=sid=>S.findIndex(x=>stageId(x)===sid);
+  const nextIdx=st.next?findStage(st.next):(i+1<S.length?i+1:-1);
+  const prevIdx=st.prev?findStage(st.prev):(i-1>=0?i-1:-1);
+  const depOf=j=>S[j].from?S[j].from[2]:(j===0?START[2]:S[j-1].to[2]);
+  const nav=`<div class="daynav">${prevIdx>=0?`<button data-go="${prevIdx}">${ic("arrow",14,"flip")} départ ${depOf(prevIdx)}</button>`:'<span style="flex:1"></span>'}${nextIdx>=0?`<button class="next" data-go="${nextIdx}">départ ${depOf(nextIdx)} ${ic("arrow",14)}</button>`:'<span style="flex:1"></span>'}</div>`;
+  const branches=(st.links&&st.links.length)?`<h3 class="sec">${ic("nav",15)} Les deux chemins vers Namur</h3><div class="daynav">`+st.links.map(l=>{const j=S.findIndex(x=>stageId(x)===l.go);return j>=0?`<button data-go="${j}">${ic("route",14)} ${l.t}</button>`:"";}).join("")+`</div>`:"";
+  let alts="";
+  const wanted=(st.alt||[]).map((a,idx)=>[a,idx]).filter(x=>x[0].w);
+  if(wanted.length){
+    const dvs=wanted.filter(x=>x[0].t!=="path");
+    const path=wanted.filter(x=>x[0].t==="path");
+    if(dvs.length)alts+=`<h3 class="sec">${ic("nav",15)} À choisir aujourd'hui — visiter ou continuer</h3>`+dvs.map(([a,idx])=>altHtml(st,idx,a)).join("");
+    if(path.length)alts+=`<h3 class="sec">${ic("pin",15)} À voir sur le chemin</h3>`+path.map(([a,idx])=>altHtml(st,idx,a)).join("");
+  }else alts=`<div class="empty">${ic("route",18)} Étape de marche — pas d'arrêt prévu. Profite du chemin.</div>`;
+  body.innerHTML=`
+    <div class="daytitle"><span class="flag ${st.c}">${CNAME[st.c]}</span><h2>Jour ${st.d} — départ ${fromName}</h2></div>
+    <p class="sub">Arrivée en fin de journée : <b>${st.to[2]}</b> · ${st.km} km${st.rest&&st.rest!=="demi"?" · repos demain":""}</p>
+    ${nav}
+    ${rest}${note}
+    ${st.join?`<div class="banner join">${ic("pin",18)}<div><b>Point de jonction</b> — ${st.join}</div></div>`:''}
+    ${branches}
+    ${st.bus?`<div class="banner busb">${ic("bus",18)}<div><b>En bus aujourd'hui</b> : ${st.bus}</div></div>`:''}
+    ${FAUNE[st.c]?`<div class="banner faune">${ic("info",18)}<div><b>Faune</b> : ${FAUNE[st.c]}</div></div>`:''}
+    <div class="infos">
+      <div class="inforow">${ic("bed",19)}<div><span class="lbl">Où dormir</span>${st.lg||"—"}</div></div>
+      <div class="inforow">${ic("food",19)}<div><span class="lbl">Manger / ravitailler</span>${st.fd||"—"}</div></div>
+    </div>${alts}
+    <div class="gpxline">${ic("nav",14)} <b>Balisage à suivre</b> : ${BALISE[st.c]}</div>
+    <div class="gpxline">${ic("route",14)} Trace GPS du jour : <code>gpx/reel/jours/</code> (+ variantes pour les jours à alternative). Vrais GPX officiels : <code>gpxdownloaded/</code>. Détails : <code>hebergement/</code> · <code>ravitaillement/</code>.</div>`;
+  body.querySelectorAll(".choice button").forEach(b=>b.onclick=()=>{if(!CHOICES[id])CHOICES[id]={};const k=+b.dataset.i;CHOICES[id][k]=CHOICES[id][k]===b.dataset.v?undefined:b.dataset.v;saveChoices();selectDay(i,false);if(CHOICES[id][k]==='go'){const a=S[i].alt[k];if(a.goto){const j=S.findIndex(x=>stageId(x)===a.goto);if(j>=0){selectDay(j,true);return;}}const f=variantFile(id,a.n);if(f&&typeof VAR!=="undefined"&&VAR[f])map.fitBounds(L.latLngBounds(VAR[f]),{padding:[40,40]});}});
+  body.querySelectorAll(".daynav button").forEach(b=>b.onclick=()=>selectDay(+b.dataset.go,true));
+  drawDay(i);
+  drawVariants(st,id);
+  sheet.classList.remove("collapsed");
+  if(center){if(dayLayer)map.fitBounds(dayLayer.getBounds(),{padding:[50,50]});else{const from=st.from||(i===0?START:S[i-1].to);map.setView([from[0],from[1]],13);}}
+}
+
+/* ===== INIT ===== */
+setTimeout(()=>map.invalidateSize(),200);
+addEventListener("resize",()=>map.invalidateSize());
+if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{onGPS(p);follow=true;locBtn.classList.add("on");const n=nearest(gps);selectDay(n.i,false);map.setView(gps,13);},()=>{},{enableHighAccuracy:true,timeout:8000});}
+
+/* ===== MENU DE PRÉPARATION (guides lisibles dans l'appli) ===== */
+document.getElementById("menubtn").innerHTML=ic("menu",20);
+document.getElementById("menuclose").innerHTML=ic("x",20);
+/* ===== Mode nuit (lecture au gîte, sans éblouir) ===== */
+(function(){var nb=document.getElementById("nightbtn"),root=document.documentElement;
+ function apply(on){root.classList.toggle("night",on);nb.innerHTML=ic(on?"sun":"moon",20);nb.setAttribute("aria-label",on?"Mode jour":"Mode nuit");var mt=document.querySelector('meta[name=theme-color]');if(mt)mt.setAttribute("content",on?"#0f0b06":"#1a1208");try{localStorage.setItem("ultreia-night",on?"1":"0");}catch(e){}}
+ var saved="0";try{saved=localStorage.getItem("ultreia-night")||"0";}catch(e){}
+ apply(saved==="1");
+ nb.onclick=function(){apply(!root.classList.contains("night"));};
+})();
+document.getElementById("guideback").innerHTML=ic("arrow",20,"flip");
+const menuEl=document.getElementById("menu"),guideEl=document.getElementById("guide");
+document.getElementById("menubtn").onclick=()=>menuEl.classList.remove("hidden");
+document.getElementById("menuclose").onclick=()=>menuEl.classList.add("hidden");
+document.getElementById("guideback").onclick=()=>guideEl.classList.add("hidden");
+(function(){var wrap=document.getElementById("menulist");
+ wrap.innerHTML='<div class="menuintro">Tout pour préparer ton pèlerinage, lisible hors-ligne — même sans réseau sur le chemin.</div>';
+ if(typeof GUIDES==="undefined")return;
+ var MENU=[
+  ["Le voyage",[["apercu","route","Les 3 phases · 2 260 km"]]],
+  ["Le sac",[["sac","bag","Liste pesée · solo ou duo"],["checklist","list","De J-90 au jour J"]]],
+  ["Le corps",[["forme","activity","12 semaines d'entraînement"],["sante","cross","Pieds, pharmacie, articulations"]]],
+  ["Pratique",[["papiers","id","Credencial et administratif"],["budget","coin","Combien, comment payer"],["meteo","cloud","Saison et intempéries"],["faune","paw","Loup, ours, vipères, chiens"]]]
+ ];
+ MENU.forEach(function(grp){var h=document.createElement("div");h.className="mgroup";h.textContent=grp[0];wrap.appendChild(h);
+  grp[1].forEach(function(it){var k=it[0];if(!GUIDES[k])return;var b=document.createElement("button");b.className="menuitem";
+   b.innerHTML=ic(it[1],22)+'<span class="mtxt"><span class="mt">'+GUIDES[k].t+'</span><span class="md2">'+it[2]+'</span></span>'+ic("chev",18,"chev");
+   b.onclick=function(){openGuide(k);};wrap.appendChild(b);});});
+})();
+function openGuide(k){document.getElementById("guidetitle").textContent=GUIDES[k].t;var b=document.getElementById("guidebody");b.innerHTML=mdToHtml(GUIDES[k].md);b.scrollTop=0;guideEl.classList.remove("hidden");}
+function mdEsc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function mdInline(s){s=mdEsc(s);
+ s=s.replace(/^\[\s*([xX]?)\s*\]\s*/,function(m,c){return '<span class="cbx'+(c?" on":"")+'"></span>';});
+ s=s.replace(/`([^`]+)`/g,"<code>$1</code>");s=s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");s=s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,"$1");
+ s=s.replace(/[✅✔]️?/g,'<span class="cbx on"></span>');
+ return s;}
+function mdToHtml(md){var L=md.split(/\r?\n/),h="",i=0,inL=false,lt="";
+ function cl(){if(inL){h+="</"+lt+">";inL=false;}}
+ while(i<L.length){var ln=L[i];
+  if(/^\s*\|.*\|\s*$/.test(ln)&&i+1<L.length&&/-/.test(L[i+1])&&/^\s*\|?[\s:|-]+\|?\s*$/.test(L[i+1])){cl();
+   var hd=ln.trim().replace(/^\||\|$/g,"").split("|").map(function(c){return mdInline(c.trim());});i+=2;var rw=[];
+   while(i<L.length&&/^\s*\|.*\|\s*$/.test(L[i])){rw.push(L[i].trim().replace(/^\||\|$/g,"").split("|").map(function(c){return mdInline(c.trim());}));i++;}
+   h+="<table><thead><tr>"+hd.map(function(x){return "<th>"+x+"</th>";}).join("")+"</tr></thead><tbody>"+rw.map(function(r){return "<tr>"+r.map(function(c){var ck=c.indexOf('class="cbx')>-1;return "<td"+(ck?' class="ck"':"")+">"+c+"</td>";}).join("")+"</tr>";}).join("")+"</tbody></table>";continue;}
+  if(/^\s*$/.test(ln)){cl();i++;continue;}
+  if(/^###\s+/.test(ln)){cl();h+="<h3>"+mdInline(ln.replace(/^###\s+/,""))+"</h3>";i++;continue;}
+  if(/^##\s+/.test(ln)){cl();h+="<h2>"+mdInline(ln.replace(/^##\s+/,""))+"</h2>";i++;continue;}
+  if(/^#\s+/.test(ln)){cl();h+="<h1>"+mdInline(ln.replace(/^#\s+/,""))+"</h1>";i++;continue;}
+  if(/^\s*(---|\*\*\*)\s*$/.test(ln)){cl();h+="<hr>";i++;continue;}
+  if(/^\s*>\s?/.test(ln)){cl();var q=[];while(i<L.length&&/^\s*>\s?/.test(L[i])){q.push(mdInline(L[i].replace(/^\s*>\s?/,"")));i++;}h+="<blockquote>"+q.join(" ")+"</blockquote>";continue;}
+  if(/^\s*```/.test(ln)){cl();i++;var fb=[];while(i<L.length&&!/^\s*```/.test(L[i])){fb.push(L[i]);i++;}i++;
+   var ne=fb.filter(function(x){return x.trim();});
+   if(ne.length&&ne.every(function(x){return /^\s*\[\s*[xX]?\s*\]/.test(x);})){h+='<ul>';ne.forEach(function(x){h+='<li class="chk">'+mdInline(x.trim())+'</li>';});h+='</ul>';}
+   else{var code="";fb.forEach(function(x){code+=mdEsc(x)+"\n";});h+="<pre><code>"+code+"</code></pre>";}continue;}
+  if(/^\s*[-*]\s+/.test(ln)){var it=ln.replace(/^\s*[-*]\s+/,"");var ck=/^\[\s*[xX]?\s*\]/.test(it);if(!inL||lt!=="ul"){cl();h+="<ul>";inL=true;lt="ul";}h+="<li"+(ck?' class="chk"':"")+">"+mdInline(it)+"</li>";i++;continue;}
+  if(/^\s*\d+\.\s+/.test(ln)){if(!inL||lt!=="ol"){cl();h+="<ol>";inL=true;lt="ol";}h+="<li>"+mdInline(ln.replace(/^\s*\d+\.\s+/,""))+"</li>";i++;continue;}
+  cl();h+="<p>"+mdInline(ln)+"</p>";i++;}
+ cl();return h;}
+
+/* ===== Écran d'accueil ===== */
+(function(){var sp=document.getElementById("splash"),b=document.getElementById("splashenter");
+ if(b)b.innerHTML="Entrer sur le Chemin "+ic("arrow",16);
+ function enter(){sp.classList.add("gone");setTimeout(function(){sp.style.display="none";try{map.invalidateSize();}catch(e){}},560);}
+ if(b)b.onclick=enter; if(sp)sp.addEventListener("click",function(e){if(e.target===sp)enter();});
+})();
+</script>
+</body>
+</html>
