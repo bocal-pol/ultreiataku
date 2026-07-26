@@ -24,7 +24,8 @@ class TripInvitationMail extends Mailable
 
     public string $joinUrl;
 
-    public string $locale;
+    /** @var string */
+    public $locale;
 
     /** @var array<string, string> */
     private array $subjects = [

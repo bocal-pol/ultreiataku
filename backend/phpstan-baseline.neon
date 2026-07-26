@@ -1,2 +1,1351 @@
 parameters:
-    ignoreErrors:
+	ignoreErrors:
+		-
+			message: '#^Anonymous function has an unused use \$panelAccess\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: app/Modules/OAuth/Http/Controllers/SsoCallbackController.php
+
+		-
+			message: '#^Offset ''distance_km'' on array\{points\: array\<int, array\{lat\: float, lon\: float, ele\: float\|null\}\>, distance_km\: float, elevation_gain_m\: int, elevation_loss_m\: int, track_points_count\: int\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/GpxTraceSeeder.php
+
+		-
+			message: '#^Offset ''elevation_gain_m'' on array\{points\: array\<int, array\{lat\: float, lon\: float, ele\: float\|null\}\>, distance_km\: float, elevation_gain_m\: int, elevation_loss_m\: int, track_points_count\: int\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/GpxTraceSeeder.php
+
+		-
+			message: '#^Offset ''elevation_loss_m'' on array\{points\: array\<int, array\{lat\: float, lon\: float, ele\: float\|null\}\>, distance_km\: float, elevation_gain_m\: int, elevation_loss_m\: int, track_points_count\: int\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/GpxTraceSeeder.php
+
+		-
+			message: '#^Offset ''track_points_count'' on array\{points\: array\<int, array\{lat\: float, lon\: float, ele\: float\|null\}\>, distance_km\: float, elevation_gain_m\: int, elevation_loss_m\: int, track_points_count\: int\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/GpxTraceSeeder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/PackScenarioSeeder.php
+
+		-
+			message: '#^Offset ''is_shared'' on array\{category\: ''clothing''\|''cooking''\|''hygiene''\|''navigation''\|''portage''\|''sleeping''\|''water'', name\: ''Batterie externe…''\|''Boussole Silva…''\|''Chaussons camp Xero…''\|''Nalgene Wide\-Mouth…''\|''Opinel N°8 carbone''\|''Réchaud MSR…''\|''Sac à viande soie…''\|''Sac étanche…''\|''Sacoche ceinture…''\|''Trowel The Deuce \#2''\|''Veste hardshell Rab…'', brand\: ''Anker''\|''Cocoon''\|''Ferrino''\|''MSR''\|''Nalgene''\|''Opinel''\|''Rab''\|''Sea to Summit''\|''Silva''\|''The Deuce''\|''Xero Shoes'', model\: ''\#2''\|''Aqua Cloud''\|''Kinetic Alpine''\|''MummyLiner Silk''\|''N°8 lame carbone''\|''PocketRocket 2''\|''PowerCore 10000''\|''Ranger SL''\|''Sky Bag''\|''Ultra\-Sil Dry 20L''\|''Wide\-Mouth 1L'', weight_g\: 17\|30\|42\|60\|75\|80\|100\|180\|220\|350, notes\: ''\+3°C au sac \+…''\|''20 cm profondeur,…''\|''3\-4 recharges…''\|''Backup GPS mort''\|''Fiable, universel''\|''Légal Belgique …''\|''Membrane 3L,…''\|''Nuit gîte \+ douches…''\|''Portefeuille \+…''\|''Protège duvet même…''\|''Robuste, gradation,…'', sort_order\: 1\|2\|3\|4\|5\}\|array\{category\: ''clothing''\|''cooking''\|''hygiene''\|''navigation''\|''portage''\|''water'', name\: ''Bonnet mérinos…''\|''Chargeur double USB…''\|''Cuillère titane…''\|''Doudoune Uniqlo…''\|''Frontale Petzl…''\|''Gants Patagonia…''\|''Housse pluie Osprey…''\|''Legging Icebreaker…''\|''Poche à eau…''\|''Polaire Patagonia…''\|''Popote Toaks…''\|''Serviette…''\|''Sur\-pantalon pluie…''\|''T\-shirt mérinos…'', brand\: ''Anker''\|''Icebreaker''\|''Montane''\|''Osprey''\|''Patagonia''\|''Petzl''\|''Platypus''\|''Sea to Summit''\|''Toaks''\|''Uniqlo''\|''Woolpower'', model\: ''200''\|''200 Oasis Legging''\|''Big Zip LP 2L''\|''Capilene Midweight''\|''Cotswold Beanie''\|''DryLite Towel M''\|''Nano II 20W''\|''Pac Plus XT''\|''R1 Pullover''\|''Tikka Core''\|''Titanium Long Spoon''\|''Titanium Pot 750 mL''\|''Ultra Light Down''\|''Ultralight…'', weight_g\: 15\|30\|40\|60\|80\|90\|105\|130\|150\|200\|250\|300, sort_order\: 1\|2\|3\|4\|5\|6\|7\|8\|9\}\|array\{category\: ''cooking''\|''health''\|''navigation'', name\: ''Briquet Bic Mini \+…''\|''Credencial \+…''\|''Kit pieds complet …'', weight_g\: 45\|100\|220, notes\: ''Compeed S\+M 12 pcs …''\|''Double redondance…''\|''Retirer à Liège…'', sort_order\: 1\|6\}\|array\{category\: ''cooking''\|''hygiene''\|''water'', name\: ''Cartouche gaz 100 g…''\|''Pastilles Micropur…''\|''Savon Dr\. Bronner…'', brand\: ''Coleman''\|''Dr\. Bronner''\|''Micropur'', model\: ''Baby Mild''\|''C100''\|''Forte 100'', weight_g\: 15\|65\|190, is_consumable\: true, notes\: ''Backup filtre''\|''Corps \+ linge \+…''\|''À remplacer tous…'', sort_order\: 1\|2\|4\}\|array\{category\: ''health'', name\: ''Crème anti…'', brand\: ''Nok'', weight_g\: 65, is_consumable\: true, notes\: ''Prévention ampoules…'', sort_order\: 3\}\|array\{category\: ''health''\|''navigation'', name\: ''Cartes papier…''\|''Pharmacie de base …'', weight_g\: 80\|150, is_consumable\: true, notes\: ''Extraits GPX 2\-3 km…''\|''Paracétamol \+…'', sort_order\: 2\|5\}\|array\{category\: ''hygiene'', name\: ''Dentifrice…'', brand\: ''Georganics'', weight_g\: 40, is_consumable\: true, sort_order\: 3\}\|array\{category\: ''portage''\|''sleeping''\|''water'', name\: ''Filtre Sawyer…''\|''Matelas Therm\-a…''\|''Sac de couchage Sea…''\|''Sac à dos Osprey…''\|''Tente MSR Hubba NX 1'', brand\: ''MSR''\|''Osprey''\|''Sawyer''\|''Sea to Summit''\|''Therm\-a\-Rest'', model\: ''Exos 48''\|''Hubba NX 1''\|''NeoAir XLite NXT''\|''Spark Sp III''\|''Squeeze'', weight_g\: 90\|350\|550\|1050\|1100, notes\: ''Ceinture ventrale…''\|''Confort \+5°C pour…''\|''Filtre 4000 L,…''\|''R\-value 4\.5, confort''\|''Solo uniquement\. 1…'', replacement_km\: 3000\|5000, sort_order\: 1\|2\|3\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/PackScenarioSeeder.php
+
+		-
+			message: '#^Offset ''sort_order'' on array\{category\: ''clothing'', name\: ''Doudoune Uniqlo…'', brand\: ''Uniqlo'', model\: ''Ultra Light Down'', weight_g\: 250, sort_order\: 4\}\|array\{category\: ''clothing'', name\: ''Legging Icebreaker…'', brand\: ''Icebreaker'', model\: ''200 Oasis Legging'', weight_g\: 200, sort_order\: 6\}\|array\{category\: ''clothing'', name\: ''Polaire Patagonia…'', brand\: ''Patagonia'', model\: ''R1 Pullover'', weight_g\: 300, sort_order\: 3\}\|array\{category\: ''clothing'', name\: ''Sur\-pantalon pluie…'', brand\: ''Montane'', model\: ''Pac Plus XT'', weight_g\: 250, sort_order\: 2\}\|array\{category\: ''clothing'', name\: ''T\-shirt mérinos nuit'', brand\: ''Woolpower'', model\: ''200'', weight_g\: 130, sort_order\: 5\}\|array\{category\: ''clothing'', name\: ''Veste hardshell Rab…'', brand\: ''Rab'', model\: ''Kinetic Alpine'', weight_g\: 350, sort_order\: 1\}\|array\{category\: ''cooking'', name\: ''Cartouche gaz 100 g…'', brand\: ''Coleman'', model\: ''C100'', weight_g\: 190, is_shared\: true, is_consumable\: true, notes\: ''À remplacer tous…'', \.\.\.\}\|array\{category\: ''cooking'', name\: ''Cuillère titane'', brand\: ''Toaks'', model\: ''Titanium Long Spoon'', weight_g\: 15, sort_order\: 4\}\|array\{category\: ''cooking'', name\: ''Opinel N°8 carbone'', brand\: ''Opinel'', model\: ''N°8 lame carbone'', weight_g\: 42, sort_order\: 5\}\|array\{category\: ''cooking'', name\: ''Popote Toaks…'', brand\: ''Toaks'', model\: ''Titanium Pot 1300 mL'', weight_g\: 155, is_shared\: true, notes\: ''Duo — un plat pour…'', sort_order\: 3\}\|array\{category\: ''cooking'', name\: ''Réchaud MSR…'', brand\: ''MSR'', model\: ''PocketRocket 2'', weight_g\: 75, is_shared\: true, sort_order\: 1\}\|array\{category\: ''health'', name\: ''Crème anti…'', brand\: ''Nok'', weight_g\: 65, is_consumable\: true, sort_order\: 3\}\|array\{category\: ''health'', name\: ''Mini\-pharmacie…'', weight_g\: 130, is_consumable\: true, notes\: ''Paracétamol \+…'', sort_order\: 2\}\|array\{category\: ''health'', name\: ''Pharmacie…'', weight_g\: 300, is_shared\: true, notes\: ''Kit pieds Compeed \+…'', sort_order\: 1\}\|array\{category\: ''hygiene'', name\: ''Savon Dr\. Bronner…'', brand\: ''Dr\. Bronner'', weight_g\: 65, is_shared\: true, is_consumable\: true, sort_order\: 1\}\|array\{category\: ''hygiene'', name\: ''Serviette…'', brand\: ''Sea to Summit'', model\: ''DryLite Towel M'', weight_g\: 130, sort_order\: 2\}\|array\{category\: ''hygiene'', name\: ''Trowel The Deuce \#2…'', brand\: ''The Deuce'', model\: ''\#2'', weight_g\: 17, is_shared\: true, sort_order\: 3\}\|array\{category\: ''navigation'', name\: ''Batterie externe…'', brand\: ''Anker'', model\: ''PowerCore 10000'', weight_g\: 180, is_shared\: true, sort_order\: 1\}\|array\{category\: ''navigation'', name\: ''Boussole Silva…'', brand\: ''Silva'', model\: ''Ranger SL'', weight_g\: 30, is_shared\: true, sort_order\: 4\}\|array\{category\: ''navigation'', name\: ''Chargeur double USB…'', brand\: ''Anker'', model\: ''Nano II 20W'', weight_g\: 60, is_shared\: true, sort_order\: 2\}\|array\{category\: ''navigation'', name\: ''Credencial \+…'', weight_g\: 100, sort_order\: 5\}\|array\{category\: ''navigation'', name\: ''Frontale Petzl…'', brand\: ''Petzl'', model\: ''Tikka Core'', weight_g\: 80, sort_order\: 3\}\|array\{category\: ''portage'', name\: ''Housse pluie Osprey…'', brand\: ''Osprey'', model\: ''Ultralight…'', weight_g\: 90, sort_order\: 2\}\|array\{category\: ''portage'', name\: ''Sac à dos Osprey…'', brand\: ''Osprey'', model\: ''Exos 48'', weight_g\: 1100, sort_order\: 1\}\|array\{category\: ''portage'', name\: ''Sac étanche…'', brand\: ''Sea to Summit'', model\: ''Ultra\-Sil Dry 20L'', weight_g\: 60, sort_order\: 4\}\|array\{category\: ''portage'', name\: ''Sacoche ceinture…'', brand\: ''Ferrino'', model\: ''Sky Bag'', weight_g\: 80, sort_order\: 3\}\|array\{category\: ''sleeping'', name\: ''Matelas Therm\-a…'', brand\: ''Therm\-a\-Rest'', model\: ''NeoAir XLite NXT'', weight_g\: 350, sort_order\: 2\}\|array\{category\: ''sleeping'', name\: ''Sac de couchage Sea…'', brand\: ''Sea to Summit'', model\: ''Spark Sp III'', weight_g\: 550, notes\: ''Confort \+5°C'', replacement_km\: 3000, sort_order\: 3\}\|array\{category\: ''sleeping'', name\: ''Sac à viande soie…'', brand\: ''Cocoon'', model\: ''MummyLiner Silk'', weight_g\: 100, sort_order\: 4\}\|array\{category\: ''sleeping'', name\: ''Tente MSR Hubba…'', brand\: ''MSR'', model\: ''Hubba Hubba NX 2'', weight_g\: 1500, is_shared\: true, notes\: ''Tente 2P mutualisée…'', replacement_km\: 3000, \.\.\.\}\|array\{category\: ''water'', name\: ''Filtre Sawyer…'', brand\: ''Sawyer'', model\: ''Squeeze'', weight_g\: 90, is_shared\: true, replacement_km\: 5000, sort_order\: 3\}\|array\{category\: ''water'', name\: ''Nalgene Wide\-Mouth…'', brand\: ''Nalgene'', model\: ''Wide\-Mouth 1L'', weight_g\: 180, sort_order\: 2\}\|array\{category\: ''water'', name\: ''Poche à eau…'', brand\: ''Platypus'', model\: ''Big Zip LP 2L'', weight_g\: 150, sort_order\: 1\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/PackScenarioSeeder.php
+
+		-
+			message: '#^Offset ''sort_order'' on array\{category\: ''clothing''\|''cooking''\|''hygiene''\|''navigation''\|''portage''\|''sleeping''\|''water'', name\: ''Batterie externe…''\|''Boussole Silva…''\|''Chaussons camp Xero…''\|''Nalgene Wide\-Mouth…''\|''Opinel N°8 carbone''\|''Réchaud MSR…''\|''Sac à viande soie…''\|''Sac étanche…''\|''Sacoche ceinture…''\|''Trowel The Deuce \#2''\|''Veste hardshell Rab…'', brand\: ''Anker''\|''Cocoon''\|''Ferrino''\|''MSR''\|''Nalgene''\|''Opinel''\|''Rab''\|''Sea to Summit''\|''Silva''\|''The Deuce''\|''Xero Shoes'', model\: ''\#2''\|''Aqua Cloud''\|''Kinetic Alpine''\|''MummyLiner Silk''\|''N°8 lame carbone''\|''PocketRocket 2''\|''PowerCore 10000''\|''Ranger SL''\|''Sky Bag''\|''Ultra\-Sil Dry 20L''\|''Wide\-Mouth 1L'', weight_g\: 17\|30\|42\|60\|75\|80\|100\|180\|220\|350, notes\: ''\+3°C au sac \+…''\|''20 cm profondeur,…''\|''3\-4 recharges…''\|''Backup GPS mort''\|''Fiable, universel''\|''Légal Belgique …''\|''Membrane 3L,…''\|''Nuit gîte \+ douches…''\|''Portefeuille \+…''\|''Protège duvet même…''\|''Robuste, gradation,…'', sort_order\: 1\|2\|3\|4\|5\}\|array\{category\: ''clothing''\|''cooking''\|''hygiene''\|''navigation''\|''portage''\|''water'', name\: ''Bonnet mérinos…''\|''Chargeur double USB…''\|''Cuillère titane…''\|''Doudoune Uniqlo…''\|''Frontale Petzl…''\|''Gants Patagonia…''\|''Housse pluie Osprey…''\|''Legging Icebreaker…''\|''Poche à eau…''\|''Polaire Patagonia…''\|''Popote Toaks…''\|''Serviette…''\|''Sur\-pantalon pluie…''\|''T\-shirt mérinos…'', brand\: ''Anker''\|''Icebreaker''\|''Montane''\|''Osprey''\|''Patagonia''\|''Petzl''\|''Platypus''\|''Sea to Summit''\|''Toaks''\|''Uniqlo''\|''Woolpower'', model\: ''200''\|''200 Oasis Legging''\|''Big Zip LP 2L''\|''Capilene Midweight''\|''Cotswold Beanie''\|''DryLite Towel M''\|''Nano II 20W''\|''Pac Plus XT''\|''R1 Pullover''\|''Tikka Core''\|''Titanium Long Spoon''\|''Titanium Pot 750 mL''\|''Ultra Light Down''\|''Ultralight…'', weight_g\: 15\|30\|40\|60\|80\|90\|105\|130\|150\|200\|250\|300, sort_order\: 1\|2\|3\|4\|5\|6\|7\|8\|9\}\|array\{category\: ''cooking''\|''health''\|''navigation'', name\: ''Briquet Bic Mini \+…''\|''Credencial \+…''\|''Kit pieds complet …'', weight_g\: 45\|100\|220, notes\: ''Compeed S\+M 12 pcs …''\|''Double redondance…''\|''Retirer à Liège…'', sort_order\: 1\|6\}\|array\{category\: ''cooking''\|''hygiene''\|''water'', name\: ''Cartouche gaz 100 g…''\|''Pastilles Micropur…''\|''Savon Dr\. Bronner…'', brand\: ''Coleman''\|''Dr\. Bronner''\|''Micropur'', model\: ''Baby Mild''\|''C100''\|''Forte 100'', weight_g\: 15\|65\|190, is_consumable\: true, notes\: ''Backup filtre''\|''Corps \+ linge \+…''\|''À remplacer tous…'', sort_order\: 1\|2\|4\}\|array\{category\: ''health'', name\: ''Crème anti…'', brand\: ''Nok'', weight_g\: 65, is_consumable\: true, notes\: ''Prévention ampoules…'', sort_order\: 3\}\|array\{category\: ''health''\|''navigation'', name\: ''Cartes papier…''\|''Pharmacie de base …'', weight_g\: 80\|150, is_consumable\: true, notes\: ''Extraits GPX 2\-3 km…''\|''Paracétamol \+…'', sort_order\: 2\|5\}\|array\{category\: ''hygiene'', name\: ''Dentifrice…'', brand\: ''Georganics'', weight_g\: 40, is_consumable\: true, sort_order\: 3\}\|array\{category\: ''portage''\|''sleeping''\|''water'', name\: ''Filtre Sawyer…''\|''Matelas Therm\-a…''\|''Sac de couchage Sea…''\|''Sac à dos Osprey…''\|''Tente MSR Hubba NX 1'', brand\: ''MSR''\|''Osprey''\|''Sawyer''\|''Sea to Summit''\|''Therm\-a\-Rest'', model\: ''Exos 48''\|''Hubba NX 1''\|''NeoAir XLite NXT''\|''Spark Sp III''\|''Squeeze'', weight_g\: 90\|350\|550\|1050\|1100, notes\: ''Ceinture ventrale…''\|''Confort \+5°C pour…''\|''Filtre 4000 L,…''\|''R\-value 4\.5, confort''\|''Solo uniquement\. 1…'', replacement_km\: 3000\|5000, sort_order\: 1\|2\|3\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Modules/Pilgrimage/Database/Seeders/PackScenarioSeeder.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 9
+			path: app/Modules/Pilgrimage/Filament/Resources/AccommodationResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\Action\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/AccommodationResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/AccommodationResource.php
+
+		-
+			message: '#^Function boolean not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/AccommodationResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 3
+			path: app/Modules/Pilgrimage/Filament/Resources/DepartureResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/DepartureResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/DepartureResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/DepartureResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\ViewAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/DepartureResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Modules/Pilgrimage/Filament/Resources/GpxTraceResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/GpxTraceResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/GpxTraceResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$display_name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 2
+			path: app/Modules/Pilgrimage/Filament/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\ViewAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource/RelationManagers/PhotosRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource/RelationManagers/PhotosRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/JournalEntryResource/RelationManagers/PhotosRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 6
+			path: app/Modules/Pilgrimage/Filament/Resources/MealResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/MealResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\Action\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Filament/Resources/OccupancyResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\ViewAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/OccupancyResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$display_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackItemResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Filament/Resources/PackItemResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackItemResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackItemResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackItemResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackItemResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource/RelationManagers/PackItemsRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource/RelationManagers/PackItemsRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\CreateAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource/RelationManagers/PackItemsRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource/RelationManagers/PackItemsRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource/RelationManagers/PackItemsRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PackScenarioResource/RelationManagers/PackItemsRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PilgrimResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\ViewAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/PilgrimResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Modules/Pilgrimage/Filament/Resources/RouteResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/RouteResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/RouteResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/RouteResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 5
+			path: app/Modules/Pilgrimage/Filament/Resources/StageResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/StageResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\ViewAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/DeparturesRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\CreateAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/DeparturesRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/DeparturesRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DeleteBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/DeparturesRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/DeparturesRelationManager.php
+
+		-
+			message: '#^Call to method getRecordSelect\(\) on an unknown class Filament\\Tables\\Actions\\AttachAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\AttachAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\BulkActionGroup\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DetachAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\DetachBulkAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Parameter \$action of anonymous function has invalid type Filament\\Tables\\Actions\\AttachAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/TripResource/RelationManagers/MembersRelationManager.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Forms\\Components\\Section\.$#'
+			identifier: class.notFound
+			count: 7
+			path: app/Modules/Pilgrimage/Filament/Resources/WaypointResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\EditAction\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Resources/WaypointResource.php
+
+		-
+			message: '#^Call to static method make\(\) on an unknown class Filament\\Tables\\Actions\\Action\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Filament/Widgets/AccommodationsToVerifyWidget.php
+
+		-
+			message: '#^Anonymous function has an unused use \$trip\.$#'
+			identifier: closure.unusedUse
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Controllers/Api/JournalEntryController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Pagination\\LengthAwarePaginator\<int, App\\Modules\\Pilgrimage\\Models\\PilgrimageRoute\>\:\:load\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Controllers/Api/RouteController.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\AccommodationResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/AccommodationResource.php
+
+		-
+			message: '#^PHPDoc tag @var with type App\\Modules\\Pilgrimage\\Models\\Accommodation is not subtype of native type \$this\(App\\Modules\\Pilgrimage\\Http\\Resources\\AccommodationResource\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/AccommodationResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\AccommodationType\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/AccommodationResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\AccommodationType\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/AccommodationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$actual_start_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$end_stage_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$notes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$pilgrim_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$planned_end_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$planned_start_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$start_stage_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:\$trip_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\DepartureResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/DepartureResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\GpxTraceResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/GpxTraceResource.php
+
+		-
+			message: '#^PHPDoc tag @var with type App\\Modules\\Pilgrimage\\Models\\GpxTrace is not subtype of native type \$this\(App\\Modules\\Pilgrimage\\Http\\Resources\\GpxTraceResource\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/GpxTraceResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\ItemAssignmentResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/ItemAssignmentResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\JournalEntryResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Carbon\\Carbon\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\JournalVisibility\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/JournalEntryResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\JournalPhotoResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/JournalPhotoResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\MealResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/MealResource.php
+
+		-
+			message: '#^PHPDoc tag @var with type App\\Modules\\Pilgrimage\\Models\\Meal is not subtype of native type \$this\(App\\Modules\\Pilgrimage\\Http\\Resources\\MealResource\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/MealResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\MealContext\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/MealResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\MealType\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/MealResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\MealContext\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/MealResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\MealType\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/MealResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\OccupancyResource\:\:\$accommodation_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/OccupancyResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\OccupancyResource\:\:\$count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/OccupancyResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\OccupancyResource\:\:\$date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/OccupancyResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\OccupancyResource\:\:\$trip_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/OccupancyResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\OccupancyResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/OccupancyResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\PackItemResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PackItemResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\PackCategory\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PackItemResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\PackCategory\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PackItemResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\PackScenarioResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PackScenarioResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$avatar_url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$configuration\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$display_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$preferred_locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$target_base_weight_kg\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:\$target_daily_kcal\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\PilgrimResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/PilgrimResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Modules\\Pilgrimage\\Models\\PilgrimageRoute\:\:whenLoaded\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Http/Resources/RouteResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\RouteResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/RouteResource.php
+
+		-
+			message: '#^PHPDoc tag @var with type App\\Modules\\Pilgrimage\\Models\\PilgrimageRoute is not subtype of native type \$this\(App\\Modules\\Pilgrimage\\Http\\Resources\\RouteResource\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/RouteResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Modules\\Pilgrimage\\Models\\Stage\:\:whenLoaded\(\)\.$#'
+			identifier: method.notFound
+			count: 6
+			path: app/Modules/Pilgrimage/Http/Resources/StageResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\StageResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/StageResource.php
+
+		-
+			message: '#^PHPDoc tag @var with type App\\Modules\\Pilgrimage\\Models\\Stage is not subtype of native type \$this\(App\\Modules\\Pilgrimage\\Http\\Resources\\StageResource\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/StageResource.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\StageDifficulty\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/StageResource.php
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type App\\Modules\\Pilgrimage\\Enums\\StageDifficulty\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/StageResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$configuration\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$estimated_end_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$estimated_start_date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$invite_token\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$is_public\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$members\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$organizer\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$organizer_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$route_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\TripResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/TripResource.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Http\\Resources\\WaypointResource\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/WaypointResource.php
+
+		-
+			message: '#^PHPDoc tag @var with type App\\Modules\\Pilgrimage\\Models\\Waypoint is not subtype of native type \$this\(App\\Modules\\Pilgrimage\\Http\\Resources\\WaypointResource\)\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Modules/Pilgrimage/Http/Resources/WaypointResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$day_number\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Modules/Pilgrimage/Jobs/RebuildOccupancyForTripJob.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Jobs/RebuildOccupancyForTripJob.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$route_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Jobs/RebuildOccupancyForTripJob.php
+
+		-
+			message: '#^Parameter &\$counts by\-ref type of method App\\Modules\\Pilgrimage\\Jobs\\RebuildOccupancyForTripJob\:\:accumulateOneDeparture\(\) expects array\<string, array\{accommodation_id\: string, date\: string, trip_id\: string, count\: int\}\>, non\-empty\-array\<string, array\{accommodation_id\: mixed, date\: string, trip_id\: string, count\: int\}\> given\.$#'
+			identifier: parameterByRef.type
+			count: 2
+			path: app/Modules/Pilgrimage/Jobs/RebuildOccupancyForTripJob.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$display_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Mail/TripInvitationMail.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>display_name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Modules/Pilgrimage/Mail/TripInvitationMail.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Accommodation\:\:stage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Accommodation.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Accommodation\:\:waypoint\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Accommodation.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Departure\:\:endStage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Departure.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Departure\:\:itemAssignments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Departure.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Departure\:\:packScenario\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Departure.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Departure\:\:pilgrim\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Departure.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Departure\:\:startStage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Departure.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Departure\:\:trip\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Departure.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\GpxTrace\:\:stage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/GpxTrace.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\GpxTrace\:\:waypoint\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/GpxTrace.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\ItemAssignment\:\:assignedTo\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/ItemAssignment.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\ItemAssignment\:\:departure\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/ItemAssignment.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\ItemAssignment\:\:fromStage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/ItemAssignment.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\ItemAssignment\:\:packItem\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/ItemAssignment.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\ItemAssignment\:\:toStage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/ItemAssignment.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\JournalEntry\:\:photos\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/JournalEntry.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\JournalEntry\:\:pilgrim\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/JournalEntry.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\JournalEntry\:\:stage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/JournalEntry.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\JournalEntry\:\:trip\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/JournalEntry.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\JournalPhoto\:\:entry\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/JournalPhoto.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Meal\:\:stage\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Meal.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Meal\:\:waypoint\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Meal.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Occupancy\:\:accommodation\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Occupancy.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Occupancy\:\:trip\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Occupancy.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\PackItem\:\:itemAssignments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/PackItem.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\PackItem\:\:packScenario\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/PackItem.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\PackScenario\:\:itemAssignments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/PackScenario.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\PackScenario\:\:items\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/PackScenario.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\PackScenario\:\:pilgrim\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/PackScenario.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Pilgrim\:\:departures\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Pilgrim.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Pilgrim\:\:itemAssignments\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Pilgrim.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Pilgrim\:\:journalEntries\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Pilgrim.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Pilgrim\:\:organizedTrips\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Pilgrim.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Pilgrim\:\:packScenarios\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Pilgrim.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Pilgrim\:\:trips\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Pilgrim.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\PilgrimageRoute\:\:stages\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/PilgrimageRoute.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:accommodations\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:endWaypoint\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:gpxTraces\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:mainGpxTrace\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:meals\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:route\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:startWaypoint\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Stage\:\:waypoints\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Stage.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Relations\\Pivot\:\:\$role\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Trip\:\:departures\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Trip\:\:journalEntries\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Trip\:\:members\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Trip\:\:occupancies\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Trip\:\:organizer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Trip\:\:route\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Trip.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Waypoint\:\:gpxTraces\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Waypoint.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Models\\Waypoint\:\:stages\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany does not specify its types\: TRelatedModel, TDeclaringModel, TPivotModel, TAccessor \(2\-4 required\)$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Modules/Pilgrimage/Models/Waypoint.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:roleOf\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Modules/Pilgrimage/Policies/DeparturePolicy.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and null will always evaluate to false\.$#'
+			identifier: notIdentical.alwaysFalse
+			count: 1
+			path: app/Modules/Pilgrimage/Policies/JournalEntryPolicy.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and null will always evaluate to false\.$#'
+			identifier: notIdentical.alwaysFalse
+			count: 1
+			path: app/Modules/Pilgrimage/Policies/JournalPhotoPolicy.php
+
+		-
+			message: '#^Method App\\Modules\\Pilgrimage\\Services\\GpxImportService\:\:importFromLocalPath\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Modules/Pilgrimage/Services/GpxImportService.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Support\\Facades\\Cache\:\:getRedis\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Modules/Pilgrimage/Services/GpxSimplificationService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and false will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Modules/Pilgrimage/Services/GpxSimplificationService.php
+
+		-
+			message: '#^Trait App\\Policies\\Concerns\\InteractsWithPanelAuth is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: app/Policies/Concerns/InteractsWithPanelAuth.php

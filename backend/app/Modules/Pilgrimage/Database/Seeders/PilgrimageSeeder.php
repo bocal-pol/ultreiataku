@@ -17,6 +17,7 @@ use Illuminate\Database\Seeder;
  *   6. AccommodationSeeder → hébergements réels Belgique (vague 1b)
  *   7. MealSeeder          → repas signatures Belgique (vague 1b)
  *   8. PersonalTripSeeder  → seeds bocal (RÈGLE UTILISATEUR — vague 1c)
+ *   9. PackScenarioSeeder  → scénarios de sac bocal (ULTREIA-42 — vague 1d)
  */
 class PilgrimageSeeder extends Seeder
 {
@@ -33,6 +34,7 @@ class PilgrimageSeeder extends Seeder
             AccommodationSeeder::class,
             MealSeeder::class,
             PersonalTripSeeder::class,
+            PackScenarioSeeder::class,
         ]);
 
         $this->command->info('=== Pilgrimage Seeder — terminé ===');

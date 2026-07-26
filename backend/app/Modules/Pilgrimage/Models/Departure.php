@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Departure extends Model
 {
     /** @use HasFactory<DepartureFactory> */
     use HasFactory;
+
     use HasUuids;
 
     /** @var list<string> */
@@ -64,5 +66,17 @@ class Departure extends Model
     public function endStage(): BelongsTo
     {
         return $this->belongsTo(Stage::class, 'end_stage_id');
+    }
+
+    // ─── Vague 1d — Sac ──────────────────────────────────────────────────────
+
+    public function packScenario(): BelongsTo
+    {
+        return $this->belongsTo(PackScenario::class, 'pack_scenario_id');
+    }
+
+    public function itemAssignments(): HasMany
+    {
+        return $this->hasMany(ItemAssignment::class, 'departure_id');
     }
 }
