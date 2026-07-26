@@ -2,6 +2,7 @@
  * Tests — Sections Hébergement (ULTREIA-24) et Repas (ULTREIA-25)
  * Vitest + React Testing Library
  */
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -31,6 +32,24 @@ vi.mock('../shared/hooks/useStages.ts', () => ({
 
 vi.mock('../shared/hooks/useGpx.ts', () => ({
   useGpxSimplified: vi.fn(() => ({ data: null, isError: false })),
+}));
+// Mock AuthContext pour StageDetailScreen
+vi.mock('../context/AuthContext.tsx', () => ({
+  useAuth: vi.fn().mockReturnValue({
+    currentUser: null,
+    isAuthenticated: false,
+    isLoading: false,
+    login: vi.fn(),
+    logout: vi.fn(),
+  }),
+  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+// Mock useTrips pour AccommodationOccupancyBadge (tripId=null -> disabled)
+vi.mock('../shared/hooks/useTrips.ts', () => ({
+  useOccupancy: vi.fn(() => ({ data: undefined, isLoading: false, isError: false })),
+  tripKeys: { occupancy: (id: string) => ['trips', 'occupancy', id] as const },
 }));
 
 // MiniMap lazy-load

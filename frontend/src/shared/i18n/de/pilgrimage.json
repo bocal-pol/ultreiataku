@@ -99,7 +99,8 @@
       "stage_next": "T{{n}} →",
       "back": "← T{{n}}",
       "fullscreen_open": "Vollbild",
-      "fullscreen_close": "Vollbild beenden"
+      "fullscreen_close": "Vollbild beenden",
+      "gpx_auth_required": "Melden Sie sich an, um die GPX-Route zu sehen"
     },
     "journal": {
       "title": "Reisetagebuch",
@@ -177,7 +178,30 @@
       "join_decline": "Ablehnen",
       "already_member": "Sie sind bereits Mitglied dieser Reise.",
       "last_entry": "Letzte Neuigkeit",
-      "no_public_entry": "Noch keine geteilten Einträge."
+      "no_public_entry": "Noch keine geteilten Einträge.",
+      "my_trips_title": "Meine Reisen",
+      "new_trip": "Neue Reise",
+      "create_title": "Reise planen",
+      "name_label": "Name der Reise",
+      "route_label": "Route",
+      "start_date_label": "Abreisedatum (geschätzt)",
+      "members_section": "Reisegefährten",
+      "progress_section": "Fortschritt",
+      "no_trips": "Sie haben noch keine Reise. Erstellen Sie Ihre erste!",
+      "departure_section": "Meine Abreise",
+      "departure_start": "Startetappe",
+      "departure_end": "Zieletappe",
+      "departure_date": "Abreisedatum",
+      "departure_save": "Abreise speichern",
+      "departure_error_dates": "Die Zieletappe muss nach der Startetappe sein.",
+      "occupancy": "{{count}} Pilger erwartet diese Nacht",
+      "occupancy_other": "{{count}} Pilger erwartet diese Nacht",
+      "invite_dialog_title": "Reisegefährten einladen",
+      "invite_link_label": "Einladungslink",
+      "invite_copy": "Link kopieren",
+      "invite_copied": "Kopiert!",
+      "invite_revoke": "Widerrufen",
+      "join_preview_title": "Einladung zum gemeinsamen Wandern"
     },
     "nav": {
       "map": "Karte",
@@ -212,6 +236,12 @@
     "offline": {
       "banner": "Offline",
       "banner_back": "Wieder online"
+    },
+    "auth": {
+      "login_cta": "Anmelden",
+      "logout": "Abmelden",
+      "connecting": "Verbindung wird hergestellt…",
+      "login_required": "Melden Sie sich an, um auf diese Funktion zuzugreifen."
     }
   }
 }

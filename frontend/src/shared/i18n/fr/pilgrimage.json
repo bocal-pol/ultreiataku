@@ -99,7 +99,8 @@
       "stage_next": "J{{n}} →",
       "back": "← J{{n}}",
       "fullscreen_open": "Plein écran",
-      "fullscreen_close": "Quitter le plein écran"
+      "fullscreen_close": "Quitter le plein écran",
+      "gpx_auth_required": "Connectez-vous pour voir le tracé GPX"
     },
     "journal": {
       "title": "Carnet de voyage",
@@ -177,7 +178,30 @@
       "join_decline": "Décliner",
       "already_member": "Vous faites déjà partie de ce voyage.",
       "last_entry": "Dernière nouvelle",
-      "no_public_entry": "Pas encore d'entrée partagée."
+      "no_public_entry": "Pas encore d'entrée partagée.",
+      "my_trips_title": "Mes voyages",
+      "new_trip": "Nouveau voyage",
+      "create_title": "Planifier un voyage",
+      "name_label": "Nom du voyage",
+      "route_label": "Voie",
+      "start_date_label": "Date de départ (estimée)",
+      "members_section": "Compagnons",
+      "progress_section": "Progression",
+      "no_trips": "Vous n'avez encore aucun voyage. Créez votre premier !",
+      "departure_section": "Mon départ",
+      "departure_start": "Étape de départ",
+      "departure_end": "Étape d'arrivée",
+      "departure_date": "Date de départ",
+      "departure_save": "Enregistrer mon départ",
+      "departure_error_dates": "L'étape d'arrivée doit être après l'étape de départ.",
+      "occupancy": "{{count}} pèlerin prévu cette nuit",
+      "occupancy_other": "{{count}} pèlerins prévus cette nuit",
+      "invite_dialog_title": "Inviter un compagnon",
+      "invite_link_label": "Lien d'invitation",
+      "invite_copy": "Copier le lien",
+      "invite_copied": "Copié !",
+      "invite_revoke": "Révoquer",
+      "join_preview_title": "Invitation à marcher ensemble"
     },
     "nav": {
       "map": "Carte",
@@ -212,6 +236,12 @@
     "offline": {
       "banner": "Hors ligne",
       "banner_back": "De retour en ligne"
+    },
+    "auth": {
+      "login_cta": "Se connecter",
+      "logout": "Se déconnecter",
+      "connecting": "Connexion en cours…",
+      "login_required": "Connectez-vous pour accéder à cette fonctionnalité."
     }
   }
 }

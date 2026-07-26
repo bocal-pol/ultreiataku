@@ -113,3 +113,66 @@ export interface GpxLineModel {
 
 /** Statut connectivité réseau */
 export type NetworkStatus = 'online' | 'offline';
+
+// ─── Vague 1c — Trips & Auth ────────────────────────────────────────────────
+
+export interface PilgrimModel {
+  id: string;
+  userId: number;
+  displayName: string;
+  avatarUrl: string | null;
+  preferredLocale: 'fr' | 'nl' | 'de';
+  configuration: 'solo' | 'duo';
+}
+
+export interface TripMemberModel {
+  pilgrim: PilgrimModel;
+  role: 'organizer' | 'participant' | 'observer';
+  joinedAt: string;
+}
+
+export interface TripModel {
+  id: string;
+  name: string;
+  description: string | null;
+  status: 'planned' | 'active' | 'completed' | 'cancelled';
+  estimatedStartDate: string | null;
+  estimatedEndDate: string | null;
+  configuration: 'solo' | 'duo' | 'group';
+  isPublic: boolean;
+  inviteToken: string | null;
+  route: RouteModel;
+  members: TripMemberModel[];
+  organizer: PilgrimModel;
+  createdAt: string;
+}
+
+export interface DepartureModel {
+  id: string;
+  tripId: string;
+  pilgrimId: string;
+  startStageId: string;
+  endStageId: string;
+  plannedStartDate: string;
+  plannedEndDate: string | null;
+  status: 'planned' | 'active' | 'paused' | 'completed' | 'abandoned';
+}
+
+export interface OccupancyModel {
+  accommodationId: string;
+  date: string;
+  tripId: string;
+  count: number;
+}
+
+export interface CurrentUserModel {
+  userId: number;
+  name: string;
+  email: string;
+  pilgrim: PilgrimModel;
+}
+
+export interface TripJoinPreviewModel {
+  trip: TripModel;
+  role: 'organizer' | 'participant' | 'observer';
+}

@@ -12,6 +12,13 @@ import type {
   StageDetailResponseDto,
   RouteResponseDto,
   GeoJsonCollectionDto,
+  PilgrimResponseDto,
+  TripMemberResponseDto,
+  TripResponseDto,
+  DepartureResponseDto,
+  OccupancyResponseDto,
+  MeResponseDto,
+  TripJoinPreviewResponseDto,
 } from '../dtos/pilgrimage.ts';
 import type {
   WaypointModel,
@@ -22,6 +29,13 @@ import type {
   StageDetailModel,
   RouteModel,
   GpxLineModel,
+  PilgrimModel,
+  TripMemberModel,
+  TripModel,
+  DepartureModel,
+  OccupancyModel,
+  CurrentUserModel,
+  TripJoinPreviewModel,
 } from '../models/pilgrimage.ts';
 
 export function mapWaypoint(dto: WaypointResponseDto): WaypointModel {
@@ -146,5 +160,82 @@ export function mapGeoJson(dto: GeoJsonCollectionDto): GpxLineModel {
   if (!feature) return { coordinates: [] };
   return {
     coordinates: feature.geometry.coordinates as [number, number][],
+  };
+}
+
+// ─── Vague 1c — Trips & Auth ────────────────────────────────────────────────
+
+export function mapPilgrim(dto: PilgrimResponseDto): PilgrimModel {
+  return {
+    id: dto.id,
+    userId: dto.user_id,
+    displayName: dto.display_name,
+    avatarUrl: dto.avatar_url,
+    preferredLocale: dto.preferred_locale,
+    configuration: dto.configuration,
+  };
+}
+
+export function mapTripMember(dto: TripMemberResponseDto): TripMemberModel {
+  return {
+    pilgrim: mapPilgrim(dto.pilgrim),
+    role: dto.role,
+    joinedAt: dto.joined_at,
+  };
+}
+
+export function mapTrip(dto: TripResponseDto): TripModel {
+  return {
+    id: dto.id,
+    name: dto.name,
+    description: dto.description,
+    status: dto.status,
+    estimatedStartDate: dto.estimated_start_date,
+    estimatedEndDate: dto.estimated_end_date,
+    configuration: dto.configuration,
+    isPublic: dto.is_public,
+    inviteToken: dto.invite_token,
+    route: mapRoute(dto.route),
+    members: dto.members.map(mapTripMember),
+    organizer: mapPilgrim(dto.organizer),
+    createdAt: dto.created_at,
+  };
+}
+
+export function mapDeparture(dto: DepartureResponseDto): DepartureModel {
+  return {
+    id: dto.id,
+    tripId: dto.trip_id,
+    pilgrimId: dto.pilgrim_id,
+    startStageId: dto.start_stage_id,
+    endStageId: dto.end_stage_id,
+    plannedStartDate: dto.planned_start_date,
+    plannedEndDate: dto.planned_end_date,
+    status: dto.status,
+  };
+}
+
+export function mapOccupancy(dto: OccupancyResponseDto): OccupancyModel {
+  return {
+    accommodationId: dto.accommodation_id,
+    date: dto.date,
+    tripId: dto.trip_id,
+    count: dto.count,
+  };
+}
+
+export function mapCurrentUser(dto: MeResponseDto): CurrentUserModel {
+  return {
+    userId: dto.user.id,
+    name: dto.user.name,
+    email: dto.user.email,
+    pilgrim: mapPilgrim(dto.pilgrim),
+  };
+}
+
+export function mapTripJoinPreview(dto: TripJoinPreviewResponseDto): TripJoinPreviewModel {
+  return {
+    trip: mapTrip(dto.trip),
+    role: dto.role,
   };
 }

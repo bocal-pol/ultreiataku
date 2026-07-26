@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useStageDetail } from '../../../shared/hooks/useStages.ts';
+import { ApiError } from '../../../shared/api/client.ts';
 import { useGpxSimplified } from '../../../shared/hooks/useGpx.ts';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import type { WaypointModel } from '../../../models/pilgrimage.ts';
@@ -42,7 +43,8 @@ export function MapScreen() {
 
   const { data: stage } = useStageDetail(code ?? '');
   const mainTrace = stage?.gpxTraces.find(tr => tr.traceType === 'stage_main');
-  const { data: gpxLine, isError: gpxError } = useGpxSimplified(mainTrace?.id ?? null);
+  const { data: gpxLine, isError: gpxError, error: gpxErrorObj } = useGpxSimplified(mainTrace?.id ?? null);
+const isGpxUnauthorized = gpxError && gpxErrorObj instanceof ApiError && gpxErrorObj.status === 401;
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -343,9 +345,9 @@ export function MapScreen() {
         </div>
       )}
 
-      {/* Erreur GPX */}
+      {/* Erreur GPX — 401 : message d'auth ; autre : erreur générique */}
       {gpxError && (
-        <div role="alert" style={{
+        <div role="alert" data-testid="gpx-error-banner" style={{
           position: 'absolute', top: '52px', left: 'var(--space-4)', right: 'var(--space-4)',
           backgroundColor: 'rgba(232,152,58,0.15)',
           borderRadius: 'var(--radius-md)',
@@ -354,7 +356,7 @@ export function MapScreen() {
           color: 'var(--color-detour-amber)',
           zIndex: 1000,
         }}>
-          {t('error.gpx_unavailable')}
+          {isGpxUnauthorized ? t('map.gpx_auth_required') : t('error.gpx_unavailable')}
         </div>
       )}
 

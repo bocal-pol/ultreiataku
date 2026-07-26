@@ -3,10 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { Suspense, lazy, useState } from 'react';
 import { useStageDetail } from '../../../shared/hooks/useStages.ts';
 import { useGpxSimplified } from '../../../shared/hooks/useGpx.ts';
+import { ApiError } from '../../../shared/api/client.ts';
 import { DetourBadge } from '../../../shared/ui/DetourBadge.tsx';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import { EmptyState } from '../../../shared/ui/EmptyState.tsx';
 import type { WaypointModel, MealModel, AccommodationModel } from '../../../models/pilgrimage.ts';
+import { useOccupancy } from '../../../shared/hooks/useTrips.ts';
+import { useAuth } from '../../../context/AuthContext.tsx';
 
 const MiniMap = lazy(() => import('../map/MiniMap.tsx'));
 
@@ -126,6 +129,61 @@ function InlineBadge({ label, color }: { label: string; color?: string }) {
   );
 }
 
+
+// ── ULTREIA-37 — Occupancy badge ─────────────────────────────────────────────
+
+/**
+ * Affiche le nombre de pèlerins prévus dans un hébergement pour une date.
+ * Chargé silencieusement : 401 et autres erreurs sont ignorés.
+ * Requiert un tripId actif — V1 : on passe un tripId fictif, le hook gère l'absence.
+ */
+function AccommodationOccupancyBadge({
+  accommodationId,
+  stageDate,
+}: {
+  accommodationId: string;
+  stageDate: string;
+}) {
+  const { t } = useTranslation('pilgrimage');
+  // V1 : pas de tripId connu depuis cette vue — on ne peut pas charger l'occupancy
+  // sans connaître le trip actif. On retourne null en V1, prêt pour V2.
+  // En V2, useMyTrips().data.find(t => t.status === 'active')?.id sera injecté ici.
+  const tripId: string | null = null;
+
+  const { data: occupancies } = useOccupancy(tripId ?? '', accommodationId, {
+    enabled: Boolean(tripId && stageDate),
+    onError: () => { /* silently ignore */ },
+  });
+
+  if (!occupancies || occupancies.length === 0) return null;
+
+  const totalCount = occupancies.reduce((sum, o) => sum + o.count, 0);
+  if (totalCount === 0) return null;
+
+  return (
+    <div
+      data-testid="occupancy-badge"
+      role="status"
+      aria-live="polite"
+      style={{
+        marginTop: 'var(--space-2)',
+        fontSize: 'var(--font-size-xs)',
+        color: 'var(--color-camp-green)',
+        backgroundColor: 'rgba(90,158,90,0.08)',
+        borderRadius: 'var(--radius-full)',
+        padding: '2px 8px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '4px',
+        border: '1px solid rgba(90,158,90,0.25)',
+      }}
+    >
+      <span aria-hidden="true">👣</span>
+      {t('trip.occupancy', { count: totalCount })}
+    </div>
+  );
+}
+
 // ── ULTREIA-24 — Hébergement ──────────────────────────────────────────────────
 
 function AccommodationContact({ accom }: { accom: AccommodationModel }) {
@@ -196,8 +254,11 @@ function AccommodationVerifiedBadge({ verifiedAt }: { verifiedAt: string | null 
   );
 }
 
-function AccommodationCard({ accom, isPrimary }: { accom: AccommodationModel; isPrimary: boolean }) {
+function AccommodationCard({ accom, isPrimary, stageCode, isAuthenticated }: { accom: AccommodationModel; isPrimary: boolean; stageCode?: string; isAuthenticated?: boolean }) {
   const { t } = useTranslation('pilgrimage');
+  // Premier trip actif membre — on utilise le premier trip de l'utilisateur
+  // L'occupancy est chargée silencieusement, 401 ignoré
+  const today = new Date().toISOString().split('T')[0] ?? '';
 
   const priceLabel = (() => {
     if (accom.isDonativo) return t('accommodation.types.donativo');
@@ -278,6 +339,14 @@ function AccommodationCard({ accom, isPrimary }: { accom: AccommodationModel; is
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', marginTop: 'var(--space-2)', lineHeight: 'var(--line-height-relaxed)', margin: 'var(--space-2) 0 0' }}>
           {accom.notes}
         </p>
+      )}
+
+      {/* Occupancy badge — ULTREIA-37 */}
+      {isAuthenticated && stageCode && (
+        <AccommodationOccupancyBadge
+          accommodationId={accom.id}
+          stageDate={today}
+        />
       )}
 
       {/* Contact */}
@@ -517,10 +586,12 @@ export function StageDetailScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('pilgrimage');
 
+  const { isAuthenticated } = useAuth();
   const { data: stage, isLoading, isError } = useStageDetail(code ?? '');
 
   const mainGpxTrace = stage?.gpxTraces.find(tr => tr.traceType === 'stage_main');
-  const { data: gpxLine } = useGpxSimplified(mainGpxTrace?.id ?? null);
+  const { data: gpxLine, isError: gpxError, error: gpxErrorObj } = useGpxSimplified(mainGpxTrace?.id ?? null);
+  const isGpxUnauthorized = gpxError && gpxErrorObj instanceof ApiError && gpxErrorObj.status === 401;
 
   if (isLoading) {
     return (
@@ -602,7 +673,23 @@ export function StageDetailScreen() {
       }}>
         {/* Mini-carte */}
         <Suspense fallback={<div style={{ height: '180px', backgroundColor: 'var(--color-bg-elevated)' }} />}>
-          {gpxLine && (
+          {isGpxUnauthorized ? (
+            <div
+              role="status"
+              data-testid="gpx-auth-required"
+              style={{
+                height: '180px',
+                backgroundColor: 'var(--color-bg-elevated)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 'var(--font-size-sm)',
+                color: 'var(--color-text-tertiary)',
+              }}
+            >
+              {t('map.gpx_auth_required')}
+            </div>
+          ) : gpxLine ? (
             <div style={{ height: '180px', position: 'relative' }} data-testid="mini-map">
               <MiniMap
                 stageCode={stage.code}
@@ -634,7 +721,7 @@ export function StageDetailScreen() {
                 {t('stage.see_on_map')}
               </button>
             </div>
-          )}
+          ) : null}
         </Suspense>
 
         <div style={{ padding: 'var(--space-4)' }}>
@@ -675,7 +762,7 @@ export function StageDetailScreen() {
               <div id="night-heading" style={{ display: 'none' }}>{t('stage.night_section')}</div>
 
               {/* Hébergement principal */}
-              {primaryAccom.map(a => <AccommodationCard key={a.id} accom={a} isPrimary />)}
+              {primaryAccom.map(a => <AccommodationCard key={a.id} accom={a} isPrimary stageCode={stage.code} isAuthenticated={isAuthenticated} />)}
 
               {/* Zone bivouac légal (si aucun hébergement principal ou en complément) */}
               {bivouacAccom && (

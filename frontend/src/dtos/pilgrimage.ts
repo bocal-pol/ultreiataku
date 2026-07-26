@@ -133,3 +133,86 @@ export interface GeoJsonCollectionDto {
   type: 'FeatureCollection';
   features: GeoJsonFeatureDto[];
 }
+
+// ─── Vague 1c — Trips & Auth ────────────────────────────────────────────────
+
+export interface PilgrimResponseDto {
+  id: string;
+  user_id: number;
+  display_name: string;
+  avatar_url: string | null;
+  preferred_locale: 'fr' | 'nl' | 'de';
+  configuration: 'solo' | 'duo';
+}
+
+export interface TripMemberResponseDto {
+  pilgrim: PilgrimResponseDto;
+  role: 'organizer' | 'participant' | 'observer';
+  joined_at: string;
+}
+
+export interface TripResponseDto {
+  id: string;
+  name: string;
+  description: string | null;
+  status: 'planned' | 'active' | 'completed' | 'cancelled';
+  estimated_start_date: string | null;
+  estimated_end_date: string | null;
+  configuration: 'solo' | 'duo' | 'group';
+  is_public: boolean;
+  invite_token: string | null;
+  route: RouteResponseDto;
+  members: TripMemberResponseDto[];
+  organizer: PilgrimResponseDto;
+  created_at: string;
+}
+
+export interface DepartureResponseDto {
+  id: string;
+  trip_id: string;
+  pilgrim_id: string;
+  start_stage_id: string;
+  end_stage_id: string;
+  planned_start_date: string;
+  planned_end_date: string | null;
+  status: 'planned' | 'active' | 'paused' | 'completed' | 'abandoned';
+}
+
+export interface OccupancyResponseDto {
+  accommodation_id: string;
+  date: string;
+  trip_id: string;
+  count: number;
+}
+
+export interface TripCreateRequestDto {
+  name: string;
+  route_id: string;
+  estimated_start_date: string | null;
+  configuration: 'solo' | 'duo' | 'group';
+  description: string | null;
+}
+
+export interface DepartureCreateRequestDto {
+  start_stage_id: string;
+  end_stage_id: string;
+  planned_start_date: string;
+}
+
+export interface MeResponseDto {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
+  pilgrim: PilgrimResponseDto;
+}
+
+export interface InviteTokenResponseDto {
+  token: string;
+}
+
+export interface TripJoinPreviewResponseDto {
+  trip: TripResponseDto;
+  role: 'organizer' | 'participant' | 'observer';
+}

@@ -99,7 +99,8 @@
       "stage_next": "D{{n}} →",
       "back": "← D{{n}}",
       "fullscreen_open": "Volledig scherm",
-      "fullscreen_close": "Volledig scherm verlaten"
+      "fullscreen_close": "Volledig scherm verlaten",
+      "gpx_auth_required": "Meld u aan om het GPX-parcours te zien"
     },
     "journal": {
       "title": "Reisdagboek",
@@ -177,7 +178,30 @@
       "join_decline": "Weigeren",
       "already_member": "U bent al lid van deze reis.",
       "last_entry": "Laatste nieuws",
-      "no_public_entry": "Nog geen gedeelde berichten."
+      "no_public_entry": "Nog geen gedeelde berichten.",
+      "my_trips_title": "Mijn reizen",
+      "new_trip": "Nieuwe reis",
+      "create_title": "Reis plannen",
+      "name_label": "Naam van de reis",
+      "route_label": "Route",
+      "start_date_label": "Vertrekdatum (geschat)",
+      "members_section": "Reisgenoten",
+      "progress_section": "Voortgang",
+      "no_trips": "U heeft nog geen reis. Maak uw eerste aan!",
+      "departure_section": "Mijn vertrek",
+      "departure_start": "Vertreketrappe",
+      "departure_end": "Aankometappe",
+      "departure_date": "Vertrekdatum",
+      "departure_save": "Mijn vertrek opslaan",
+      "departure_error_dates": "De aankomsetappe moet na de vertreketrappe zijn.",
+      "occupancy": "{{count}} pelgrim verwacht deze nacht",
+      "occupancy_other": "{{count}} pelgrims verwacht deze nacht",
+      "invite_dialog_title": "Reisgenoot uitnodigen",
+      "invite_link_label": "Uitnodigingslink",
+      "invite_copy": "Link kopiëren",
+      "invite_copied": "Gekopieerd!",
+      "invite_revoke": "Intrekken",
+      "join_preview_title": "Uitnodiging om samen te wandelen"
     },
     "nav": {
       "map": "Kaart",
@@ -212,6 +236,12 @@
     "offline": {
       "banner": "Offline",
       "banner_back": "Weer online"
+    },
+    "auth": {
+      "login_cta": "Aanmelden",
+      "logout": "Afmelden",
+      "connecting": "Verbinding maken…",
+      "login_required": "Meld u aan om toegang te krijgen tot deze functie."
     }
   }
 }

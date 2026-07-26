@@ -1,6 +1,7 @@
 /**
  * Client HTTP — fetch + retry + Bearer token
  * Le token est lu depuis localStorage (posé par le SSO callback).
+ * 401 global : clear token + redirect vers /auth/login
  */
 
 const API_BASE = '/api/pilgrimage';
@@ -29,6 +30,15 @@ async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
     body: opts.body,
     signal: opts.signal,
   });
+
+  if (response.status === 401) {
+    // Token expiré ou invalide — nettoyage et redirect login
+    localStorage.removeItem('ultreia_token');
+    localStorage.removeItem('ultreia_user');
+    // Déclencher un événement custom pour que AuthProvider réagisse
+    window.dispatchEvent(new CustomEvent('ultreia:unauthorized'));
+    throw new ApiError(401, 'Unauthorized');
+  }
 
   if (!response.ok) {
     const text = await response.text();
