@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
+use BackedEnum;
+use UnitEnum;
 use App\Modules\Pilgrimage\Enums\GpxPrecision;
 use App\Modules\Pilgrimage\Enums\GpxTraceType;
 use App\Modules\Pilgrimage\Filament\Resources\GpxTraceResource\Pages;
@@ -13,7 +15,7 @@ use App\Modules\Pilgrimage\Models\Waypoint;
 use App\Modules\Pilgrimage\Services\GpxImportService;
 use App\Modules\Pilgrimage\Support\GpxXmlParser;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,9 +26,9 @@ class GpxTraceResource extends Resource
 {
     protected static ?string $model = GpxTrace::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-path';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-arrow-path';
 
-    protected static ?string $navigationGroup = 'Pèlerinage';
+    protected static UnitEnum|string|null $navigationGroup = 'Pèlerinage';
 
     protected static ?string $modelLabel = 'Trace GPX';
 
@@ -34,9 +36,9 @@ class GpxTraceResource extends Resource
 
     protected static ?int $navigationSort = 4;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Forms\Components\Section::make('Identification')->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nom')

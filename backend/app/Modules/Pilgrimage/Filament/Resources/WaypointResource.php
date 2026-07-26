@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
+use BackedEnum;
+use UnitEnum;
 use App\Modules\Pilgrimage\Enums\DetourType;
 use App\Modules\Pilgrimage\Enums\PoiCategory;
 use App\Modules\Pilgrimage\Enums\WaypointType;
 use App\Modules\Pilgrimage\Filament\Resources\WaypointResource\Pages;
 use App\Modules\Pilgrimage\Models\Waypoint;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,9 +21,9 @@ class WaypointResource extends Resource
 {
     protected static ?string $model = Waypoint::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-map-pin';
 
-    protected static ?string $navigationGroup = 'Pèlerinage';
+    protected static UnitEnum|string|null $navigationGroup = 'Pèlerinage';
 
     protected static ?string $modelLabel = 'Waypoint / POI';
 
@@ -29,9 +31,9 @@ class WaypointResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Forms\Components\Section::make('Identification')->schema([
                 Forms\Components\TextInput::make('slug')
                     ->required()

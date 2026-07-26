@@ -1,8 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers\Filament;
 
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\RedirectToCentralAuth;
+use App\Modules\Pilgrimage\Filament\Resources\TripResource;
+use App\Modules\Pilgrimage\Filament\Resources\PilgrimResource;
+use App\Modules\Pilgrimage\Filament\Widgets\AccommodationsToVerifyWidget;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -11,7 +16,6 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -27,18 +31,29 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            // ADR-U06 — Pas de formulaire de login natif Filament
+            // L'auth passe via RedirectToCentralAuth (SSO SiteV26)
+            ->login(null)
             ->colors([
-                'primary' => Color::Amber,
+                // Palette OikoTaku — Terracotta (theme Ultreiataku)
+                'primary' => Color::hex('#D96B43'),
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            // Resources module Pilgrimage (vagues 1a/1b/1c)
+            ->discoverResources(
+                in: app_path('Modules/Pilgrimage/Filament/Resources'),
+                for: 'App\Modules\Pilgrimage\Filament\Resources',
+            )
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->discoverWidgets(
+                in: app_path('Modules/Pilgrimage/Filament/Widgets'),
+                for: 'App\Modules\Pilgrimage\Filament\Widgets',
+            )
             ->widgets([
                 AccountWidget::class,
-                FilamentInfoWidget::class,
+                AccommodationsToVerifyWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -51,8 +66,9 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            // ADR-U06 : SSO middleware — remplace Filament\Authenticate natif
             ->authMiddleware([
-                Authenticate::class,
+                RedirectToCentralAuth::class,
             ]);
     }
 }

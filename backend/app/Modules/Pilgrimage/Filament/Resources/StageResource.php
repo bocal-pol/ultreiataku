@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
+use BackedEnum;
+use UnitEnum;
 use App\Modules\Pilgrimage\Enums\AccommodationType;
 use App\Modules\Pilgrimage\Enums\StageDifficulty;
 use App\Modules\Pilgrimage\Filament\Resources\StageResource\Pages;
@@ -11,7 +13,7 @@ use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Waypoint;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,9 +22,9 @@ class StageResource extends Resource
 {
     protected static ?string $model = Stage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-map-pin';
 
-    protected static ?string $navigationGroup = 'Pèlerinage';
+    protected static UnitEnum|string|null $navigationGroup = 'Pèlerinage';
 
     protected static ?string $modelLabel = 'Étape';
 
@@ -30,9 +32,9 @@ class StageResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Forms\Components\Section::make('Étape')->schema([
                 Forms\Components\Select::make('route_id')
                     ->label('Route')

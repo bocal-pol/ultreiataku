@@ -16,6 +16,7 @@ use Illuminate\Database\Seeder;
  *   5. GpxTraceSeeder      → importe les traces GPX et crée les GpxTrace
  *   6. AccommodationSeeder → hébergements réels Belgique (vague 1b)
  *   7. MealSeeder          → repas signatures Belgique (vague 1b)
+ *   8. PersonalTripSeeder  → seeds bocal (RÈGLE UTILISATEUR — vague 1c)
  */
 class PilgrimageSeeder extends Seeder
 {
@@ -31,6 +32,7 @@ class PilgrimageSeeder extends Seeder
             GpxTraceSeeder::class,
             AccommodationSeeder::class,
             MealSeeder::class,
+            PersonalTripSeeder::class,
         ]);
 
         $this->command->info('=== Pilgrimage Seeder — terminé ===');
