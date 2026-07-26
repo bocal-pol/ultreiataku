@@ -5,6 +5,7 @@ use App\Modules\Pilgrimage\Http\Controllers\Api\GpxTraceController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\JournalEntryController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\JournalPhotoController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\MealController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\MeController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\PackScenarioController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\RouteController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\StageController;
@@ -54,6 +55,10 @@ Route::prefix('api/pilgrimage')->group(function () {
     // ─── Vague 1c — Trips (ULTREIA-35) — authentifié ────────────────────────
 
     Route::middleware('auth:api')->group(function () {
+
+        // Utilisateur courant + profil Pilgrim (contrat frontend MeResponseDto)
+        Route::get('/me', [MeController::class, 'show'])
+            ->name('api.pilgrimage.me');
 
         // ULTREIA-32 : rejoindre via token (avant le groupe /{id} pour éviter le conflit)
         Route::post('/trips/join/{token}', [TripController::class, 'joinByToken'])
