@@ -17,6 +17,7 @@ import { useAuth } from '../../../context/AuthContext.tsx';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import { EmptyState } from '../../../shared/ui/EmptyState.tsx';
 import type { TripMemberModel } from '../../../models/pilgrimage.ts';
+import { WhoCarriesWhat } from '../pack/WhoCarriesWhat.tsx';
 
 // ─── Sous-composants ─────────────────────────────────────────────────────────
 
@@ -686,6 +687,15 @@ export function TripDashboardScreen() {
             }}>
               <DepartureForm tripId={trip.id} stages={routeStages} />
             </div>
+          </section>
+        )}
+
+        {/* Qui porte quoi — ULTREIA-45 */}
+        {(isOrganizer || isParticipant) && (
+          <section aria-labelledby="who-carries-heading">
+            <SectionHeader title="Qui porte quoi" />
+            <div id="who-carries-heading" style={{ display: 'none' }}>Qui porte quoi</div>
+            <WhoCarriesWhat trip={trip} />
           </section>
         )}
 

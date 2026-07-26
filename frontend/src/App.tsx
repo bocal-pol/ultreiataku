@@ -7,7 +7,6 @@ import { SyncIndicator } from './shared/ui/SyncIndicator.tsx';
 import { StageListScreen } from './features/pilgrimage/stages/StageListScreen.tsx';
 import { StageDetailScreen } from './features/pilgrimage/stages/StageDetailScreen.tsx';
 import { MapScreen } from './features/pilgrimage/map/MapScreen.tsx';
-import { JournalPlaceholder } from './features/pilgrimage/journal/JournalPlaceholder.tsx';
 import { AuthCallbackScreen } from './features/auth/AuthCallbackScreen.tsx';
 import { SplashScreen } from './features/auth/SplashScreen.tsx';
 import { MyTripsScreen } from './features/pilgrimage/trip/MyTripsScreen.tsx';
@@ -15,6 +14,12 @@ import { TripCreateScreen } from './features/pilgrimage/trip/TripCreateScreen.ts
 import { TripDashboardScreen } from './features/pilgrimage/trip/TripDashboardScreen.tsx';
 import { TripJoinScreen } from './features/pilgrimage/trip/TripJoinScreen.tsx';
 import { AuthGuard } from './context/AuthContext.tsx';
+// Vague 1d — Sac
+import { PackScreen } from './features/pilgrimage/pack/PackScreen.tsx';
+import { PackScenarioDetailScreen } from './features/pilgrimage/pack/PackScenarioDetailScreen.tsx';
+// Vague 1e — Journal
+import { JournalScreen } from './features/pilgrimage/journal/JournalScreen.tsx';
+import { JournalEntryFormScreen } from './features/pilgrimage/journal/JournalEntryFormScreen.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,18 +30,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-function PackPlaceholder() {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      height: '100%', color: 'var(--color-text-tertiary)',
-      fontSize: 'var(--font-size-md)', padding: 'var(--space-8)', textAlign: 'center',
-    }}>
-      Sac — à venir
-    </div>
-  );
-}
 
 function ProfilePlaceholder() {
   return (
@@ -98,11 +91,31 @@ export default function App() {
                   </AuthGuard>
                 } />
 
-                {/* Sac + Journal + Profil */}
-                <Route path="/sac" element={<PackPlaceholder />} />
-                <Route path="/sac/:id" element={<PackPlaceholder />} />
-                <Route path="/journal" element={<JournalPlaceholder />} />
-                <Route path="/journal/:tripId" element={<JournalPlaceholder />} />
+                {/* Vague 1d — Sac */}
+                <Route path="/sac" element={
+                  <AuthGuard>
+                    <PackScreen />
+                  </AuthGuard>
+                } />
+                <Route path="/sac/:id" element={
+                  <AuthGuard>
+                    <PackScenarioDetailScreen />
+                  </AuthGuard>
+                } />
+
+                {/* Vague 1e — Journal */}
+                <Route path="/journal/:tripId" element={
+                  <AuthGuard>
+                    <JournalScreen />
+                  </AuthGuard>
+                } />
+                <Route path="/journal/:tripId/new" element={
+                  <AuthGuard>
+                    <JournalEntryFormScreen />
+                  </AuthGuard>
+                } />
+
+                {/* Profil */}
                 <Route path="/profil" element={<ProfilePlaceholder />} />
 
                 {/* Fallback */}

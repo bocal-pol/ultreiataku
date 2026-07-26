@@ -1,11 +1,12 @@
 /**
- * Service Worker — Ultreiataku (ULTREIA-19)
+ * Service Worker — Ultreiataku (ULTREIA-19 + ULTREIA-57)
  *
  * Stratégies :
  *   - App shell (HTML/CSS/JS)         : Cache First
  *   - OSM tiles                       : Cache First 30j, zooms 12-16
  *   - API JSON /api/pilgrimage/*      : Stale-While-Revalidate 24h
  *   - GeoJSON /api/pilgrimage/gpx/*   : Cache First 7j
+ *   - Photos journal /journal/photos/ : Cache First 24h (ULTREIA-57)
  *   - Autres                          : Network First
  */
 
@@ -13,10 +14,12 @@ const SHELL_CACHE   = 'ultreia-shell-v1';
 const TILES_CACHE   = 'ultreia-tiles-v1';
 const API_CACHE     = 'ultreia-api-v1';
 const GPX_CACHE     = 'ultreia-gpx-v1';
+const PHOTOS_CACHE  = 'ultreia-journal-photos-v1';
 
-const TILES_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 jours
-const API_MAX_AGE_MS   = 24 * 60 * 60 * 1000;        // 24h
-const GPX_MAX_AGE_MS   = 7  * 24 * 60 * 60 * 1000;  // 7 jours
+const TILES_MAX_AGE_MS  = 30 * 24 * 60 * 60 * 1000; // 30 jours
+const API_MAX_AGE_MS    = 24 * 60 * 60 * 1000;        // 24h
+const GPX_MAX_AGE_MS    = 7  * 24 * 60 * 60 * 1000;  // 7 jours
+const PHOTOS_MAX_AGE_MS = 24 * 60 * 60 * 1000;        // 24h (ULTREIA-57)
 
 const SHELL_URLS = [
   '/',
@@ -33,7 +36,7 @@ self.addEventListener('install', (/** @type {ExtendableEvent} */ event) => {
 
 // ── Activate ─────────────────────────────────────────────────
 self.addEventListener('activate', (/** @type {ExtendableEvent} */ event) => {
-  const validCaches = [SHELL_CACHE, TILES_CACHE, API_CACHE, GPX_CACHE];
+  const validCaches = [SHELL_CACHE, TILES_CACHE, API_CACHE, GPX_CACHE, PHOTOS_CACHE];
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => !validCaches.includes(k)).map(k => caches.delete(k)))
@@ -55,9 +58,19 @@ self.addEventListener('fetch', (/** @type {FetchEvent} */ event) => {
     return;
   }
 
-  // GeoJSON GPX simplifié — Cache First 7j
+  // GeoJSON GPX simplifié — Cache First 7j (avant le catch-all API ci-dessous)
   if (url.pathname.includes('/api/pilgrimage/gpx/') && url.pathname.includes('/simplified')) {
     event.respondWith(cacheFirst(event.request, GPX_CACHE, GPX_MAX_AGE_MS));
+    return;
+  }
+
+  // ULTREIA-57 : Photos journal — Cache First 24h
+  // Seulement les GET (pas les POST/DELETE) — les uploads passent en Network First
+  if (
+    url.pathname.includes('/api/pilgrimage/journal/photos/') &&
+    event.request.method === 'GET'
+  ) {
+    event.respondWith(cacheFirst(event.request, PHOTOS_CACHE, PHOTOS_MAX_AGE_MS));
     return;
   }
 

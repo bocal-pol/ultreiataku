@@ -32,6 +32,8 @@ Object.defineProperty(navigator, 'serviceWorker', {
   value: {
     register: vi.fn().mockResolvedValue(undefined),
     ready: Promise.resolve({ sync: { register: vi.fn() } }),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
   },
   writable: true,
 });
@@ -44,16 +46,24 @@ Object.defineProperty(navigator, 'geolocation', {
   writable: true,
 });
 
-// Mock IndexedDB
+// Mock IndexedDB — inclut toutes les fonctions vagues 1a→1e
 vi.mock('../shared/db/indexeddb.ts', () => ({
   getDb: vi.fn(),
   cacheStage: vi.fn().mockResolvedValue(undefined),
   getCachedStage: vi.fn().mockResolvedValue(undefined),
   cacheGpx: vi.fn().mockResolvedValue(undefined),
   getCachedGpx: vi.fn().mockResolvedValue(null),
+  // Journal pending
   getPendingJournalEntries: vi.fn().mockResolvedValue([]),
+  getAllJournalEntries: vi.fn().mockResolvedValue([]),
   putPendingJournalEntry: vi.fn().mockResolvedValue(undefined),
   markJournalEntrySynced: vi.fn().mockResolvedValue(undefined),
+  getJournalEntry: vi.fn().mockResolvedValue(undefined),
+  // Journal photo pending
+  getPendingPhotosForEntry: vi.fn().mockResolvedValue([]),
+  putPendingPhoto: vi.fn().mockResolvedValue(undefined),
+  deletePendingPhoto: vi.fn().mockResolvedValue(undefined),
+  gcOrphanPhotos: vi.fn().mockResolvedValue(undefined),
 }));
 
 // Cleanup after each test
