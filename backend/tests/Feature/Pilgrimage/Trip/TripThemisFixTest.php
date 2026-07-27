@@ -57,7 +57,7 @@ class TripThemisFixTest extends TestCase
         ]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/trips');
 
         $response->assertStatus(200)
@@ -74,7 +74,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($otherPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/trips');
 
         $response->assertStatus(200);
@@ -91,7 +91,7 @@ class TripThemisFixTest extends TestCase
         ]);
         $foreignTrip->members()->attach($otherPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/trips');
 
         $response->assertStatus(200);
@@ -101,7 +101,7 @@ class TripThemisFixTest extends TestCase
 
     public function test_index_returns_empty_array_for_pilgrim_with_no_trips(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/trips')
             ->assertStatus(200)
             ->assertJsonCount(0, 'data');
@@ -118,7 +118,7 @@ class TripThemisFixTest extends TestCase
         ]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/trips/{$trip->id}");
 
         $response->assertStatus(200)
@@ -137,7 +137,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($organizerPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/trips/{$trip->id}");
 
         $response->assertStatus(200)
@@ -156,7 +156,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($organizerPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'observer', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/trips/{$trip->id}");
 
         $response->assertStatus(200)
@@ -175,7 +175,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($this->pilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
         // L'organisateur tente de s'auto-éjecter
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->deleteJson("/api/pilgrimage/trips/{$trip->id}/members/{$this->pilgrim->id}");
 
         $response->assertStatus(422)
@@ -193,7 +193,7 @@ class TripThemisFixTest extends TestCase
         $participantPilgrim = Pilgrim::factory()->create();
         $trip->members()->attach($participantPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->deleteJson("/api/pilgrimage/trips/{$trip->id}/members/{$participantPilgrim->id}")
             ->assertStatus(200);
 
@@ -232,7 +232,7 @@ class TripThemisFixTest extends TestCase
         // Pèlerin totalement étranger au Trip
         $outsiderPilgrim = Pilgrim::factory()->create();
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $outsiderPilgrim->id,
                 'start_stage_id' => $stage1->id,
@@ -270,7 +270,7 @@ class TripThemisFixTest extends TestCase
         $memberPilgrim = Pilgrim::factory()->create();
         $trip->members()->attach($memberPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $memberPilgrim->id,
                 'start_stage_id' => $stage1->id,
@@ -320,7 +320,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($victimPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
         // Le participant tente de créer une departure pour la victime → 403
-        $response = $this->actingAs($participantUser, 'api')
+        $response = $this->actingAs($participantUser, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $victimPilgrim->id,
                 'start_stage_id' => $stage1->id,
@@ -362,7 +362,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($participantPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
         // Le participant crée une departure pour lui-même → 201
-        $response = $this->actingAs($participantUser, 'api')
+        $response = $this->actingAs($participantUser, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $participantPilgrim->id,
                 'start_stage_id' => $stage1->id,
@@ -401,7 +401,7 @@ class TripThemisFixTest extends TestCase
         $trip->members()->attach($memberPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
         // L'organisateur crée une departure pour le membre → 201
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $memberPilgrim->id,
                 'start_stage_id' => $stage1->id,

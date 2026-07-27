@@ -55,45 +55,45 @@ class JournalEntryVisibilityTest extends TestCase
 
         $route = PilgrimageRoute::factory()->create();
 
-        $this->organizerUser    = User::factory()->create();
+        $this->organizerUser = User::factory()->create();
         $this->organizerPilgrim = Pilgrim::factory()->create(['user_id' => $this->organizerUser->id]);
 
-        $this->authorUser    = User::factory()->create();
+        $this->authorUser = User::factory()->create();
         $this->authorPilgrim = Pilgrim::factory()->create(['user_id' => $this->authorUser->id]);
 
-        $this->participantUser    = User::factory()->create();
+        $this->participantUser = User::factory()->create();
         $this->participantPilgrim = Pilgrim::factory()->create(['user_id' => $this->participantUser->id]);
 
-        $this->observerUser    = User::factory()->create();
+        $this->observerUser = User::factory()->create();
         $this->observerPilgrim = Pilgrim::factory()->create(['user_id' => $this->observerUser->id]);
 
         $this->outsiderUser = User::factory()->create();
         Pilgrim::factory()->create(['user_id' => $this->outsiderUser->id]);
 
         $this->trip = Trip::factory()->create([
-            'route_id'     => $route->id,
+            'route_id' => $route->id,
             'organizer_id' => $this->organizerPilgrim->id,
-            'is_public'    => false,
+            'is_public' => false,
         ]);
 
         // Ajouter les membres
         $this->trip->members()->attach($this->organizerPilgrim->id, [
-            'role'      => 'organizer',
+            'role' => 'organizer',
             'joined_at' => now(),
             'invited_by' => null,
         ]);
         $this->trip->members()->attach($this->authorPilgrim->id, [
-            'role'      => 'participant',
+            'role' => 'participant',
             'joined_at' => now(),
             'invited_by' => null,
         ]);
         $this->trip->members()->attach($this->participantPilgrim->id, [
-            'role'      => 'participant',
+            'role' => 'participant',
             'joined_at' => now(),
             'invited_by' => null,
         ]);
         $this->trip->members()->attach($this->observerPilgrim->id, [
-            'role'      => 'observer',
+            'role' => 'observer',
             'joined_at' => now(),
             'invited_by' => null,
         ]);
@@ -104,7 +104,7 @@ class JournalEntryVisibilityTest extends TestCase
     private function createEntry(string $visibility): JournalEntry
     {
         return JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => $visibility,
             'entry_date' => now()->format('Y-m-d'),
@@ -113,14 +113,14 @@ class JournalEntryVisibilityTest extends TestCase
 
     private function assertCanView(User $user, JournalEntry $entry): void
     {
-        $this->actingAs($user, 'api')
+        $this->actingAs($user, 'web')
             ->getJson('/api/pilgrimage/journal/entries/' . $entry->id)
             ->assertStatus(200);
     }
 
     private function assertCannotView(User $user, JournalEntry $entry): void
     {
-        $this->actingAs($user, 'api')
+        $this->actingAs($user, 'web')
             ->getJson('/api/pilgrimage/journal/entries/' . $entry->id)
             ->assertStatus(403);
     }
@@ -249,25 +249,25 @@ class JournalEntryVisibilityTest extends TestCase
     public function test_index_filters_by_visibility_for_observer(): void
     {
         JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => 'private',
             'entry_date' => now()->format('Y-m-d'),
         ]);
         JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => 'members',
             'entry_date' => now()->format('Y-m-d'),
         ]);
         $publicEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => 'public',
             'entry_date' => now()->format('Y-m-d'),
         ]);
 
-        $response = $this->actingAs($this->observerUser, 'api')
+        $response = $this->actingAs($this->observerUser, 'web')
             ->getJson('/api/pilgrimage/trips/' . $this->trip->id . '/journal');
 
         $response->assertStatus(200);
@@ -279,13 +279,13 @@ class JournalEntryVisibilityTest extends TestCase
     public function test_index_shows_all_for_organizer(): void
     {
         JournalEntry::factory()->count(3)->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => 'private',
             'entry_date' => now()->format('Y-m-d'),
         ]);
 
-        $response = $this->actingAs($this->organizerUser, 'api')
+        $response = $this->actingAs($this->organizerUser, 'web')
             ->getJson('/api/pilgrimage/trips/' . $this->trip->id . '/journal');
 
         // L'organizer voit les private de l'auteur ? Non selon RG-03

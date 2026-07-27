@@ -45,9 +45,13 @@ return [
     | should be encrypted before it's stored. All encryption is performed
     | automatically by Laravel and you may use the session like normal.
     |
+    | P0-01 (SEC-ULTREIA-AUTH) — Aligné sur Oikotaku : encrypt=true.
+    | Protège les données de session (auth_service_user, auth_pilgrim_id…)
+    | stockées en base contre une lecture directe en cas d'accès DB compromis.
+    |
     */
 
-    'encrypt' => env('SESSION_ENCRYPT', false),
+    'encrypt' => env('SESSION_ENCRYPT', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +133,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug((string) env('APP_NAME', 'laravel')).'-session'
+        Str::slug((string) env('APP_NAME', 'laravel')) . '-session'
     ),
 
     /*
@@ -167,9 +171,21 @@ return [
     | to the server if the browser has a HTTPS connection. This will keep
     | the cookie from being sent to you when it can't be done securely.
     |
+    | SEC-ULTREIA-COOKIE-01 — CWE-614 : jamais de cookie session en clair en prod.
+    | Défaut = true en production (HTTPS obligatoire) ; false en dev/test.
+    | ⚠️ DANGER config:cache — si exécuté en APP_ENV=local, le défaut se figerait
+    | dans bootstrap/cache/config.php et voyagerait vers prod. Toujours supprimer
+    | bootstrap/cache/config.php avant de déployer l'image Docker.
+    |
+    | FIX BOOT — ne PAS appeler app()->isProduction() ici : les fichiers de config
+    | sont évalués (LoadConfiguration) AVANT que le binding container `env` ne soit
+    | posé (detectEnvironment), donc sans config cache le boot lève
+    | « Target class [env] does not exist ». On lit APP_ENV directement, ce qui est
+    | sûr au parse et strictement équivalent (secure=true uniquement en prod).
+    |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', env('APP_ENV', 'production') === 'production'),
 
     /*
     |--------------------------------------------------------------------------

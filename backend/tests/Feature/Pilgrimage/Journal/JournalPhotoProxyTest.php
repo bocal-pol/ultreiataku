@@ -55,22 +55,22 @@ class JournalPhotoProxyTest extends TestCase
 
         $route = PilgrimageRoute::factory()->create();
 
-        $this->authorUser    = User::factory()->create();
+        $this->authorUser = User::factory()->create();
         $this->authorPilgrim = Pilgrim::factory()->create(['user_id' => $this->authorUser->id]);
 
-        $organizerUser    = User::factory()->create();
+        $organizerUser = User::factory()->create();
         $organizerPilgrim = Pilgrim::factory()->create(['user_id' => $organizerUser->id]);
 
-        $this->observerUser    = User::factory()->create();
+        $this->observerUser = User::factory()->create();
         $this->observerPilgrim = Pilgrim::factory()->create(['user_id' => $this->observerUser->id]);
 
         $this->outsiderUser = User::factory()->create();
         Pilgrim::factory()->create(['user_id' => $this->outsiderUser->id]);
 
         $this->trip = Trip::factory()->create([
-            'route_id'     => $route->id,
+            'route_id' => $route->id,
             'organizer_id' => $organizerPilgrim->id,
-            'is_public'    => false,
+            'is_public' => false,
         ]);
 
         $this->trip->members()->attach($organizerPilgrim->id, [
@@ -84,14 +84,14 @@ class JournalPhotoProxyTest extends TestCase
         ]);
 
         $this->publicEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => 'public',
             'entry_date' => now()->format('Y-m-d'),
         ]);
 
         $this->membersEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->authorPilgrim->id,
             'visibility' => 'members',
             'entry_date' => now()->format('Y-m-d'),
@@ -104,7 +104,7 @@ class JournalPhotoProxyTest extends TestCase
     {
         $photo = JournalPhoto::factory()->create([
             'journal_entry_id' => $this->publicEntry->id,
-            'minio_path'       => 'journal/test/photo.jpg',
+            'minio_path' => 'journal/test/photo.jpg',
         ]);
 
         // Créer le fichier fake dans le Storage fake
@@ -122,11 +122,11 @@ class JournalPhotoProxyTest extends TestCase
 
         $photo = JournalPhoto::factory()->create([
             'journal_entry_id' => $this->publicEntry->id,
-            'minio_path'       => 'journal/test/public.jpg',
-            'mime_type'        => 'image/jpeg',
+            'minio_path' => 'journal/test/public.jpg',
+            'mime_type' => 'image/jpeg',
         ]);
 
-        $response = $this->actingAs($this->authorUser, 'api')
+        $response = $this->actingAs($this->authorUser, 'web')
             ->get('/api/pilgrimage/journal/photos/' . $photo->id);
 
         $response->assertStatus(200)
@@ -146,11 +146,11 @@ class JournalPhotoProxyTest extends TestCase
 
         $photo = JournalPhoto::factory()->create([
             'journal_entry_id' => $this->publicEntry->id,
-            'minio_path'       => 'journal/test/public2.jpg',
-            'mime_type'        => 'image/jpeg',
+            'minio_path' => 'journal/test/public2.jpg',
+            'mime_type' => 'image/jpeg',
         ]);
 
-        $this->actingAs($this->observerUser, 'api')
+        $this->actingAs($this->observerUser, 'web')
             ->get('/api/pilgrimage/journal/photos/' . $photo->id)
             ->assertStatus(200);
     }
@@ -161,11 +161,11 @@ class JournalPhotoProxyTest extends TestCase
 
         $photo = JournalPhoto::factory()->create([
             'journal_entry_id' => $this->membersEntry->id,
-            'minio_path'       => 'journal/test/members.jpg',
-            'mime_type'        => 'image/jpeg',
+            'minio_path' => 'journal/test/members.jpg',
+            'mime_type' => 'image/jpeg',
         ]);
 
-        $this->actingAs($this->observerUser, 'api')
+        $this->actingAs($this->observerUser, 'web')
             ->get('/api/pilgrimage/journal/photos/' . $photo->id)
             ->assertStatus(403);
     }
@@ -178,10 +178,10 @@ class JournalPhotoProxyTest extends TestCase
 
         $photo = JournalPhoto::factory()->create([
             'journal_entry_id' => $this->publicEntry->id,
-            'minio_path'       => 'journal/test/outsider.jpg',
+            'minio_path' => 'journal/test/outsider.jpg',
         ]);
 
-        $this->actingAs($this->outsiderUser, 'api')
+        $this->actingAs($this->outsiderUser, 'web')
             ->get('/api/pilgrimage/journal/photos/' . $photo->id)
             ->assertStatus(403);
     }
@@ -195,18 +195,18 @@ class JournalPhotoProxyTest extends TestCase
 
         // On ne peut pas tester le strip EXIF GD en mémoire SQLite
         // On vérifie que l'endpoint accepte la requête et crée l'entrée BDD
-        $this->actingAs($this->authorUser, 'api')
+        $this->actingAs($this->authorUser, 'web')
             ->post('/api/pilgrimage/journal/entries/' . $this->publicEntry->id . '/photos', [
-                'photo'    => $fakeFile,
+                'photo' => $fakeFile,
                 'alt_text' => 'Le bac de Waulsort',
-                'caption'  => 'Waulsort J7',
+                'caption' => 'Waulsort J7',
             ])
             ->assertStatus(201)
             ->assertJsonStructure(['data' => ['id', 'proxy_url', 'alt_text', 'mime_type']]);
 
         $this->assertDatabaseHas('journal_photos', [
             'journal_entry_id' => $this->publicEntry->id,
-            'alt_text'         => 'Le bac de Waulsort',
+            'alt_text' => 'Le bac de Waulsort',
         ]);
     }
 
@@ -214,7 +214,7 @@ class JournalPhotoProxyTest extends TestCase
     {
         $fakeFile = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
 
-        $this->actingAs($this->authorUser, 'api')
+        $this->actingAs($this->authorUser, 'web')
             ->post('/api/pilgrimage/journal/entries/' . $this->publicEntry->id . '/photos', [
                 'photo' => $fakeFile,
             ])
@@ -227,7 +227,7 @@ class JournalPhotoProxyTest extends TestCase
         // 11 Mo — limit 10 Mo
         $fakeFile = UploadedFile::fake()->create('big.jpg', 11264, 'image/jpeg');
 
-        $this->actingAs($this->authorUser, 'api')
+        $this->actingAs($this->authorUser, 'web')
             ->post('/api/pilgrimage/journal/entries/' . $this->publicEntry->id . '/photos', [
                 'photo' => $fakeFile,
             ])
@@ -241,7 +241,7 @@ class JournalPhotoProxyTest extends TestCase
 
         // L'observer ne peut pas créer de photo même sur une entrée publique
         // car JournalPhotoPolicy::create() = auteur de l'entrée seulement
-        $this->actingAs($this->observerUser, 'api')
+        $this->actingAs($this->observerUser, 'web')
             ->post('/api/pilgrimage/journal/entries/' . $this->publicEntry->id . '/photos', [
                 'photo' => $fakeFile,
             ])
@@ -256,11 +256,11 @@ class JournalPhotoProxyTest extends TestCase
 
         $photo = JournalPhoto::factory()->create([
             'journal_entry_id' => $this->publicEntry->id,
-            'minio_path'       => 'journal/test/hdr.jpg',
-            'mime_type'        => 'image/jpeg',
+            'minio_path' => 'journal/test/hdr.jpg',
+            'mime_type' => 'image/jpeg',
         ]);
 
-        $response = $this->actingAs($this->authorUser, 'api')
+        $response = $this->actingAs($this->authorUser, 'web')
             ->get('/api/pilgrimage/journal/photos/' . $photo->id);
 
         // Pas de redirect vers MinIO — status 200 attendu

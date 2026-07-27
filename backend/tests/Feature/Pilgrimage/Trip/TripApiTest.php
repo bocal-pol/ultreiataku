@@ -45,7 +45,7 @@ class TripApiTest extends TestCase
 
     public function test_store_creates_trip_and_adds_organizer(): void
     {
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/trips', [
                 'route_id' => $this->route->id,
                 'name' => 'Belgique Mai 2027',
@@ -67,7 +67,7 @@ class TripApiTest extends TestCase
 
     public function test_store_validates_required_fields(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/trips', [])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['route_id', 'name']);
@@ -75,7 +75,7 @@ class TripApiTest extends TestCase
 
     public function test_store_validates_route_exists(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/trips', [
                 'route_id' => '00000000-0000-0000-0000-000000000000',
                 'name' => 'Test',
@@ -94,7 +94,7 @@ class TripApiTest extends TestCase
         ]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/trips/{$trip->id}")
             ->assertStatus(200)
             ->assertJsonPath('data.id', $trip->id);
@@ -109,7 +109,7 @@ class TripApiTest extends TestCase
         ]);
         $trip->members()->attach($otherPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/trips/{$trip->id}")
             ->assertStatus(403);
     }
@@ -126,7 +126,7 @@ class TripApiTest extends TestCase
 
         $newPilgrim = Pilgrim::factory()->create();
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/members", [
                 'pilgrim_id' => $newPilgrim->id,
                 'role' => 'participant',
@@ -152,7 +152,7 @@ class TripApiTest extends TestCase
 
         $newPilgrim = Pilgrim::factory()->create();
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/members", [
                 'pilgrim_id' => $newPilgrim->id,
                 'role' => 'participant',
@@ -168,7 +168,7 @@ class TripApiTest extends TestCase
         ]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/members", [
                 'pilgrim_id' => $this->pilgrim->id,
                 'role' => 'participant',
@@ -202,7 +202,7 @@ class TripApiTest extends TestCase
         ]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $this->pilgrim->id,
                 'start_stage_id' => $stage1->id,
@@ -243,7 +243,7 @@ class TripApiTest extends TestCase
         $trip->members()->attach($organizerPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'observer', 'joined_at' => now()]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/trips/{$trip->id}/departures", [
                 'pilgrim_id' => $this->pilgrim->id,
                 'start_stage_id' => $stage1->id,

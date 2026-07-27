@@ -20,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 | Vague 1c — Trips + SSO (ULTREIA-03/30/31/32/35)
 | Vague 1d — Sac (ULTREIA-40/41/42/43)
 | Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54)
+|
+| P0-01 (SEC-ULTREIA-AUTH) — Remplacement de auth:api par le pattern monorepo.
+| Le guard `api` driver session a été supprimé de config/auth.php.
+| Les routes protégées utilisent désormais le middleware `web` (StartSession inclus)
+| + `auth` (qui résout le guard `web` par défaut) — identique au pattern Oikotaku.
+| Le SPA frontend envoie les cookies de session via credentials: 'include'.
+| Aucun Bearer token en localStorage (P1-05 résolu par construction).
 |--------------------------------------------------------------------------
 */
 
@@ -44,17 +51,17 @@ Route::prefix('api/pilgrimage')->group(function () {
     Route::get('/meals', [MealController::class, 'index'])->name('api.pilgrimage.meals.index');
     Route::get('/meals/{id}', [MealController::class, 'show'])->name('api.pilgrimage.meals.show');
 
-    // ─── GPX — authentifié (Bearer Passport / auth:api) ────────────────────
-    // ULTREIA-03 : middleware auth:api branché (TODO vague 1a levé)
+    // ─── GPX — authentifié (session cookie) ─────────────────────────────────
+    // P0-01 : middleware web (StartSession) + auth (guard web, driver session)
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/gpx/{id}', [GpxTraceController::class, 'stream'])->name('api.pilgrimage.gpx.stream');
         Route::get('/gpx/{id}/simplified', [GpxTraceController::class, 'simplified'])->name('api.pilgrimage.gpx.simplified');
     });
 
     // ─── Vague 1c — Trips (ULTREIA-35) — authentifié ────────────────────────
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['web', 'auth'])->group(function () {
 
         // Utilisateur courant + profil Pilgrim (contrat frontend MeResponseDto)
         Route::get('/me', [MeController::class, 'show'])
@@ -103,7 +110,7 @@ Route::prefix('api/pilgrimage')->group(function () {
 
     // ─── Vague 1d — Sac (ULTREIA-43) — authentifié ──────────────────────────
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['web', 'auth'])->group(function () {
 
         // Scénarios d'un pèlerin
         Route::get('/pilgrims/{pilgrimId}/pack-scenarios', [PackScenarioController::class, 'indexForPilgrim'])
@@ -130,7 +137,7 @@ Route::prefix('api/pilgrimage')->group(function () {
 
     // ─── Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54) — authentifié ─
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['web', 'auth'])->group(function () {
 
         // ULTREIA-54 : Journal d'un Trip (filtré par visibilité du lecteur, pagination curseur)
         Route::get('/trips/{id}/journal', [JournalEntryController::class, 'index'])

@@ -44,7 +44,7 @@ class TripInvitationTest extends TestCase
 
     public function test_organizer_can_generate_invite_token(): void
     {
-        $response = $this->actingAs($this->organizerUser, 'api')
+        $response = $this->actingAs($this->organizerUser, 'web')
             ->postJson("/api/pilgrimage/trips/{$this->trip->id}/invite-token");
 
         $response->assertStatus(200)
@@ -65,7 +65,7 @@ class TripInvitationTest extends TestCase
         $participantPilgrim = Pilgrim::factory()->create(['user_id' => $participantUser->id]);
         $this->trip->members()->attach($participantPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
-        $this->actingAs($participantUser, 'api')
+        $this->actingAs($participantUser, 'web')
             ->postJson("/api/pilgrimage/trips/{$this->trip->id}/invite-token")
             ->assertStatus(403);
     }
@@ -76,7 +76,7 @@ class TripInvitationTest extends TestCase
     {
         $this->trip->update(['invite_token' => Str::uuid()->toString()]);
 
-        $this->actingAs($this->organizerUser, 'api')
+        $this->actingAs($this->organizerUser, 'web')
             ->deleteJson("/api/pilgrimage/trips/{$this->trip->id}/invite-token")
             ->assertStatus(200);
 
@@ -96,7 +96,7 @@ class TripInvitationTest extends TestCase
         $newUser = User::factory()->create();
         $newPilgrim = Pilgrim::factory()->create(['user_id' => $newUser->id]);
 
-        $this->actingAs($newUser, 'api')
+        $this->actingAs($newUser, 'web')
             ->postJson("/api/pilgrimage/trips/join/{$token}")
             ->assertStatus(200);
 
@@ -112,7 +112,7 @@ class TripInvitationTest extends TestCase
         $newUser = User::factory()->create();
         Pilgrim::factory()->create(['user_id' => $newUser->id]);
 
-        $this->actingAs($newUser, 'api')
+        $this->actingAs($newUser, 'web')
             ->postJson('/api/pilgrimage/trips/join/invalid-or-revoked-token')
             ->assertStatus(404);
     }
@@ -125,7 +125,7 @@ class TripInvitationTest extends TestCase
         $newUser = User::factory()->create();
         Pilgrim::factory()->create(['user_id' => $newUser->id]);
 
-        $this->actingAs($newUser, 'api')
+        $this->actingAs($newUser, 'web')
             ->postJson('/api/pilgrimage/trips/join/revoked-token-xyz')
             ->assertStatus(404);
     }
@@ -136,7 +136,7 @@ class TripInvitationTest extends TestCase
         $this->trip->update(['invite_token' => $token]);
 
         // L'organisateur essaie de rejoindre son propre Trip
-        $this->actingAs($this->organizerUser, 'api')
+        $this->actingAs($this->organizerUser, 'web')
             ->postJson("/api/pilgrimage/trips/join/{$token}")
             ->assertStatus(409);
     }
@@ -154,11 +154,11 @@ class TripInvitationTest extends TestCase
         $user2 = User::factory()->create();
         $pilgrim2 = Pilgrim::factory()->create(['user_id' => $user2->id]);
 
-        $this->actingAs($user1, 'api')
+        $this->actingAs($user1, 'web')
             ->postJson("/api/pilgrimage/trips/join/{$token}")
             ->assertStatus(200);
 
-        $this->actingAs($user2, 'api')
+        $this->actingAs($user2, 'web')
             ->postJson("/api/pilgrimage/trips/join/{$token}")
             ->assertStatus(200);
 

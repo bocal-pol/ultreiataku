@@ -11,6 +11,7 @@ use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Trip;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 /**
@@ -41,28 +42,28 @@ class JournalSyncTest extends TestCase
 
         $route = PilgrimageRoute::factory()->create();
 
-        $this->user    = User::factory()->create();
+        $this->user = User::factory()->create();
         $this->pilgrim = Pilgrim::factory()->create(['user_id' => $this->user->id]);
 
         $this->trip = Trip::factory()->create([
-            'route_id'     => $route->id,
+            'route_id' => $route->id,
             'organizer_id' => $this->pilgrim->id,
         ]);
 
         $this->trip->members()->attach($this->pilgrim->id, [
-            'role'       => 'organizer',
-            'joined_at'  => now(),
+            'role' => 'organizer',
+            'joined_at' => now(),
             'invited_by' => null,
         ]);
     }
 
-    private function postEntry(array $overrides = []): \Illuminate\Testing\TestResponse
+    private function postEntry(array $overrides = []): TestResponse
     {
-        return $this->actingAs($this->user, 'api')
+        return $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/journal/entries', array_merge([
-                'trip_id'    => $this->trip->id,
+                'trip_id' => $this->trip->id,
                 'entry_date' => now()->format('Y-m-d'),
-                'body'       => 'Corps initial',
+                'body' => 'Corps initial',
                 'visibility' => 'private',
             ], $overrides));
     }
@@ -78,14 +79,14 @@ class JournalSyncTest extends TestCase
 
         $this->assertNull($response->json('local_id'));
         $this->assertDatabaseHas('journal_entries', [
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->pilgrim->id,
         ]);
     }
 
     public function test_store_with_local_id_creates_entry(): void
     {
-        $localId  = Str::uuid()->toString();
+        $localId = Str::uuid()->toString();
         $response = $this->postEntry(['local_id' => $localId]);
 
         $response->assertStatus(201)
@@ -122,15 +123,15 @@ class JournalSyncTest extends TestCase
         // Créer l'entrée initiale
         $this->postEntry([
             'local_id' => $localId,
-            'body'     => 'Version serveur',
+            'body' => 'Version serveur',
         ])->assertStatus(201);
 
         // Re-POST avec updated_at_client plus récent que le serveur
         $futureTimestamp = now()->addHour()->toIso8601String();
 
         $response = $this->postEntry([
-            'local_id'          => $localId,
-            'body'              => 'Version client plus récente',
+            'local_id' => $localId,
+            'body' => 'Version client plus récente',
             'updated_at_client' => $futureTimestamp,
         ]);
 
@@ -138,7 +139,7 @@ class JournalSyncTest extends TestCase
 
         $this->assertDatabaseHas('journal_entries', [
             'local_id' => $localId,
-            'body'     => 'Version client plus récente',
+            'body' => 'Version client plus récente',
         ]);
     }
 
@@ -149,15 +150,15 @@ class JournalSyncTest extends TestCase
         // Créer l'entrée initiale
         $this->postEntry([
             'local_id' => $localId,
-            'body'     => 'Version serveur récente',
+            'body' => 'Version serveur récente',
         ])->assertStatus(201);
 
         // Re-POST avec updated_at_client dans le passé
         $pastTimestamp = now()->subHour()->toIso8601String();
 
         $response = $this->postEntry([
-            'local_id'          => $localId,
-            'body'              => 'Version client périmée',
+            'local_id' => $localId,
+            'body' => 'Version client périmée',
             'updated_at_client' => $pastTimestamp,
         ]);
 
@@ -166,12 +167,12 @@ class JournalSyncTest extends TestCase
         // Le corps serveur est conservé
         $this->assertDatabaseHas('journal_entries', [
             'local_id' => $localId,
-            'body'     => 'Version serveur récente',
+            'body' => 'Version serveur récente',
         ]);
 
         $this->assertDatabaseMissing('journal_entries', [
             'local_id' => $localId,
-            'body'     => 'Version client périmée',
+            'body' => 'Version client périmée',
         ]);
     }
 
@@ -179,7 +180,7 @@ class JournalSyncTest extends TestCase
 
     public function test_sync_response_contains_required_fields(): void
     {
-        $localId  = Str::uuid()->toString();
+        $localId = Str::uuid()->toString();
         $response = $this->postEntry(['local_id' => $localId]);
 
         $response->assertStatus(201)
@@ -194,14 +195,14 @@ class JournalSyncTest extends TestCase
     public function test_store_requires_authentication(): void
     {
         $this->postJson('/api/pilgrimage/journal/entries', [
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'entry_date' => now()->format('Y-m-d'),
         ])->assertStatus(401);
     }
 
     public function test_store_validates_required_fields(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/journal/entries', [])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['trip_id', 'entry_date']);
@@ -209,11 +210,11 @@ class JournalSyncTest extends TestCase
 
     public function test_store_rejects_invalid_local_id_format(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/journal/entries', [
-                'trip_id'    => $this->trip->id,
+                'trip_id' => $this->trip->id,
                 'entry_date' => now()->format('Y-m-d'),
-                'local_id'   => 'not-a-uuid',
+                'local_id' => 'not-a-uuid',
             ])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['local_id']);
@@ -224,13 +225,13 @@ class JournalSyncTest extends TestCase
     public function test_author_can_update_own_entry(): void
     {
         $entry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->pilgrim->id,
             'visibility' => 'private',
             'entry_date' => now()->format('Y-m-d'),
         ]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->putJson('/api/pilgrimage/journal/entries/' . $entry->id, [
                 'body' => 'Nouveau corps',
             ])
@@ -241,13 +242,13 @@ class JournalSyncTest extends TestCase
     public function test_author_can_delete_own_entry(): void
     {
         $entry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->pilgrim->id,
             'visibility' => 'private',
             'entry_date' => now()->format('Y-m-d'),
         ]);
 
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->deleteJson('/api/pilgrimage/journal/entries/' . $entry->id)
             ->assertStatus(200);
 

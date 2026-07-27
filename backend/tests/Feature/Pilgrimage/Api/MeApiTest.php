@@ -26,7 +26,7 @@ class MeApiTest extends TestCase
         $user = User::factory()->create();
         $pilgrim = Pilgrim::factory()->create(['user_id' => $user->id]);
 
-        $this->actingAs($user, 'api')
+        $this->actingAs($user, 'web')
             ->getJson('/api/pilgrimage/me')
             ->assertOk()
             ->assertJsonPath('user.id', $user->id)
@@ -44,7 +44,7 @@ class MeApiTest extends TestCase
 
         $this->assertDatabaseMissing('pilgrims', ['user_id' => $user->id]);
 
-        $this->actingAs($user, 'api')
+        $this->actingAs($user, 'web')
             ->getJson('/api/pilgrimage/me')
             ->assertOk()
             ->assertJsonPath('pilgrim.display_name', 'Nouveau Pèlerin')

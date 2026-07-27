@@ -29,20 +29,19 @@ return [
     | Of course, a great default configuration has been defined for you
     | which utilizes session storage plus the Eloquent user provider.
     |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
-    |
     | Supported: "session"
+    |
+    | P0-01 (SEC-ULTREIA-AUTH) — Le guard `api` driver session a été supprimé.
+    | Les routes API protégées utilisent le guard `web` (driver session) avec
+    | le middleware `web` (StartSession inclus) pour que le cookie de session
+    | HttpOnly soit lu à chaque requête. Le frontend envoie les cookies avec
+    | `credentials: 'include'` — aucun Bearer token en localStorage.
+    | Pattern identique à Oikotaku (monorepo SiteV26).
     |
     */
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-        'api' => [
             'driver' => 'session',
             'provider' => 'users',
         ],

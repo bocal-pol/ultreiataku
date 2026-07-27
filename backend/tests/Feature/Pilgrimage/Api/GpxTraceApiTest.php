@@ -16,9 +16,9 @@ use Tests\TestCase;
  * Tests feature pour GET /api/pilgrimage/gpx/{id}.
  * ULTREIA-11 + ULTREIA-1T.
  *
- * Note : les routes GPX sont derrière auth:api (ADR — données publiques du Chemin
+ * Note : les routes GPX sont derrière auth (guard web, session cookie) (ADR — données publiques du Chemin
  * mais GPX complets contiennent des métadonnées propriétaires ; l'accès authentifié
- * est intentionnel). Les tests s'authentifient via actingAs guard api.
+ * est intentionnel). Les tests s'authentifient via actingAs guard web (session cookie).
  *
  * Tests de streaming MinIO réel exclus (env de test = SQLite + array cache).
  */
@@ -52,7 +52,7 @@ class GpxTraceApiTest extends TestCase
 
     public function test_stream_returns_404_for_unknown_id(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/gpx/00000000-0000-0000-0000-000000000000')
             ->assertStatus(404);
     }
@@ -65,7 +65,7 @@ class GpxTraceApiTest extends TestCase
             'source' => 'ABSENT-FILE.gpx',
         ]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->get('/api/pilgrimage/gpx/' . $trace->id);
 
         $response->assertStatus(404);
@@ -93,7 +93,7 @@ class GpxTraceApiTest extends TestCase
             'source' => $filename,
         ]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->get('/api/pilgrimage/gpx/' . $trace->id);
 
         $response->assertStatus(200);
@@ -107,7 +107,7 @@ class GpxTraceApiTest extends TestCase
 
     public function test_simplified_returns_404_for_unknown_id(): void
     {
-        $this->actingAs($this->user, 'api')
+        $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/gpx/00000000-0000-0000-0000-000000000000/simplified')
             ->assertStatus(404);
     }
@@ -125,7 +125,7 @@ class GpxTraceApiTest extends TestCase
             'minio_disk' => null,
         ]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/gpx/' . $trace->id . '/simplified');
 
         // 200 ou 503 selon disponibilité MinIO en test — on vérifie juste pas 500
@@ -158,7 +158,7 @@ class GpxTraceApiTest extends TestCase
             'source' => $filename,
         ]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/gpx/' . $trace->id . '/simplified');
 
         if ($response->status() === 200) {

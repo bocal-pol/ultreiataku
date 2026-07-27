@@ -42,7 +42,7 @@ class PackScenarioApiTest extends TestCase
     {
         PackScenario::factory()->count(2)->create(['pilgrim_id' => $this->pilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/pilgrims/{$this->pilgrim->id}/pack-scenarios");
 
         $response->assertStatus(200)
@@ -57,7 +57,7 @@ class PackScenarioApiTest extends TestCase
     {
         $otherPilgrim = Pilgrim::factory()->create();
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/pilgrims/{$otherPilgrim->id}/pack-scenarios");
 
         $response->assertStatus(403);
@@ -77,7 +77,7 @@ class PackScenarioApiTest extends TestCase
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $this->pilgrim->id]);
         PackItem::factory()->count(3)->create(['pack_scenario_id' => $scenario->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/pack-scenarios/{$scenario->id}");
 
         $response->assertStatus(200)
@@ -91,7 +91,7 @@ class PackScenarioApiTest extends TestCase
         $otherPilgrim = Pilgrim::factory()->create();
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $otherPilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/pack-scenarios/{$scenario->id}");
 
         $response->assertStatus(403);
@@ -99,7 +99,7 @@ class PackScenarioApiTest extends TestCase
 
     public function test_show_returns_404_for_unknown_scenario(): void
     {
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson('/api/pilgrimage/pack-scenarios/00000000-0000-0000-0000-000000000000');
 
         $response->assertStatus(404);
@@ -116,7 +116,7 @@ class PackScenarioApiTest extends TestCase
             'season' => 'spring',
         ];
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/pack-scenarios', $payload);
 
         $response->assertStatus(201)
@@ -132,7 +132,7 @@ class PackScenarioApiTest extends TestCase
 
     public function test_store_validates_required_fields(): void
     {
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/pack-scenarios', []);
 
         $response->assertStatus(422)
@@ -141,7 +141,7 @@ class PackScenarioApiTest extends TestCase
 
     public function test_store_validates_configuration_enum(): void
     {
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson('/api/pilgrimage/pack-scenarios', [
                 'name' => 'Test',
                 'configuration' => 'trio',
@@ -164,7 +164,7 @@ class PackScenarioApiTest extends TestCase
     {
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $this->pilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->putJson("/api/pilgrimage/pack-scenarios/{$scenario->id}", [
                 'name' => 'Nom mis à jour',
                 'target_base_weight_kg' => 9.0,
@@ -181,7 +181,7 @@ class PackScenarioApiTest extends TestCase
         $otherPilgrim = Pilgrim::factory()->create();
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $otherPilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->putJson("/api/pilgrimage/pack-scenarios/{$scenario->id}", [
                 'name' => 'Tentative',
             ]);
@@ -204,7 +204,7 @@ class PackScenarioApiTest extends TestCase
             'is_consumable' => false,
         ];
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/pack-scenarios/{$scenario->id}/items", $payload);
 
         $response->assertStatus(201)
@@ -223,7 +223,7 @@ class PackScenarioApiTest extends TestCase
     {
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $this->pilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/pack-scenarios/{$scenario->id}/items", [
                 'name' => 'Item invalide',
                 'category' => 'misc',
@@ -238,7 +238,7 @@ class PackScenarioApiTest extends TestCase
     {
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $this->pilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/pack-scenarios/{$scenario->id}/items", [
                 'name' => 'Item invalide',
                 'category' => 'invalid_category',
@@ -254,7 +254,7 @@ class PackScenarioApiTest extends TestCase
         $otherPilgrim = Pilgrim::factory()->create();
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $otherPilgrim->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/pack-scenarios/{$scenario->id}/items", [
                 'name' => 'Test',
                 'category' => 'misc',
@@ -293,7 +293,7 @@ class PackScenarioApiTest extends TestCase
         $scenario = PackScenario::factory()->create(['pilgrim_id' => $this->pilgrim->id]);
         $item = PackItem::factory()->create(['pack_scenario_id' => $scenario->id]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/departures/{$departure->id}/assignments", [
                 'pack_item_id' => $item->id,
                 'assigned_to_pilgrim_id' => $this->pilgrim->id,
@@ -314,7 +314,7 @@ class PackScenarioApiTest extends TestCase
     {
         $departure = $this->makeDeparture();
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->postJson("/api/pilgrimage/departures/{$departure->id}/assignments", [
                 'pack_item_id' => '00000000-0000-0000-0000-000000000000',
                 'assigned_to_pilgrim_id' => $this->pilgrim->id,
@@ -340,7 +340,7 @@ class PackScenarioApiTest extends TestCase
             'is_consumable' => false,
         ]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/pack-scenarios/{$scenario->id}");
 
         $response->assertStatus(200)
@@ -362,7 +362,7 @@ class PackScenarioApiTest extends TestCase
             'is_consumable' => false,
         ]);
 
-        $response = $this->actingAs($this->user, 'api')
+        $response = $this->actingAs($this->user, 'web')
             ->getJson("/api/pilgrimage/pack-scenarios/{$scenario->id}");
 
         $response->assertStatus(200)
