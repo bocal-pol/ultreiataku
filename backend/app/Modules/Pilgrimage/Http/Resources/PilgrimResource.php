@@ -13,6 +13,7 @@ class PilgrimResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'display_name' => $this->display_name,
             'avatar_url' => $this->avatar_url,
             'preferred_locale' => $this->preferred_locale,
