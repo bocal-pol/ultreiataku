@@ -130,7 +130,9 @@
       "sync_pending_other": "{{count}} berichten wachten op synchronisatie",
       "offline_notice": "Wordt gesynchroniseerd zodra u netwerk heeft.",
       "empty_all": "Nog geen berichten in dit dagboek.",
-      "empty_public": "Nog geen gedeelde berichten."
+      "empty_public": "Nog geen gedeelde berichten.",
+      "select_trip": "Kies het dagboek van de reis die u wilt openen",
+      "no_trip_yet": "Nog geen reis. Maak uw eerste reis aan om uw dagboek te starten."
     },
     "pack": {
       "categories": {
@@ -154,7 +156,8 @@
       "food_label": "+ eten: 0,75 kg",
       "total_label": "Geschat totaal: {{x}} kg",
       "add_item": "Item toevoegen",
-      "manage_scenarios": "Scenario's beheren"
+      "manage_scenarios": "Scenario's beheren",
+      "assignments_unavailable": "De gedetailleerde verdeling per item is beschikbaar in een volgende update."
     },
     "trip": {
       "roles": {

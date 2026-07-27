@@ -84,12 +84,11 @@ export function PhotoUploader({ value, onChange }: PhotoUploaderProps) {
         </button>
       )}
 
-      {/* Input masqué — capture galerie et caméra */}
+      {/* Input masqué — galerie et caméra au choix de l'utilisateur */}
       <input
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="environment"
         onChange={handleFileChange}
         style={{ display: 'none' }}
         aria-hidden="true"

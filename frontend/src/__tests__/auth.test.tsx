@@ -33,8 +33,14 @@ vi.mock('react-i18next', () => ({
   Trans: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-// Mock AuthContext pour SplashScreen
+// Mock AuthContext.tsx (Provider/Guard)
 vi.mock('../context/AuthContext.tsx', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+// Mock useAuth (hook séparé depuis Phase C)
+vi.mock('../context/useAuth.ts', () => ({
   useAuth: vi.fn().mockReturnValue({
     currentUser: null,
     isAuthenticated: false,
@@ -42,12 +48,10 @@ vi.mock('../context/AuthContext.tsx', () => ({
     login: vi.fn(),
     logout: vi.fn(),
   }),
-  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 import { fetchMe, redirectToLogin } from '../shared/api/auth.ts';
-import { useAuth } from '../context/AuthContext.tsx';
+import { useAuth } from '../context/useAuth.ts';
 
 const mockFetchMe = fetchMe as ReturnType<typeof vi.fn>;
 const mockRedirectToLogin = redirectToLogin as ReturnType<typeof vi.fn>;

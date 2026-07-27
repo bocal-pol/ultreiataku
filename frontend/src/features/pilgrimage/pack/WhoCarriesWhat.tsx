@@ -1,6 +1,14 @@
 /**
  * WhoCarriesWhat — Section "Qui porte quoi" sur le TripDashboard
  * ULTREIA-45 — Vague 1d (V1 : select étape simple, pas de drag-and-drop)
+ *
+ * NOTE TECHNIQUE (Phase C) :
+ * L'API backend n'expose pas de endpoint GET pour lire les ItemAssignments
+ * par departure. Seul POST /departures/{id}/assignments est disponible
+ * (voir backend/app/Modules/Pilgrimage/Routes/api.php).
+ * La liste des assignations réelles est dégradée proprement avec un message
+ * informatif jusqu'à ce que GET /departures/{id}/assignments soit ajouté
+ * côté backend (ticket ULTREIA-45b à créer).
  */
 
 import { useState } from 'react';
@@ -67,61 +75,79 @@ export function WhoCarriesWhat({ trip }: WhoCarriesWhatProps) {
         </select>
       </div>
 
-      {/* Tableau "qui porte quoi" par membre */}
+      {/* Membres avec note de dégradation */}
       {selectedStageId && members.length > 0 && (
-        <div
-          role="list"
-          aria-label="Répartition du sac"
-          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}
-        >
-          {members.map(member => (
-            <div
-              key={member.pilgrim.id}
-              role="listitem"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-3)',
-                padding: 'var(--space-2) 0',
-                borderBottom: '1px solid var(--color-border-subtle)',
-              }}
-            >
-              <div style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--color-gold-500)',
-                color: 'var(--color-bg-base)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 'var(--font-size-xs)',
-                fontWeight: 'var(--font-weight-semibold)',
-                flexShrink: 0,
-              }}
-                aria-hidden="true"
+        <>
+          {/* Bandeau informatif : endpoint GET non disponible */}
+          <div
+            role="status"
+            aria-live="polite"
+            data-testid="assignments-degraded-notice"
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--color-detour-amber, #d4840a)',
+              backgroundColor: 'rgba(212,132,10,0.08)',
+              borderRadius: 'var(--radius-md)',
+              padding: 'var(--space-2) var(--space-3)',
+            }}
+          >
+            {t('pack.assignments_unavailable')}
+          </div>
+
+          <div
+            role="list"
+            aria-label="Répartition du sac"
+            style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}
+          >
+            {members.map(member => (
+              <div
+                key={member.pilgrim.id}
+                role="listitem"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-3)',
+                  padding: 'var(--space-2) 0',
+                  borderBottom: '1px solid var(--color-border-subtle)',
+                }}
               >
-                {member.pilgrim.displayName.slice(0, 2).toUpperCase()}
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)' }}>
-                  {member.pilgrim.displayName}
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-gold-500)',
+                  color: 'var(--color-bg-base)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 'var(--font-size-xs)',
+                  fontWeight: 'var(--font-weight-semibold)',
+                  flexShrink: 0,
+                }}
+                  aria-hidden="true"
+                >
+                  {member.pilgrim.displayName.slice(0, 2).toUpperCase()}
                 </div>
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-tertiary)' }}>
-                  {t(`trip.roles.${member.role}` as Parameters<typeof t>[0])}
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)' }}>
+                    {member.pilgrim.displayName}
+                  </div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-tertiary)' }}>
+                    {t(`trip.roles.${member.role}` as Parameters<typeof t>[0])}
+                  </div>
+                </div>
+                {/* Assignations non disponibles — endpoint GET /departures/{id}/assignments manquant (ULTREIA-45b) */}
+                <div style={{
+                  fontSize: 'var(--font-size-xs)',
+                  color: 'var(--color-text-tertiary)',
+                  fontStyle: 'italic',
+                }}>
+                  —
                 </div>
               </div>
-              {/* Placeholder V1 — les assignations ItemAssignment seront chargées en V2 */}
-              <div style={{
-                fontSize: 'var(--font-size-xs)',
-                color: 'var(--color-text-tertiary)',
-                fontStyle: 'italic',
-              }}>
-                —
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
       {members.length === 0 && (

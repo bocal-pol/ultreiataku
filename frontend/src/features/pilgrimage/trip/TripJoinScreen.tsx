@@ -6,7 +6,7 @@
 
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../context/AuthContext.tsx';
+import { useAuth } from '../../../context/useAuth.ts';
 import { useTripJoinPreview, useJoinByToken } from '../../../shared/hooks/useTrips.ts';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 

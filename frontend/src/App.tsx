@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './shared/i18n/i18n.ts';
 import { AuthProvider } from './context/AuthContext.tsx';
+import { AuthGuard } from './context/AuthContext.tsx';
 import { BottomNav } from './shared/ui/BottomNav.tsx';
 import { SyncIndicator } from './shared/ui/SyncIndicator.tsx';
 import { StageListScreen } from './features/pilgrimage/stages/StageListScreen.tsx';
@@ -13,13 +14,13 @@ import { MyTripsScreen } from './features/pilgrimage/trip/MyTripsScreen.tsx';
 import { TripCreateScreen } from './features/pilgrimage/trip/TripCreateScreen.tsx';
 import { TripDashboardScreen } from './features/pilgrimage/trip/TripDashboardScreen.tsx';
 import { TripJoinScreen } from './features/pilgrimage/trip/TripJoinScreen.tsx';
-import { AuthGuard } from './context/AuthContext.tsx';
 // Vague 1d — Sac
 import { PackScreen } from './features/pilgrimage/pack/PackScreen.tsx';
 import { PackScenarioDetailScreen } from './features/pilgrimage/pack/PackScenarioDetailScreen.tsx';
 // Vague 1e — Journal
 import { JournalScreen } from './features/pilgrimage/journal/JournalScreen.tsx';
 import { JournalEntryFormScreen } from './features/pilgrimage/journal/JournalEntryFormScreen.tsx';
+import { JournalTripSelectorScreen } from './features/pilgrimage/journal/JournalTripSelectorScreen.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -104,6 +105,12 @@ export default function App() {
                 } />
 
                 {/* Vague 1e — Journal */}
+                {/* /journal sans tripId → sélecteur de voyage (depuis BottomNav) */}
+                <Route path="/journal" element={
+                  <AuthGuard>
+                    <JournalTripSelectorScreen />
+                  </AuthGuard>
+                } />
                 <Route path="/journal/:tripId" element={
                   <AuthGuard>
                     <JournalScreen />

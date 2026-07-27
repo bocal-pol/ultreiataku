@@ -40,15 +40,19 @@ vi.mock('../shared/hooks/useTrips.ts', async () => {
   };
 });
 
-// Mock AuthContext — version statique (pas de variable externe à cause du hoisting)
+// Mock AuthContext.tsx (Provider/Guard uniquement)
 vi.mock('../context/AuthContext.tsx', () => ({
-  useAuth: vi.fn(),
   AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
+// Mock useAuth (hook séparé depuis Phase C)
+vi.mock('../context/useAuth.ts', () => ({
+  useAuth: vi.fn(),
+}));
+
 import { useTripJoinPreview, useJoinByToken } from '../shared/hooks/useTrips.ts';
-import { useAuth } from '../context/AuthContext.tsx';
+import { useAuth } from '../context/useAuth.ts';
 
 // ── Données de test ───────────────────────────────────────────────────────────
 

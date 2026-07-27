@@ -13,7 +13,7 @@ import {
   useRevokeInviteToken,
   useAddDeparture,
 } from '../../../shared/hooks/useTrips.ts';
-import { useAuth } from '../../../context/AuthContext.tsx';
+import { useAuth } from '../../../context/useAuth.ts';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import { EmptyState } from '../../../shared/ui/EmptyState.tsx';
 import type { TripMemberModel } from '../../../models/pilgrimage.ts';

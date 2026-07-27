@@ -130,7 +130,9 @@
       "sync_pending_other": "{{count}} entrées en attente de synchronisation",
       "offline_notice": "Sera synchronisée dès que vous retrouverez du réseau.",
       "empty_all": "Pas encore d'entrée dans ce carnet.",
-      "empty_public": "Aucune entrée partagée pour l'instant."
+      "empty_public": "Aucune entrée partagée pour l'instant.",
+      "select_trip": "Choisissez le carnet du voyage à ouvrir",
+      "no_trip_yet": "Pas encore de voyage. Créez votre premier voyage pour commencer votre carnet."
     },
     "pack": {
       "categories": {
@@ -154,7 +156,8 @@
       "food_label": "+ nourriture : 0,75 kg",
       "total_label": "Total estimé : {{x}} kg",
       "add_item": "Ajouter un item",
-      "manage_scenarios": "Gérer les scénarios"
+      "manage_scenarios": "Gérer les scénarios",
+      "assignments_unavailable": "La répartition détaillée par item sera disponible dans une prochaine mise à jour."
     },
     "trip": {
       "roles": {

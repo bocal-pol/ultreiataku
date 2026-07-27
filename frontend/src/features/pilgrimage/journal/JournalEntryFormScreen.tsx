@@ -6,13 +6,19 @@
  * 1. Écriture IDB immédiate avec UUID v4 + isSynced=false
  * 2. Si online → POST backend → réconciliation {id, local_id, synced_at}
  * 3. Si offline → badge "en attente", sync auto au retour réseau (useSyncJournal)
+ *
+ * Tâche Phase C : prefetch des stages via useTripDetail à l'ouverture du formulaire.
+ * Si le TripModel est déjà en cache TanStack (navigué depuis TripDashboard), aucune
+ * requête supplémentaire n'est émise. Sinon, le trip est fetché en arrière-plan et
+ * le select d'étape se peuple dès que les données arrivent.
  */
 
 import { useState, useId } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '../../../context/AuthContext.tsx';
+import { useAuth } from '../../../context/useAuth.ts';
+import { useTripDetail } from '../../../shared/hooks/useTrips.ts';
 import {
   putPendingJournalEntry,
   markJournalEntrySynced,
@@ -21,7 +27,6 @@ import {
 import { postJournalEntry, uploadJournalPhoto } from '../../../shared/api/journal.ts';
 import { journalKeys } from '../../../shared/hooks/useJournal.ts';
 import type { JournalVisibility, JournalMood } from '../../../models/journal.ts';
-import type { StageModel } from '../../../models/pilgrimage.ts';
 import { PhotoUploader, type PhotoUploadValue } from './PhotoUploader.tsx';
 
 // ─── UUID v4 sans dépendance externe ─────────────────────────────────────────
@@ -33,20 +38,20 @@ function uuidV4(): string {
   });
 }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-interface JournalEntryFormScreenProps {
-  /** Stages disponibles pour le select (provient du TripModel via JournalScreen) */
-  stages?: StageModel[];
-}
-
 // ─── Composant principal ──────────────────────────────────────────────────────
 
-export function JournalEntryFormScreen({ stages = [] }: JournalEntryFormScreenProps) {
+export function JournalEntryFormScreen() {
   const { tripId } = useParams<{ tripId: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation('pilgrimage');
   const { currentUser } = useAuth();
   const queryClient = useQueryClient();
+
+  // Prefetch/lecture des stages de la route du trip.
+  // Si le TripModel est déjà en cache (navigué depuis TripDashboard), aucune requête.
+  // Sinon, fetch en arrière-plan : le select se peuple à l'arrivée des données.
+  const { data: tripDetail } = useTripDetail(tripId ?? '');
+  const stages = tripDetail?.route.stages ?? [];
 
   // Champs formulaire
   const [title, setTitle] = useState('');
@@ -366,7 +371,7 @@ export function JournalEntryFormScreen({ stages = [] }: JournalEntryFormScreenPr
           </select>
         </div>
 
-        {/* Étape (optionnel) */}
+        {/* Étape (optionnel — peuplé depuis le TripModel via useTripDetail) */}
         {stages.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
             <label htmlFor={stageSelectId} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>

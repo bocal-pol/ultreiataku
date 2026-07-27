@@ -9,7 +9,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../context/AuthContext.tsx';
+import { useAuth } from '../../../context/useAuth.ts';
 import {
   useJournalEntries,
   useSyncJournal,

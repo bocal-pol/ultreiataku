@@ -5,7 +5,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../context/AuthContext.tsx';
+import { useAuth } from '../../context/useAuth.ts';
 
 export function SplashScreen() {
   const { t } = useTranslation('pilgrimage');

@@ -130,7 +130,9 @@
       "sync_pending_other": "{{count}} Einträge warten auf Synchronisierung",
       "offline_notice": "Wird synchronisiert, sobald Sie wieder online sind.",
       "empty_all": "Noch keine Einträge in diesem Tagebuch.",
-      "empty_public": "Noch keine geteilten Einträge."
+      "empty_public": "Noch keine geteilten Einträge.",
+      "select_trip": "Wählen Sie das Tagebuch der Reise, die Sie öffnen möchten",
+      "no_trip_yet": "Noch keine Reise. Erstellen Sie Ihre erste Reise, um Ihr Tagebuch zu beginnen."
     },
     "pack": {
       "categories": {
@@ -154,7 +156,8 @@
       "food_label": "+ Essen: 0,75 kg",
       "total_label": "Geschätztes Gesamtgewicht: {{x}} kg",
       "add_item": "Gegenstand hinzufügen",
-      "manage_scenarios": "Szenarien verwalten"
+      "manage_scenarios": "Szenarien verwalten",
+      "assignments_unavailable": "Die detaillierte Aufteilung nach Gegenstand wird in einem nächsten Update verfügbar sein."
     },
     "trip": {
       "roles": {

@@ -52,8 +52,14 @@ import {
   useAddDeparture,
 } from '../shared/hooks/useTrips.ts';
 
-// Mock AuthContext
+// Mock AuthContext (Provider/Guard uniquement)
 vi.mock('../context/AuthContext.tsx', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+// Mock useAuth (hook séparé depuis Phase C)
+vi.mock('../context/useAuth.ts', () => ({
   useAuth: () => ({
     currentUser: {
       userId: 1,
@@ -66,8 +72,6 @@ vi.mock('../context/AuthContext.tsx', () => ({
     login: vi.fn(),
     logout: vi.fn(),
   }),
-  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 // ── Données de test ───────────────────────────────────────────────────────────

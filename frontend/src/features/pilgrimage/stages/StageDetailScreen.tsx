@@ -9,7 +9,7 @@ import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import { EmptyState } from '../../../shared/ui/EmptyState.tsx';
 import type { WaypointModel, MealModel, AccommodationModel } from '../../../models/pilgrimage.ts';
 import { useOccupancy } from '../../../shared/hooks/useTrips.ts';
-import { useAuth } from '../../../context/AuthContext.tsx';
+import { useAuth } from '../../../context/useAuth.ts';
 
 const MiniMap = lazy(() => import('../map/MiniMap.tsx'));
 

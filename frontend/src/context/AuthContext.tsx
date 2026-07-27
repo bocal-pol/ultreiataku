@@ -8,10 +8,14 @@
  *
  * Plus aucune donnée de session stockée en localStorage.
  * P1-05 résolu par construction.
+ *
+ * Architecture Fast Refresh :
+ * - AuthContext (createContext) → context/auth-context.ts (fichier .ts, hors règle JSX)
+ * - useAuth (hook) → context/useAuth.ts
+ * - Ce fichier n'exporte que des composants (AuthProvider, AuthGuard).
  */
 
 import {
-  createContext,
   useContext,
   useEffect,
   useState,
@@ -20,17 +24,8 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchMe, redirectToLogin, logout as authLogout } from '../shared/api/auth.ts';
+import { AuthContext } from './auth-context.ts';
 import type { CurrentUserModel } from '../models/pilgrimage.ts';
-
-interface AuthContextValue {
-  currentUser: CurrentUserModel | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (returnPath?: string) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<CurrentUserModel | null>(null);
@@ -93,14 +88,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error('useAuth doit être utilisé à l\'intérieur de AuthProvider');
-  }
-  return ctx;
-}
-
 /**
  * AuthGuard — protège les routes qui exigent une authentification.
  * Redirige vers le SSO si non connecté, affiche un spinner pendant le chargement.
@@ -112,7 +99,11 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children, redirectIfUnauthenticated = true }: AuthGuardProps) {
-  const { isAuthenticated, isLoading, login } = useAuth();
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error('AuthGuard doit être utilisé à l\'intérieur de AuthProvider');
+  }
+  const { isAuthenticated, isLoading, login } = ctx;
   const navigate = useNavigate();
 
   useEffect(() => {

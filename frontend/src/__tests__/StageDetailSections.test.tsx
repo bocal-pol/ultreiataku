@@ -33,8 +33,14 @@ vi.mock('../shared/hooks/useStages.ts', () => ({
 vi.mock('../shared/hooks/useGpx.ts', () => ({
   useGpxSimplified: vi.fn(() => ({ data: null, isError: false })),
 }));
-// Mock AuthContext pour StageDetailScreen
+// Mock AuthContext (Provider/Guard uniquement)
 vi.mock('../context/AuthContext.tsx', () => ({
+  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+// Mock useAuth (hook séparé depuis Phase C)
+vi.mock('../context/useAuth.ts', () => ({
   useAuth: vi.fn().mockReturnValue({
     currentUser: null,
     isAuthenticated: false,
@@ -42,8 +48,6 @@ vi.mock('../context/AuthContext.tsx', () => ({
     login: vi.fn(),
     logout: vi.fn(),
   }),
-  AuthProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  AuthGuard: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 // Mock useTrips pour AccommodationOccupancyBadge (tripId=null -> disabled)
