@@ -1,7 +1,13 @@
 /**
  * AuthContext — Provider SSO Ultreiataku
- * Token Bearer dans localStorage('ultreia_token')
- * Pilgrim dans localStorage('ultreia_user') pour la persistance inter-sessions
+ *
+ * P0-01 (SEC-ULTREIA-AUTH) — Migration Bearer/localStorage → session cookie HttpOnly.
+ * L'état d'authentification est déterminé uniquement par la réponse de /api/pilgrimage/me :
+ *   - 200 → session cookie valide → utilisateur connecté
+ *   - 401 → session absente ou expirée → redirection SSO
+ *
+ * Plus aucune donnée de session stockée en localStorage.
+ * P1-05 résolu par construction.
  */
 
 import {
@@ -26,62 +32,35 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function loadCachedUser(): CurrentUserModel | null {
-  try {
-    const raw = localStorage.getItem('ultreia_user');
-    if (!raw) return null;
-    return JSON.parse(raw) as CurrentUserModel;
-  } catch {
-    return null;
-  }
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<CurrentUserModel | null>(loadCachedUser);
-  const [isLoading, setIsLoading] = useState<boolean>(() => {
-    // Seulement charger si token présent
-    return localStorage.getItem('ultreia_token') !== null && loadCachedUser() === null;
-  });
+  const [currentUser, setCurrentUser] = useState<CurrentUserModel | null>(null);
+  // Toujours charger au montage : l'état d'auth est dans le cookie, pas en mémoire JS.
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const clearAuth = useCallback(() => {
     setCurrentUser(null);
-    localStorage.removeItem('ultreia_token');
-    localStorage.removeItem('ultreia_user');
   }, []);
 
-  // Charger le user courant si token présent et user non en cache
+  // Vérifier la session au montage via /api/pilgrimage/me (credentials: 'include').
+  // 200 → session valide, 401 → non connecté.
   useEffect(() => {
-    const token = localStorage.getItem('ultreia_token');
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
-    // Si déjà en cache, pas besoin de fetcher
-    if (currentUser !== null) {
-      setIsLoading(false);
-      return;
-    }
-
     setIsLoading(true);
     const controller = new AbortController();
 
     fetchMe(controller.signal)
       .then(user => {
         setCurrentUser(user);
-        localStorage.setItem('ultreia_user', JSON.stringify(user));
       })
       .catch(() => {
-        // 401 ou erreur réseau — ne pas déconnecter si offline
-        clearAuth();
+        // 401 ou erreur réseau (offline PWA) — utilisateur non connecté.
+        setCurrentUser(null);
       })
       .finally(() => setIsLoading(false));
 
     return () => controller.abort();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Écouter l'événement 401 global du client HTTP
+  // Écouter l'événement 401 global du client HTTP (session expirée en cours d'usage).
   useEffect(() => {
     const handler = () => {
       clearAuth();

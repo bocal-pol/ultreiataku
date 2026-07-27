@@ -1,33 +1,23 @@
 /**
- * Client HTTP — fetch + retry + Bearer token
+ * Client HTTP — fetch + retry + cookies de session
  *
- * Architecture Bearer / localStorage — risque accepté (P1-05)
- * ─────────────────────────────────────────────────────────────
- * Le token SSO est stocké dans localStorage (clé `ultreia_token`).
+ * P0-01 (SEC-ULTREIA-AUTH) — Migration Bearer/localStorage → session cookie HttpOnly
+ * ─────────────────────────────────────────────────────────────────────────────────
+ * Pattern monorepo SiteV26 (source : Oikotaku/frontend/src/lib/api/client.ts) :
+ *   - credentials: 'include' — le navigateur envoie le cookie de session HttpOnly
+ *     à chaque requête cross-origin vers le backend.
+ *   - Aucun Bearer token. Aucun stockage localStorage de credentials.
+ *   - Le cookie est posé par SsoCallbackController (Auth::login + session()->regenerate())
+ *     après validation du code SSO central.
  *
- * Risque : un script XSS pourrait lire ce token. L'alternative classique
- * est un HttpOnly cookie, mais elle est incompatible avec le mode PWA
- * offline-first (les Service Workers ne voient pas les cookies HttpOnly,
- * et le flow SSO cross-origin multiapp impose une redirection explicite
- * avec le token en query param → localStorage est le seul stockage accessible
- * au moment du callback /auth/callback).
+ * P1-05 résolu par construction : plus de token en localStorage,
+ *   la surface d'attaque XSS sur les credentials est nulle.
  *
- * Mesures de mitigation compensatoires :
- *   1. CSP stricte : script-src 'self' uniquement (cf. infra + headers Laravel)
- *   2. Purge immédiate sur 401 : localStorage.removeItem('ultreia_token') + ultreia:unauthorized
- *   3. Token à durée de vie courte côté Auth central (exp configurable, défaut 1h)
- *   4. HTTPS obligatoire en production (TLS 1.2+)
- *   5. Aucune donnée PII dans le token (sub = UUID, pas d'email ni de rôle en clair)
- *
- * Évolution future : si Auth central supporte SameSite=Strict HttpOnly cookies,
- * migrer vers credentials: 'include' + suppression du localStorage. Tracker : AUTH-COOKIE-P2.
+ * Gestion 401 : dispatch événement custom 'ultreia:unauthorized'
+ *   → AuthProvider redirige vers le SSO central.
  */
 
 const API_BASE = '/api/pilgrimage';
-
-function getBearer(): string | null {
-  return localStorage.getItem('ultreia_token');
-}
 
 interface FetchOptions {
   method?: string;
@@ -36,11 +26,9 @@ interface FetchOptions {
 }
 
 async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
-  const token = getBearer();
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
   const response = await fetch(`${API_BASE}${path}`, {
@@ -48,13 +36,14 @@ async function apiFetch<T>(path: string, opts: FetchOptions = {}): Promise<T> {
     headers,
     body: opts.body,
     signal: opts.signal,
+    // Indispensable pour que le cookie de session HttpOnly soit envoyé
+    // avec chaque requête cross-origin (frontend SPA → backend Laravel).
+    credentials: 'include',
   });
 
   if (response.status === 401) {
-    // Token expiré ou invalide — nettoyage et redirect login
-    localStorage.removeItem('ultreia_token');
-    localStorage.removeItem('ultreia_user');
-    // Déclencher un événement custom pour que AuthProvider réagisse
+    // Session expirée ou absente — déclencher un événement custom
+    // pour que AuthProvider réagisse et redirige vers le SSO.
     window.dispatchEvent(new CustomEvent('ultreia:unauthorized'));
     throw new ApiError(401, 'Unauthorized');
   }
