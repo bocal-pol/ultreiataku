@@ -39,15 +39,20 @@ class SsoCallbackController extends Controller
         $incomingState = $request->string('state')->toString();
         $sessionState = (string) ($request->session()->pull('oauth_state', '') ?? '');
 
-        if ($incomingState !== '' || $sessionState !== '') {
-            if (! hash_equals($sessionState, $incomingState)) {
-                Log::warning('sso.callback.csrf_state_mismatch', [
-                    'ip' => $request->ip(),
-                    'user_agent' => $request->userAgent(),
-                ]);
+        // P1-01 — Le state MUST être présent des deux côtés.
+        // Ancienne condition : `$incomingState !== '' || $sessionState !== ''`
+        //   → si les deux sont '' (session expirée + callback sans state), le check était bypassé.
+        // Nouvelle condition : on exige `$sessionState !== ''` ET `hash_equals()`.
+        // Si $sessionState est vide (session expirée / premier callback / cookie absent),
+        // on rejette immédiatement — pas de fallback silencieux.
+        if (! hash_equals($sessionState, $incomingState) || $sessionState === '') {
+            Log::warning('sso.callback.csrf_state_mismatch', [
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'session_state_empty' => $sessionState === '',
+            ]);
 
-                return $this->redirectToLogin($centralAuth, 'csrf_mismatch');
-            }
+            return $this->redirectToLogin($centralAuth, 'csrf_mismatch');
         }
 
         // ─── Exchange code / token ─────────────────────────────────────────────
@@ -87,7 +92,7 @@ class SsoCallbackController extends Controller
 
         // ─── Sync User local (email unique, jamais de mot de passe réel) ───────
         /** @var User $user */
-        $user = DB::transaction(function () use ($authUser, $panelAccess): User {
+        $user = DB::transaction(function () use ($authUser): User {
             /** @var User $user */
             $user = User::query()->updateOrCreate(
                 ['email' => $authUser['email']],
@@ -116,7 +121,12 @@ class SsoCallbackController extends Controller
         $request->session()->regenerate(); // prévient la fixation de session
 
         $request->session()->put('auth_service_user', $authUser);
-        $request->session()->put('auth_service_token', $token);
+
+        // P1-03 — Token SSO NON persisté en session.
+        // L'ancien `$request->session()->put('auth_service_token', $token)` stockait
+        // le Bearer token en session Redis (SESSION_ENCRYPT=true mais REDIS_PASSWORD=null).
+        // Ce stockage est inutile fonctionnellement : seuls auth_service_user et
+        // auth_panel_access sont utilisés pour l'UX Filament. Supprimé.
 
         // Stocke le pilgrim_id en session (utilisé par PanelAuth::pilgrimId())
         $pilgrim = Pilgrim::query()->where('user_id', $user->id)->first();

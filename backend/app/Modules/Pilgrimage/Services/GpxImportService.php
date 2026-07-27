@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Storage;
 /**
  * Service d'import de fichiers GPX vers MinIO minio_gpx.
  * Parse les métadonnées (distance, D+, D-, points_count) à l'import.
+ *
+ * Incident seeder : l'ancien try/catch autour de Storage::put() avalait les erreurs MinIO
+ * et créait des GpxTrace orphelines (minio_path inexistant). Supprimé — les exceptions
+ * propagent maintenant correctement. Le seeder doit gérer le fallback si besoin.
  */
 final class GpxImportService
 {
@@ -23,7 +27,7 @@ final class GpxImportService
     /**
      * Importe un fichier GPX uploadé via Filament et crée une GpxTrace.
      *
-     * @param array<string, mixed> $attributes Attributs complémentaires (stage_id, trace_type, name, precision, source)
+     * @param  array<string, mixed>  $attributes  Attributs complémentaires (stage_id, trace_type, name, precision, source)
      */
     public function importUploadedFile(UploadedFile $file, array $attributes): GpxTrace
     {
@@ -63,7 +67,7 @@ final class GpxImportService
     }
 
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     private function doImport(string $gpxContent, array $attributes, string $filename): GpxTrace
     {
@@ -75,17 +79,13 @@ final class GpxImportService
 
         $minioPath = "gpx/belgique/{$stageCode}-{$traceType}-" . time() . '.gpx';
 
-        // Upload vers MinIO (fallback local si indisponible)
-        try {
-            Storage::disk($minioDisk)->put($minioPath, $gpxContent);
-            Log::info('GPX uploadé sur MinIO', ['path' => $minioPath, 'disk' => $minioDisk]);
-        } catch (\Throwable $e) {
-            Log::warning('MinIO indisponible — GPX conservé en local uniquement', [
-                'path' => $minioPath,
-                'error' => $e->getMessage(),
-            ]);
-            // Conserver la référence MinIO même si le fichier n'y est pas encore
-        }
+        // Upload vers MinIO — ne pas swallower l'exception.
+        // Si MinIO est indisponible, l'exception se propage : le seeder (ou l'appelant)
+        // gère le fallback via createFallbackTrace(). Cela évite les GpxTrace orphelines
+        // dont minio_path pointe vers un fichier absent.
+        Storage::disk($minioDisk)->put($minioPath, $gpxContent);
+
+        Log::info('GPX uploadé sur MinIO', ['path' => $minioPath, 'disk' => $minioDisk]);
 
         $trace = GpxTrace::create([
             'stage_id' => $attributes['stage_id'] ?? null,

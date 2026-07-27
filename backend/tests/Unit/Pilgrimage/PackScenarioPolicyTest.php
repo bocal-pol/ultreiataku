@@ -11,6 +11,7 @@ use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Trip;
 use App\Modules\Pilgrimage\Policies\PackScenarioPolicy;
+use App\Modules\Pilgrimage\Services\TripAuthorizationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -26,7 +27,8 @@ class PackScenarioPolicyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->policy = new PackScenarioPolicy;
+        // I-02 : PackScenarioPolicy requiert TripAuthorizationService depuis le refacto themis
+        $this->policy = new PackScenarioPolicy(new TripAuthorizationService);
     }
 
     private function makeUserWithPilgrim(): array

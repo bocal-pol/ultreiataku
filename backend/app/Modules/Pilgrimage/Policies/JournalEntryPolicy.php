@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Policies;
 
 use App\Models\User;
+use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Enums\JournalVisibility;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\JournalEntry;
-use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\Trip;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -30,6 +30,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class JournalEntryPolicy
 {
     use HandlesAuthorization;
+    use ResolvesCurrentPilgrim;
 
     // ─── Lecture ──────────────────────────────────────────────────────────────
 
@@ -80,7 +81,7 @@ class JournalEntryPolicy
                 TripMemberRole::Organizer,
                 TripMemberRole::Participant,
             ], true),
-            JournalVisibility::Public  => in_array($role, [
+            JournalVisibility::Public => in_array($role, [
                 TripMemberRole::Organizer,
                 TripMemberRole::Participant,
                 TripMemberRole::Observer,
@@ -154,12 +155,5 @@ class JournalEntryPolicy
         }
 
         return $trip->roleOf($pilgrim->id) === TripMemberRole::Organizer;
-    }
-
-    // ─── Helper ───────────────────────────────────────────────────────────────
-
-    private function resolvePilgrim(User $user): ?Pilgrim
-    {
-        return Pilgrim::query()->where('user_id', $user->id)->first();
     }
 }

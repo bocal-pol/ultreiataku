@@ -8,6 +8,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * ULTREIA-52 — Service d'upload de photos journal.
@@ -24,6 +25,16 @@ use Illuminate\Support\Str;
  *     et on les retourne pour stockage en BDD (on NE stocke PAS l'EXIF brut).
  *   - Les coordonnées GPS retournées par cette méthode ont déjà été extraites
  *     et séparées du fichier : elles ne transitent jamais dans l'image.
+ *
+ * I-03 — Transparence PNG :
+ *   - Les PNG avec canal alpha sont aplatis sur fond blanc avant re-encode JPEG.
+ *   - Cela évite que la transparence vire au noir (comportement GD par défaut).
+ *
+ * I-04 — Mémoire :
+ *   - Le re-encode passe par un fichier temporaire (imagejpeg vers chemin fichier)
+ *     et non par ob_start/ob_get_clean qui charge tout en RAM.
+ *   - Si GD est indisponible → fail-fast (RuntimeException) — RG-04 ne contourne
+ *     jamais le strip EXIF.
  */
 class JournalPhotoUploadService
 {
@@ -78,16 +89,28 @@ class JournalPhotoUploadService
 
     /**
      * Re-encode l'image via GD pour supprimer toutes les métadonnées EXIF.
-     * Supporte JPEG, PNG, WEBP.
+     * Supporte JPEG, PNG (avec gestion transparence → fond blanc), WEBP.
+     *
+     * I-04 : utilise un fichier temporaire au lieu de ob_start/ob_get_clean
+     *        pour éviter la saturation RAM sur les grandes images.
+     *
+     * I-03 : les PNG avec canal alpha sont aplatis sur fond blanc avant conversion JPEG.
+     *
+     * @throws RuntimeException si GD est indisponible (RG-04 : fail-fast, pas de fallback non-strip)
      */
     private function stripExifViaReencode(UploadedFile $file): string
     {
+        if (! extension_loaded('gd')) {
+            throw new RuntimeException('L\'extension GD est requise pour le strip EXIF des photos (RG-04). Activez ext-gd.');
+        }
+
         $mimeType = $file->getMimeType() ?? 'image/jpeg';
+        $isPng = str_contains($mimeType, 'png');
 
         $image = match (true) {
             str_contains($mimeType, 'jpeg'), str_contains($mimeType, 'jpg')
                 => imagecreatefromjpeg($file->getRealPath()),
-            str_contains($mimeType, 'png')
+            $isPng
                 => imagecreatefrompng($file->getRealPath()),
             str_contains($mimeType, 'webp')
                 => imagecreatefromwebp($file->getRealPath()),
@@ -95,18 +118,61 @@ class JournalPhotoUploadService
         };
 
         if ($image === false) {
-            // Fallback : lire le binaire brut si GD échoue
-            Log::warning('journal.photo.gd_failed', ['file' => $file->getClientOriginalName()]);
-
-            return (string) file_get_contents($file->getRealPath());
+            throw new RuntimeException(
+                sprintf('GD n\'a pas pu décoder l\'image "%s" (mime: %s). Upload annulé.', $file->getClientOriginalName(), $mimeType),
+            );
         }
 
-        ob_start();
-        imagejpeg($image, null, 85);
-        $result = (string) ob_get_clean();
-        imagedestroy($image);
+        // I-03 — Aplatir la transparence PNG sur fond blanc avant conversion JPEG
+        if ($isPng) {
+            $width  = imagesx($image);
+            $height = imagesy($image);
+            $canvas = imagecreatetruecolor($width, $height);
 
-        return $result;
+            if ($canvas === false) {
+                imagedestroy($image);
+                throw new RuntimeException('GD n\'a pas pu créer le canvas pour l\'aplatissement du canal alpha PNG.');
+            }
+
+            // Fond blanc
+            $white = imagecolorallocate($canvas, 255, 255, 255);
+            if ($white !== false) {
+                imagefilledrectangle($canvas, 0, 0, $width - 1, $height - 1, $white);
+            }
+
+            imagealphablending($image, true);
+            imagecopy($canvas, $image, 0, 0, 0, 0, $width, $height);
+            imagedestroy($image);
+            $image = $canvas;
+        }
+
+        // I-04 — Écrire dans un fichier temporaire plutôt qu'en mémoire via ob_start
+        $tmpPath = tempnam(sys_get_temp_dir(), 'ultreia_photo_');
+        if ($tmpPath === false) {
+            imagedestroy($image);
+            throw new RuntimeException('Impossible de créer un fichier temporaire pour le re-encode JPEG.');
+        }
+
+        try {
+            $success = imagejpeg($image, $tmpPath, 85);
+            imagedestroy($image);
+
+            if (! $success) {
+                throw new RuntimeException('GD n\'a pas pu encoder le fichier JPEG.');
+            }
+
+            $result = file_get_contents($tmpPath);
+
+            if ($result === false) {
+                throw new RuntimeException('Impossible de lire le fichier temporaire après le re-encode.');
+            }
+
+            return $result;
+        } finally {
+            if (file_exists($tmpPath)) {
+                @unlink($tmpPath);
+            }
+        }
     }
 
     /**

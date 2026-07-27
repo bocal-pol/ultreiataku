@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    // ─── SSO Auth central SiteV26 (Kairotaku/Auth) ────────────────────────────
+    // P0-02 — Clé manquante : CentralAuthService levait TransportException systématiquement.
+    // Ces valeurs sont lues depuis .env ; ne jamais hardcoder d'URL de production ici.
+    'auth' => [
+        'verify_url' => env('AUTH_VERIFY_URL', 'http://auth-app/api/auth/verify'),
+        'api_url' => env('AUTH_API_URL', 'http://auth-app'),
+        'login_url' => env('AUTH_LOGIN_URL', 'http://localhost:5176/login'),
+        // slug transmis en header X-App-ID — identifiant Ultreiataku côté Auth central
+        'app_id' => env('AUTH_APP_ID', env('APP_PANEL', 'ultreiataku')),
+        // URL d'échange code éphémère → token (TKN-P0-2)
+        'exchange_url' => env('AUTH_EXCHANGE_URL', ''),
+    ],
+
 ];

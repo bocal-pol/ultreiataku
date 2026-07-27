@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Policies;
 
 use App\Models\User;
+use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\Departure;
-use App\Modules\Pilgrimage\Models\Pilgrim;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -21,6 +21,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class DeparturePolicy
 {
     use HandlesAuthorization;
+    use ResolvesCurrentPilgrim;
 
     public function view(User $user, Departure $departure): bool
     {
@@ -76,10 +77,5 @@ class DeparturePolicy
     public function delete(User $user, Departure $departure): bool
     {
         return $this->update($user, $departure);
-    }
-
-    private function resolvePilgrim(User $user): ?Pilgrim
-    {
-        return Pilgrim::query()->where('user_id', $user->id)->first();
     }
 }

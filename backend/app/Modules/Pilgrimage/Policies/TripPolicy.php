@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Policies;
 
 use App\Models\User;
+use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\Departure;
-use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\Trip;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -20,11 +20,12 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   observer      → lecture seule (pas d'occupancy)
  *
  * L'utilisateur passé est le User Eloquent local (lié au SSO).
- * Le Pilgrim est résolu par user_id.
+ * Le Pilgrim est résolu par user_id via ResolvesCurrentPilgrim (cache par requête).
  */
 class TripPolicy
 {
     use HandlesAuthorization;
+    use ResolvesCurrentPilgrim;
 
     public function viewAny(User $user): bool
     {
@@ -34,7 +35,7 @@ class TripPolicy
 
     public function view(User $user, Trip $trip): bool
     {
-        $pilgrim = $this->resolveOrganizer($user);
+        $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
             return false;
@@ -144,19 +145,8 @@ class TripPolicy
 
     private function isOrganizer(User $user, Trip $trip): bool
     {
-        $pilgrim = $this->resolveOrganizer($user);
+        $pilgrim = $this->resolvePilgrim($user);
 
         return $pilgrim !== null && $trip->organizer_id === $pilgrim->id;
-    }
-
-    private function resolvePilgrim(User $user): ?Pilgrim
-    {
-        return Pilgrim::query()->where('user_id', $user->id)->first();
-    }
-
-    // Alias pour la clarté sémantique (resolveOrganizer = resolvePilgrim ici)
-    private function resolveOrganizer(User $user): ?Pilgrim
-    {
-        return $this->resolvePilgrim($user);
     }
 }

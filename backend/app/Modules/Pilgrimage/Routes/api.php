@@ -64,6 +64,10 @@ Route::prefix('api/pilgrimage')->group(function () {
         Route::post('/trips/join/{token}', [TripController::class, 'joinByToken'])
             ->name('api.pilgrimage.trips.join');
 
+        // B-01 : Liste des Trips du pèlerin courant (organizer OU membre)
+        Route::get('/trips', [TripController::class, 'index'])
+            ->name('api.pilgrimage.trips.index');
+
         // ULTREIA-35 : CRUD Trip
         Route::post('/trips', [TripController::class, 'store'])
             ->name('api.pilgrimage.trips.store');

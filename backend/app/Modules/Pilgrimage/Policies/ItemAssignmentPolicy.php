@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Policies;
 
 use App\Models\User;
+use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\Departure;
 use App\Modules\Pilgrimage\Models\ItemAssignment;
-use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\Trip;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -23,6 +23,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class ItemAssignmentPolicy
 {
     use HandlesAuthorization;
+    use ResolvesCurrentPilgrim;
 
     public function create(User $user, Departure $departure): bool
     {
@@ -89,12 +90,5 @@ class ItemAssignmentPolicy
     public function delete(User $user, ItemAssignment $assignment): bool
     {
         return $this->view($user, $assignment);
-    }
-
-    // ─── Helpers ──────────────────────────────────────────────────────────────
-
-    private function resolvePilgrim(User $user): ?Pilgrim
-    {
-        return Pilgrim::query()->where('user_id', $user->id)->first();
     }
 }

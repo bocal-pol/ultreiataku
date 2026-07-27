@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Http\Resources\ItemAssignmentResource;
 use App\Modules\Pilgrimage\Http\Resources\PackItemResource;
 use App\Modules\Pilgrimage\Http\Resources\PackScenarioResource;
@@ -13,7 +14,7 @@ use App\Modules\Pilgrimage\Models\ItemAssignment;
 use App\Modules\Pilgrimage\Models\PackItem;
 use App\Modules\Pilgrimage\Models\PackScenario;
 use App\Modules\Pilgrimage\Models\Pilgrim;
-use App\Modules\Pilgrimage\Models\Trip;
+use App\Modules\Pilgrimage\Services\TripAuthorizationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,9 +31,15 @@ use Illuminate\Support\Facades\Validator;
  *   PUT    /api/pilgrimage/pack-scenarios/{id}
  *   POST   /api/pilgrimage/pack-scenarios/{id}/items
  *   POST   /api/pilgrimage/departures/{id}/assignments
+ *
+ * I-02 : isOrganizerOfTripWithPilgrim délégué à TripAuthorizationService (source unique de vérité).
  */
 class PackScenarioController extends Controller
 {
+    use ResolvesCurrentPilgrim;
+
+    public function __construct(private readonly TripAuthorizationService $tripAuthService) {}
+
     // ─── GET /api/pilgrimage/pilgrims/{pilgrimId}/pack-scenarios ──────────────
 
     public function indexForPilgrim(Request $request, string $pilgrimId): JsonResponse
@@ -43,7 +50,7 @@ class PackScenarioController extends Controller
 
         // Restriction : seul le propriétaire ou un organizer d'un Trip commun peut voir
         $canView = $targetPilgrim->id === $currentPilgrim->id
-            || $this->isOrganizerOfTripWithPilgrim($currentPilgrim, $targetPilgrim->id);
+            || $this->tripAuthService->isOrganizerOfTripWithPilgrim($currentPilgrim, $targetPilgrim->id);
 
         if (! $canView) {
             return response()->json(['message' => 'Forbidden'], 403);
@@ -232,17 +239,5 @@ class PackScenarioController extends Controller
         $assignment->load('packItem');
 
         return response()->json(['data' => new ItemAssignmentResource($assignment)], 201);
-    }
-
-    // ─── Helpers ──────────────────────────────────────────────────────────────
-
-    private function isOrganizerOfTripWithPilgrim(Pilgrim $viewer, string $targetPilgrimId): bool
-    {
-        return Trip::query()
-            ->where('organizer_id', $viewer->id)
-            ->whereHas('members', function ($q) use ($targetPilgrimId): void {
-                $q->where('pilgrim_id', $targetPilgrimId);
-            })
-            ->exists();
     }
 }

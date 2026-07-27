@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Http\Resources\DepartureResource;
 use App\Modules\Pilgrimage\Http\Resources\OccupancyResource;
 use App\Modules\Pilgrimage\Http\Resources\TripResource;
@@ -17,6 +18,7 @@ use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Trip;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -26,6 +28,7 @@ use Illuminate\Support\Facades\Validator;
  * ULTREIA-35 — API REST Trips.
  *
  * Routes :
+ *   GET    /api/pilgrimage/trips                          (B-01)
  *   POST   /api/pilgrimage/trips
  *   GET    /api/pilgrimage/trips/{id}
  *   POST   /api/pilgrimage/trips/{id}/members
@@ -38,6 +41,26 @@ use Illuminate\Support\Facades\Validator;
  */
 class TripController extends Controller
 {
+    // ─── GET /api/pilgrimage/trips ────────────────────────────────────────────
+    // B-01 : Retourne tous les Trips dont le pèlerin courant est organisateur OU membre.
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        $this->authorize('viewAny', Trip::class);
+
+        $pilgrim = Pilgrim::query()->where('user_id', $request->user()->id)->firstOrFail();
+
+        $trips = Trip::query()
+            ->with(['organizer', 'members', 'route'])
+            ->whereHas('members', function ($q) use ($pilgrim): void {
+                $q->where('pilgrim_id', $pilgrim->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return TripResource::collection($trips);
+    }
+
     // ─── POST /api/pilgrimage/trips ───────────────────────────────────────────
 
     public function store(Request $request): JsonResponse
@@ -150,6 +173,7 @@ class TripController extends Controller
     }
 
     // ─── DELETE /api/pilgrimage/trips/{id}/members/{pilgrimId} ───────────────
+    // B-03 : Interdire d'éjecter l'organisateur du Trip.
 
     public function removeMember(Request $request, string $id, string $pilgrimId): JsonResponse
     {
@@ -157,6 +181,13 @@ class TripController extends Controller
         $trip = Trip::query()->findOrFail($id);
 
         $this->authorize('manageMember', $trip);
+
+        // B-03 — Garde : impossible de retirer l'organisateur du pivot
+        if ($pilgrimId === $trip->organizer_id) {
+            return response()->json([
+                'message' => 'Impossible de retirer l\'organisateur du Trip. Transférez d\'abord le rôle d\'organisateur.',
+            ], 422);
+        }
 
         DB::transaction(function () use ($trip, $pilgrimId): void {
             $trip->members()->detach($pilgrimId);
@@ -172,6 +203,7 @@ class TripController extends Controller
     }
 
     // ─── POST /api/pilgrimage/trips/{id}/departures ───────────────────────────
+    // I-07 + P1-02 : Vérifier membership + ownership pour les participants.
 
     public function addDeparture(Request $request, string $id): JsonResponse
     {
@@ -191,6 +223,32 @@ class TripController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // I-07 — RG : le pilgrim_id doit être membre du Trip
+        $targetPilgrimId = $request->string('pilgrim_id')->toString();
+        if (! $trip->hasMember($targetPilgrimId)) {
+            return response()->json([
+                'message' => 'Le pèlerin sélectionné n\'est pas membre de ce Trip.',
+            ], 403);
+        }
+
+        // P1-02 — IDOR : un participant ne peut créer une departure que pour lui-même.
+        // Seul un organisateur peut créer une departure pour n'importe quel membre.
+        // Un observer n'a pas le droit de créer des departures (géré par DeparturePolicy).
+        $currentPilgrim = Pilgrim::query()->where('user_id', $request->user()->id)->firstOrFail();
+        $currentRole = $trip->roleOf($currentPilgrim->id);
+
+        if ($currentRole === TripMemberRole::Participant && $currentPilgrim->id !== $targetPilgrimId) {
+            Log::warning('trip.departure.idor_attempt', [
+                'trip_id' => $trip->id,
+                'current_pilgrim_id' => $currentPilgrim->id,
+                'target_pilgrim_id' => $targetPilgrimId,
+            ]);
+
+            return response()->json([
+                'message' => 'Un participant ne peut créer une étape que pour lui-même.',
+            ], 403);
         }
 
         // Vérifier RG : end_stage.day_number >= start_stage.day_number

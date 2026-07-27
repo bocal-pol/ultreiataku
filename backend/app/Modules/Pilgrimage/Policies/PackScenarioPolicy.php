@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Policies;
 
 use App\Models\User;
+use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Models\PackScenario;
-use App\Modules\Pilgrimage\Models\Pilgrim;
-use App\Modules\Pilgrimage\Models\Trip;
+use App\Modules\Pilgrimage\Services\TripAuthorizationService;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -18,10 +18,15 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   organizer           → voir le sac de tous les membres de son Trip
  *   participant         → CRUD sur son propre scénario
  *   observer            → interdit
+ *
+ * I-02 : isOrganizerOfTripWithPilgrim délégué à TripAuthorizationService.
  */
 class PackScenarioPolicy
 {
     use HandlesAuthorization;
+    use ResolvesCurrentPilgrim;
+
+    public function __construct(private readonly TripAuthorizationService $tripAuthService) {}
 
     public function viewAny(User $user): bool
     {
@@ -42,7 +47,7 @@ class PackScenarioPolicy
         }
 
         // Organizer d'un Trip dont le propriétaire du scénario est membre peut voir
-        return $this->isOrganizerOfTripWithPilgrim($pilgrim, $scenario->pilgrim_id);
+        return $this->tripAuthService->isOrganizerOfTripWithPilgrim($pilgrim, $scenario->pilgrim_id);
     }
 
     public function create(User $user): bool
@@ -68,26 +73,5 @@ class PackScenarioPolicy
     public function addItem(User $user, PackScenario $scenario): bool
     {
         return $this->update($user, $scenario);
-    }
-
-    // ─── Helpers ──────────────────────────────────────────────────────────────
-
-    private function resolvePilgrim(User $user): ?Pilgrim
-    {
-        return Pilgrim::query()->where('user_id', $user->id)->first();
-    }
-
-    /**
-     * Vérifie si le Pilgrim $viewer est organizer d'un Trip
-     * dont le Pilgrim $targetPilgrimId est membre.
-     */
-    private function isOrganizerOfTripWithPilgrim(Pilgrim $viewer, string $targetPilgrimId): bool
-    {
-        return Trip::query()
-            ->where('organizer_id', $viewer->id)
-            ->whereHas('members', function ($q) use ($targetPilgrimId): void {
-                $q->where('pilgrim_id', $targetPilgrimId);
-            })
-            ->exists();
     }
 }
