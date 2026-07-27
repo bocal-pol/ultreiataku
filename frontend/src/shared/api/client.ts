@@ -1,7 +1,26 @@
 /**
  * Client HTTP — fetch + retry + Bearer token
- * Le token est lu depuis localStorage (posé par le SSO callback).
- * 401 global : clear token + redirect vers /auth/login
+ *
+ * Architecture Bearer / localStorage — risque accepté (P1-05)
+ * ─────────────────────────────────────────────────────────────
+ * Le token SSO est stocké dans localStorage (clé `ultreia_token`).
+ *
+ * Risque : un script XSS pourrait lire ce token. L'alternative classique
+ * est un HttpOnly cookie, mais elle est incompatible avec le mode PWA
+ * offline-first (les Service Workers ne voient pas les cookies HttpOnly,
+ * et le flow SSO cross-origin multiapp impose une redirection explicite
+ * avec le token en query param → localStorage est le seul stockage accessible
+ * au moment du callback /auth/callback).
+ *
+ * Mesures de mitigation compensatoires :
+ *   1. CSP stricte : script-src 'self' uniquement (cf. infra + headers Laravel)
+ *   2. Purge immédiate sur 401 : localStorage.removeItem('ultreia_token') + ultreia:unauthorized
+ *   3. Token à durée de vie courte côté Auth central (exp configurable, défaut 1h)
+ *   4. HTTPS obligatoire en production (TLS 1.2+)
+ *   5. Aucune donnée PII dans le token (sub = UUID, pas d'email ni de rôle en clair)
+ *
+ * Évolution future : si Auth central supporte SameSite=Strict HttpOnly cookies,
+ * migrer vers credentials: 'include' + suppression du localStorage. Tracker : AUTH-COOKIE-P2.
  */
 
 const API_BASE = '/api/pilgrimage';

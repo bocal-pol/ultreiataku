@@ -119,15 +119,10 @@ function InviteDialog({ tripId, currentToken, onClose }: InviteDialogProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }).catch(() => {
-      // Fallback clipboard
-      const ta = document.createElement('textarea');
-      ta.value = inviteUrl;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      // I-06 — Clipboard indisponible (contexte non-secure ou permission refusée).
+      // execCommand est déprécié et retiré dans certains navigateurs.
+      // Le lien est affiché dans le champ monospace — l'utilisateur peut le copier manuellement.
+      setCopied(false);
     });
   }
 

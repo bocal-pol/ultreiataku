@@ -39,7 +39,18 @@ export type JournalTab = 'all' | 'mine' | 'public';
 
 // ─── useJournalEntries ────────────────────────────────────────────────────────
 
-export function useJournalEntries(tripId: string, tab: JournalTab) {
+/**
+ * I-05 — Le filtre tab === 'mine' est maintenant fonctionnel.
+ * Le pilgrimId du pèlerin courant est passé en paramètre et filtré
+ * côté client sur e.pilgrimId === currentPilgrimId.
+ *
+ * @param tripId     Identifiant du Trip
+ * @param tab        Filtre actif : 'all' | 'mine' | 'public'
+ * @param pilgrimId  ID du pèlerin courant (depuis useAuth().currentUser.pilgrim.id).
+ *                   Requis pour que le filtre 'mine' soit opérant.
+ *                   Si non fourni, 'mine' retourne toutes les entrées (dégradé).
+ */
+export function useJournalEntries(tripId: string, tab: JournalTab, pilgrimId?: string) {
   return useQuery<JournalEntriesPage, Error>({
     queryKey: journalKeys.entries(tripId, tab),
     queryFn: ({ signal }) => fetchJournalEntries(tripId, undefined, signal),
@@ -47,13 +58,14 @@ export function useJournalEntries(tripId: string, tab: JournalTab) {
     staleTime: 60 * 1000,
     select: (page): JournalEntriesPage => {
       if (tab === 'all') return page;
-      // Filtrage côté client sur les données déjà chargées
-      // Le backend filtre par visibilité du lecteur ; ici on filtre mine/public
       const filtered = page.entries.filter((e: JournalEntryModel) => {
         if (tab === 'public') return e.visibility === 'public';
-        // 'mine' : on filtre les entrées dont le pilgrimId correspond (on ne peut pas
-        // comparer sans context user ici — on expose toutes les entrées et laisse
-        // JournalScreen filtrer via useAuth si nécessaire)
+        // I-05 — 'mine' : comparaison avec le pilgrimId du pèlerin courant
+        if (tab === 'mine') {
+          // Dégradé si pilgrimId non fourni : affiche toutes les entrées
+          if (!pilgrimId) return true;
+          return e.pilgrimId === pilgrimId;
+        }
         return true;
       });
       return { ...page, entries: filtered };
