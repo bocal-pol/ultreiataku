@@ -1,52 +1,48 @@
 /**
  * AuthCallbackScreen — /auth/callback
- * Reçoit le token ou code depuis le query param SSO.
- * Stocke le token, fetch le user, puis redirige.
+ *
+ * P0-01 (SEC-ULTREIA-AUTH) — Adapté au flow session cookie.
+ *
+ * Dans le nouveau flow SSO :
+ *   1. SPA → redirectToLogin() → Auth central (?return=/auth/callback)
+ *   2. Auth central → backend /admin/sso/callback?code=...&state=...
+ *   3. Backend pose le cookie de session HttpOnly (Auth::login + regenerate)
+ *   4. Backend redirige vers le frontend → /auth/callback
+ *   5. Ce composant vérifie la session via fetchMe() (credentials: 'include')
+ *      → 200 : session cookie valide → redirige vers returnPath
+ *      → 401 : session absente → affiche erreur
+ *
+ * Plus aucun token en query param ni en localStorage.
  */
 
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { fetchMe } from '../../shared/api/auth.ts';
 
 export function AuthCallbackScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation('pilgrimage');
-  const [searchParams] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = searchParams.get('token');
-    const code = searchParams.get('code');
-
-    if (!token && !code) {
-      setError(t('error.session_expired'));
-      return;
-    }
-
-    if (token) {
-      localStorage.setItem('ultreia_token', token);
-    } else if (code) {
-      // Pour le flow code — le code est un token directement (backend exchange déjà fait)
-      localStorage.setItem('ultreia_token', code);
-    }
-
     const controller = new AbortController();
+
+    // Vérifier la session via cookie (credentials: 'include' dans client.ts)
     fetchMe(controller.signal)
-      .then(user => {
-        localStorage.setItem('ultreia_user', JSON.stringify(user));
-        // Restaurer le chemin de retour stocké avant le login
+      .then(() => {
+        // Session valide — restaurer le chemin de retour stocké avant le login
         const returnPath = sessionStorage.getItem('ultreia_return_path') ?? '/belgique';
         sessionStorage.removeItem('ultreia_return_path');
         navigate(returnPath, { replace: true });
       })
       .catch(() => {
-        localStorage.removeItem('ultreia_token');
+        // 401 : session absente ou expirée
         setError(t('error.session_expired'));
       });
 
     return () => controller.abort();
-  // searchParams est stable dans l'effect initial, navigate et t aussi
+  // navigate et t sont stables
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

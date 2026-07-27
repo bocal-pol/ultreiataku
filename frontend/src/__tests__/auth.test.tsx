@@ -1,6 +1,10 @@
 /**
  * Tests — Auth SSO Ultreiataku
  * E2E-17 (AuthCallbackScreen), E2E-18 (SplashScreen)
+ *
+ * P0-01 (SEC-ULTREIA-AUTH) — Adapté au flow session cookie.
+ * AuthCallbackScreen n'attend plus de token en query param.
+ * Elle vérifie uniquement la session via fetchMe() (credentials: 'include').
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
@@ -84,14 +88,14 @@ describe('AuthCallbackScreen', () => {
     // fetchMe ne resolve jamais = pending state
     mockFetchMe.mockReturnValue(new Promise(() => {}));
 
-    render(<CallbackWrapper url="/auth/callback?token=TEST_TOKEN" />);
+    render(<CallbackWrapper url="/auth/callback" />);
 
     // role="status" visible tant que fetchMe est pending
     expect(screen.getByRole('status')).toBeInTheDocument();
     expect(screen.getByText('auth.connecting')).toBeInTheDocument();
   });
 
-  it('stocke le token et appelle fetchMe', async () => {
+  it('appelle fetchMe (vérifie la session cookie) et redirige en cas de succès', async () => {
     const mockUser = {
       userId: 1,
       name: 'Pascal',
@@ -100,37 +104,32 @@ describe('AuthCallbackScreen', () => {
     };
     mockFetchMe.mockResolvedValueOnce(mockUser);
 
-    render(<CallbackWrapper url="/auth/callback?token=MY_TOKEN" />);
+    render(<CallbackWrapper url="/auth/callback" />);
 
     await waitFor(() => {
       expect(mockFetchMe).toHaveBeenCalledOnce();
     });
 
-    expect(localStorage.getItem('ultreia_token')).toBe('MY_TOKEN');
+    // Aucun token en localStorage — session via cookie HttpOnly
+    expect(localStorage.getItem('ultreia_token')).toBeNull();
+    expect(localStorage.getItem('ultreia_user')).toBeNull();
   });
 
-  it('affiche une erreur si aucun token dans l\'URL', async () => {
+  it('affiche erreur si fetchMe échoue (session absente)', async () => {
+    mockFetchMe.mockRejectedValueOnce(new Error('Network error'));
+
     render(<CallbackWrapper url="/auth/callback" />);
 
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });
-    expect(mockFetchMe).not.toHaveBeenCalled();
-  });
-
-  it('affiche erreur et bouton retry si fetchMe échoue', async () => {
-    mockFetchMe.mockRejectedValueOnce(new Error('Network error'));
-
-    render(<CallbackWrapper url="/auth/callback?token=BAD_TOKEN" />);
-
-    await waitFor(() => {
-      expect(screen.getByRole('alert')).toBeInTheDocument();
-    });
+    // Bouton retry visible
     expect(screen.getByText('error.retry')).toBeInTheDocument();
+    // Aucun localStorage pollué
     expect(localStorage.getItem('ultreia_token')).toBeNull();
   });
 
-  it('accepte un code à la place d\'un token', async () => {
+  it('restaure le returnPath depuis sessionStorage après succès', async () => {
     const mockUser = {
       userId: 1,
       name: 'Pascal',
@@ -138,11 +137,16 @@ describe('AuthCallbackScreen', () => {
       pilgrim: { id: 'p1', userId: 1, displayName: 'Pascal', avatarUrl: null, preferredLocale: 'fr', configuration: 'solo' },
     };
     mockFetchMe.mockResolvedValueOnce(mockUser);
+    sessionStorage.setItem('ultreia_return_path', '/trips/abc');
 
-    render(<CallbackWrapper url="/auth/callback?code=CODE_XYZ" />);
+    render(<CallbackWrapper url="/auth/callback" />);
 
-    await waitFor(() => expect(mockFetchMe).toHaveBeenCalledOnce());
-    expect(localStorage.getItem('ultreia_token')).toBe('CODE_XYZ');
+    await waitFor(() => {
+      expect(mockFetchMe).toHaveBeenCalledOnce();
+    });
+
+    // sessionStorage nettoyé après usage
+    expect(sessionStorage.getItem('ultreia_return_path')).toBeNull();
   });
 });
 
