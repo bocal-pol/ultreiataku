@@ -81,6 +81,26 @@ class TripPolicy
     }
 
     /**
+     * RGPD-R02 — Self-leave : tout membre du Trip peut accéder à cet endpoint.
+     *
+     * La Policy autorise l'accès à tout membre (y compris l'organizer) afin que
+     * le controller puisse retourner un 422 métier explicite à l'organizer plutôt
+     * qu'un 403 opaque. Les non-membres reçoivent 403.
+     *
+     * La garde « organizer interdit » est portée par le controller (422 avec message).
+     */
+    public function selfLeave(User $user, Trip $trip): bool
+    {
+        $pilgrim = $this->resolvePilgrim($user);
+
+        if ($pilgrim === null) {
+            return false;
+        }
+
+        return $trip->hasMember($pilgrim->id);
+    }
+
+    /**
      * Voir l'occupancy : organizer ou participant (pas observer).
      */
     public function viewOccupancy(User $user, Trip $trip): bool

@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Validator;
  *   GET    /api/pilgrimage/trips/{id}
  *   POST   /api/pilgrimage/trips/{id}/members
  *   DELETE /api/pilgrimage/trips/{id}/members/{pilgrimId}
+ *   DELETE /api/pilgrimage/trips/{id}/membership          (RGPD-R02 self-leave)
  *   POST   /api/pilgrimage/trips/{id}/departures
  *   GET    /api/pilgrimage/trips/{id}/occupancy
  *   POST   /api/pilgrimage/trips/{id}/invite-token
@@ -236,6 +237,67 @@ class TripController extends Controller
         ]);
 
         return response()->json(['message' => 'Membre retiré du Trip.']);
+    }
+
+    // ─── DELETE /api/pilgrimage/trips/{id}/membership ────────────────────────
+    // RGPD-R02 : Self-leave — un pèlerin quitte un Trip de lui-même.
+    // L'organizer ne peut pas self-leaver (doit transférer/supprimer le Trip d'abord).
+
+    public function selfLeave(Request $request, string $id): JsonResponse
+    {
+        /** @var Trip $trip */
+        $trip = Trip::query()->findOrFail($id);
+
+        $this->authorize('selfLeave', $trip);
+
+        $validator = Validator::make($request->all(), [
+            'journal_action' => 'nullable|in:keep,remove',
+        ], [
+            'journal_action.in' => 'La valeur de journal_action doit être "keep" ou "remove".',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $pilgrim = Pilgrim::query()->where('user_id', $request->user()->id)->firstOrFail();
+
+        // Garde supplémentaire explicite : l'organizer reçoit un 422 clair
+        // (la Policy retourne déjà false → 403, mais on préfère un message métier).
+        if ($trip->organizer_id === $pilgrim->id) {
+            return response()->json([
+                'message' => 'L\'organisateur ne peut pas quitter son propre Trip. Transférez d\'abord l\'organisation ou supprimez le Trip.',
+            ], 422);
+        }
+
+        $journalAction = $request->input('journal_action', 'keep');
+
+        DB::transaction(function () use ($trip, $pilgrim, $journalAction): void {
+            // RGPD-R02 — Même sémantique que removeMember
+            if ($journalAction === 'remove') {
+                JournalEntry::query()
+                    ->where('trip_id', $trip->id)
+                    ->where('pilgrim_id', $pilgrim->id)
+                    ->whereNot('visibility', JournalVisibility::Private->value)
+                    ->update(['visibility' => JournalVisibility::Private->value]);
+
+                Log::info('trip.self_leave.journal_masked', [
+                    'trip_id' => $trip->id,
+                    'pilgrim_id' => $pilgrim->id,
+                ]);
+            }
+
+            $trip->members()->detach($pilgrim->id);
+            RebuildOccupancyForTripJob::dispatch($trip->id);
+        });
+
+        Log::info('trip.self_leave', [
+            'trip_id' => $trip->id,
+            'pilgrim_id' => $pilgrim->id,
+            'journal_action' => $journalAction,
+        ]);
+
+        return response()->json(['message' => 'Vous avez quitté le Trip.']);
     }
 
     // ─── POST /api/pilgrimage/trips/{id}/departures ───────────────────────────

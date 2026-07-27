@@ -198,6 +198,17 @@ class PilgrimResource extends Resource
 
                         $pilgrimId = $record->id;
 
+                        // Collecte des assets MinIO AVANT la transaction (les cascades FK
+                        // effacent les rows photos avant que le Job puisse les retrouver).
+                        $assets = [];
+                        $record->journalEntries()->with('photos')->get()->each(function ($entry) use (&$assets): void {
+                            foreach ($entry->photos as $photo) {
+                                if ($photo->minio_path) {
+                                    $assets[] = ['disk' => $photo->minio_disk ?? 'minio_journal', 'path' => $photo->minio_path];
+                                }
+                            }
+                        });
+
                         DB::transaction(function () use ($record): void {
                             $record->journalEntries()->each(function ($entry): void {
                                 $entry->photos()->delete();
@@ -209,7 +220,7 @@ class PilgrimResource extends Resource
                             $record->forceDelete();
                         });
 
-                        PurgePilgrimAssetsJob::dispatch($pilgrimId);
+                        PurgePilgrimAssetsJob::dispatch($pilgrimId, $assets);
 
                         Log::info('rgpd.admin_delete', ['pilgrim_id' => $pilgrimId]);
 

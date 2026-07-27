@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 | Vague 1d — Sac (ULTREIA-40/41/42/43)
 | Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54)
 | RGPD     — Droits Art. 15/17/20 (RGPD-U01/U03/U05)
+| RGPD-R02 — Self-leave Trip avec choix journal (Art. 17)
 |
 | P0-01 (SEC-ULTREIA-AUTH) — Remplacement de auth:api par le pattern monorepo.
 | Le guard `api` driver session a été supprimé de config/auth.php.
@@ -98,6 +99,11 @@ Route::prefix('api/pilgrimage')->group(function () {
         // RGPD-U03 : journal_action={keep|remove} dans le body
         Route::delete('/trips/{id}/members/{pilgrimId}', [TripController::class, 'removeMember'])
             ->name('api.pilgrimage.trips.members.remove');
+
+        // RGPD-R02 — Art. 17 — Self-leave : le pèlerin courant quitte le Trip lui-même
+        // Interdit à l'organizer (422 explicite) — doit transférer/supprimer le Trip d'abord.
+        Route::delete('/trips/{id}/membership', [TripController::class, 'selfLeave'])
+            ->name('api.pilgrimage.trips.membership.leave');
 
         // Departures (ULTREIA-31)
         Route::post('/trips/{id}/departures', [TripController::class, 'addDeparture'])
