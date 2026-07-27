@@ -11,13 +11,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * RGPD-U02 — SoftDeletes activé par décision produit (2026-07-27).
+ * Rétention ILLIMITÉE : pas de purge automatique, pas de TTL.
+ * La suppression est uniquement sur demande (Art. 17, DELETE /api/pilgrimage/me).
+ */
 class Departure extends Model
 {
     /** @use HasFactory<DepartureFactory> */
     use HasFactory;
 
     use HasUuids;
+    use SoftDeletes;
 
     /** @var list<string> */
     protected $fillable = [

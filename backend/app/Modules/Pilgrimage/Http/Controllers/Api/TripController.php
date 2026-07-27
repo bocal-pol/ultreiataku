@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Pilgrimage\Enums\JournalVisibility;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Http\Resources\DepartureResource;
 use App\Modules\Pilgrimage\Http\Resources\OccupancyResource;
@@ -12,6 +13,7 @@ use App\Modules\Pilgrimage\Http\Resources\TripResource;
 use App\Modules\Pilgrimage\Jobs\RebuildOccupancyForTripJob;
 use App\Modules\Pilgrimage\Mail\TripInvitationMail;
 use App\Modules\Pilgrimage\Models\Departure;
+use App\Modules\Pilgrimage\Models\JournalEntry;
 use App\Modules\Pilgrimage\Models\Occupancy;
 use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\Stage;
@@ -174,6 +176,7 @@ class TripController extends Controller
 
     // ─── DELETE /api/pilgrimage/trips/{id}/members/{pilgrimId} ───────────────
     // B-03 : Interdire d'éjecter l'organisateur du Trip.
+    // RGPD-U03 : Le membre partant choisit le sort de ses entrées journal.
 
     public function removeMember(Request $request, string $id, string $pilgrimId): JsonResponse
     {
@@ -189,7 +192,39 @@ class TripController extends Controller
             ], 422);
         }
 
-        DB::transaction(function () use ($trip, $pilgrimId): void {
+        $validator = Validator::make($request->all(), [
+            'journal_action' => 'nullable|in:keep,remove',
+        ], [
+            'journal_action.in' => 'La valeur de journal_action doit être "keep" ou "remove".',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Par défaut : keep (les entrées restent visibles au Trip)
+        $journalAction = $request->input('journal_action', 'keep');
+
+        DB::transaction(function () use ($trip, $pilgrimId, $journalAction): void {
+            // RGPD-U03 — Traitement des entrées journal selon le choix du membre
+            if ($journalAction === 'remove') {
+                // "remove" : les entrées du membre partant passent en visibilité "private"
+                // afin qu'elles ne soient plus visibles aux autres membres du Trip.
+                // Elles ne sont PAS supprimées (soft-delete) : le pèlerin garde accès
+                // à ses propres entrées s'il rejoint un autre Trip ou exporte ses données.
+                JournalEntry::query()
+                    ->where('trip_id', $trip->id)
+                    ->where('pilgrim_id', $pilgrimId)
+                    ->whereNot('visibility', JournalVisibility::Private->value)
+                    ->update(['visibility' => JournalVisibility::Private->value]);
+
+                Log::info('trip.member_removed.journal_masked', [
+                    'trip_id' => $trip->id,
+                    'pilgrim_id' => $pilgrimId,
+                ]);
+            }
+            // "keep" : les entrées restent avec leur visibilité courante (aucune modification)
+
             $trip->members()->detach($pilgrimId);
             RebuildOccupancyForTripJob::dispatch($trip->id);
         });
@@ -197,6 +232,7 @@ class TripController extends Controller
         Log::info('trip.member_removed', [
             'trip_id' => $trip->id,
             'pilgrim_id' => $pilgrimId,
+            'journal_action' => $journalAction,
         ]);
 
         return response()->json(['message' => 'Membre retiré du Trip.']);

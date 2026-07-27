@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 | Vague 1c — Trips + SSO (ULTREIA-03/30/31/32/35)
 | Vague 1d — Sac (ULTREIA-40/41/42/43)
 | Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54)
+| RGPD     — Droits Art. 15/17/20 (RGPD-U01/U03/U05)
 |
 | P0-01 (SEC-ULTREIA-AUTH) — Remplacement de auth:api par le pattern monorepo.
 | Le guard `api` driver session a été supprimé de config/auth.php.
@@ -67,6 +68,14 @@ Route::prefix('api/pilgrimage')->group(function () {
         Route::get('/me', [MeController::class, 'show'])
             ->name('api.pilgrimage.me');
 
+        // RGPD-U01 — Art. 20 — Export portabilité données pèlerin
+        Route::get('/me/export', [MeController::class, 'export'])
+            ->name('api.pilgrimage.me.export');
+
+        // RGPD-U01 — Art. 17 — Droit à l'oubli (suppression compte pèlerin)
+        Route::delete('/me', [MeController::class, 'destroy'])
+            ->name('api.pilgrimage.me.destroy');
+
         // ULTREIA-32 : rejoindre via token (avant le groupe /{id} pour éviter le conflit)
         Route::post('/trips/join/{token}', [TripController::class, 'joinByToken'])
             ->name('api.pilgrimage.trips.join');
@@ -86,6 +95,7 @@ Route::prefix('api/pilgrimage')->group(function () {
         Route::post('/trips/{id}/members', [TripController::class, 'addMember'])
             ->name('api.pilgrimage.trips.members.add');
 
+        // RGPD-U03 : journal_action={keep|remove} dans le body
         Route::delete('/trips/{id}/members/{pilgrimId}', [TripController::class, 'removeMember'])
             ->name('api.pilgrimage.trips.members.remove');
 
@@ -166,5 +176,9 @@ Route::prefix('api/pilgrimage')->group(function () {
 
         Route::delete('/journal/photos/{id}', [JournalPhotoController::class, 'destroy'])
             ->name('api.pilgrimage.journal.photos.destroy');
+
+        // RGPD-U05 — Art. 17 partiel — Révocation coordonnées GPS d'une photo
+        Route::patch('/journal/photos/{id}/revoke-location', [JournalPhotoController::class, 'revokeLocation'])
+            ->name('api.pilgrimage.journal.photos.revoke-location');
     });
 });

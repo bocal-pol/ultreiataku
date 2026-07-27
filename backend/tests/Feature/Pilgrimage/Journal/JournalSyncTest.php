@@ -252,6 +252,6 @@ class JournalSyncTest extends TestCase
             ->deleteJson('/api/pilgrimage/journal/entries/' . $entry->id)
             ->assertStatus(200);
 
-        $this->assertDatabaseMissing('journal_entries', ['id' => $entry->id]);
+        $this->assertSoftDeleted('journal_entries', ['id' => $entry->id]);
     }
 }

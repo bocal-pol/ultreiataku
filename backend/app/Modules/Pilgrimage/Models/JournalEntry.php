@@ -12,18 +12,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * ULTREIA-50 — Entrée du carnet de voyage.
  *
  * ADR-U04 : local_id = UUID v4 client, idempotence par UNIQUE PARTIAL INDEX.
  * RG-03    : visibilité contrôlée par JournalEntryPolicy.
+ *
+ * RGPD-U02 — SoftDeletes activé par décision produit (2026-07-27).
+ * Rétention ILLIMITÉE : pas de purge automatique, pas de TTL.
+ * La suppression est uniquement sur demande (Art. 17, DELETE /api/pilgrimage/me).
  */
 class JournalEntry extends Model
 {
     /** @use HasFactory<JournalEntryFactory> */
     use HasFactory;
+
     use HasUuids;
+    use SoftDeletes;
 
     /** @var list<string> */
     protected $fillable = [
@@ -44,13 +51,13 @@ class JournalEntry extends Model
 
     /** @var array<string, string|class-string> */
     protected $casts = [
-        'visibility'      => JournalVisibility::class,
-        'mood'            => JournalMood::class,
-        'entry_date'      => 'date',
-        'latitude'        => 'decimal:7',
-        'longitude'       => 'decimal:7',
+        'visibility' => JournalVisibility::class,
+        'mood' => JournalMood::class,
+        'entry_date' => 'date',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
         'km_walked_today' => 'decimal:2',
-        'is_synced'       => 'boolean',
+        'is_synced' => 'boolean',
     ];
 
     protected static function newFactory(): JournalEntryFactory
