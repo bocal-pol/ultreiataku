@@ -2,6 +2,9 @@
  * Service API — Journal de voyage
  * Reçoit les DTOs, mappe vers Models UI.
  * Les composants ne voient jamais les DTOs.
+ *
+ * P0-01 (SEC-ULTREIA-AUTH) — Upload photo migré vers credentials: 'include'.
+ * Suppression du Bearer token en Authorization header.
  */
 
 import { apiFetch, API_BASE } from './client.ts';
@@ -54,7 +57,6 @@ export async function uploadJournalPhoto(
   altText: string | null,
   keepLocation: boolean,
 ): Promise<void> {
-  const token = localStorage.getItem('ultreia_token');
   const formData = new FormData();
   formData.append('photo', file);
   if (altText) formData.append('alt_text', altText);
@@ -66,15 +68,16 @@ export async function uploadJournalPhoto(
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        // Pas de Content-Type : FormData le pose automatiquement avec le boundary.
+        // Pas de Authorization : la session est dans le cookie HttpOnly.
       },
       body: formData,
+      // Indispensable pour que le cookie de session HttpOnly soit envoyé.
+      credentials: 'include',
     },
   );
 
   if (response.status === 401) {
-    localStorage.removeItem('ultreia_token');
-    localStorage.removeItem('ultreia_user');
     window.dispatchEvent(new CustomEvent('ultreia:unauthorized'));
     throw new Error('Unauthorized');
   }
