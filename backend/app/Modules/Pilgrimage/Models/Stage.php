@@ -19,6 +19,7 @@ class Stage extends Model
 {
     /** @use HasFactory<StageFactory> */
     use HasFactory;
+
     use HasTranslations;
     use HasUuids;
 
@@ -28,6 +29,8 @@ class Stage extends Model
     /** @var list<string> */
     protected $fillable = [
         'route_id',
+        'parent_stage_id',
+        'is_variant',
         'code',
         'name',
         'day_number',
@@ -53,6 +56,7 @@ class Stage extends Model
         'estimated_duration_h' => 'decimal:1',
         'day_number' => 'integer',
         'sort_order' => 'integer',
+        'is_variant' => 'boolean',
     ];
 
     protected static function newFactory(): StageFactory
@@ -63,6 +67,20 @@ class Stage extends Model
     public function route(): BelongsTo
     {
         return $this->belongsTo(PilgrimageRoute::class, 'route_id');
+    }
+
+    /** Étape principale dont cette variante est un détour. */
+    public function parentStage(): BelongsTo
+    {
+        return $this->belongsTo(Stage::class, 'parent_stage_id');
+    }
+
+    /** Variantes rattachées à cette étape principale. */
+    public function variants(): HasMany
+    {
+        return $this->hasMany(Stage::class, 'parent_stage_id')
+            ->where('is_variant', true)
+            ->orderBy('sort_order');
     }
 
     public function startWaypoint(): BelongsTo

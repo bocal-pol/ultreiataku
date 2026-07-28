@@ -15,8 +15,9 @@ class StageController extends Controller
 {
     /**
      * GET /api/pilgrimage/stages
-     * Liste des stages, filtrable par route_id, difficulty, country.
-     * Supports: ?route_id=uuid, ?difficulty=easy, ?include=waypoints,accommodations,meals, ?per_page=15.
+     * Liste des stages, filtrable par route_id, difficulty, country, is_variant.
+     * Supports: ?route_id=uuid, ?difficulty=easy, ?is_variant=0|1,
+     *           ?include=waypoints,accommodations,meals,variants, ?per_page=15.
      *
      * BUG-P1-001 : tri par route_id puis sort_order pour éviter l'entremêlement
      * des étapes de deux routes partageant les mêmes valeurs sort_order (1..N).
@@ -39,6 +40,11 @@ class StageController extends Controller
             });
         }
 
+        // Filtrer par type : étapes principales (0) ou variantes (1)
+        if ($request->has('is_variant')) {
+            $query->where('is_variant', (bool) $request->input('is_variant'));
+        }
+
         $includes = $this->parseIncludes($request);
 
         if (in_array('waypoints', $includes, true)) {
@@ -57,6 +63,10 @@ class StageController extends Controller
             $query->with('meals');
         }
 
+        if (in_array('variants', $includes, true)) {
+            $query->with('variants');
+        }
+
         $perPage = min((int) $request->input('per_page', 15), 100);
         $stages = $query
             ->orderBy('route_id')
@@ -68,7 +78,7 @@ class StageController extends Controller
 
     /**
      * GET /api/pilgrimage/stages/{code}
-     * Détail stage. Supports: ?include=waypoints,gpx_traces,accommodations,meals.
+     * Détail stage. Supports: ?include=waypoints,gpx_traces,accommodations,meals,variants.
      * Les accommodations sont triées is_primary first (RG-02).
      */
     public function show(Request $request, string $code): StageResource|JsonResponse
@@ -91,6 +101,10 @@ class StageController extends Controller
 
         if (in_array('meals', $includes, true)) {
             $with[] = 'meals';
+        }
+
+        if (in_array('variants', $includes, true)) {
+            $with[] = 'variants';
         }
 
         $stage = Stage::where('code', strtoupper($code))

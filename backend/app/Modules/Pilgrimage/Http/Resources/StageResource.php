@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Http\Resources;
 
+use App\Modules\Pilgrimage\Models\PilgrimageRoute;
+use App\Modules\Pilgrimage\Models\Stage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,7 +13,7 @@ class StageResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        /** @var \App\Modules\Pilgrimage\Models\Stage $this */
+        /** @var Stage $this */
         $locale = $request->header('Accept-Language', 'fr');
         $locale = in_array($locale, ['fr', 'nl', 'de']) ? $locale : 'fr';
 
@@ -20,7 +22,7 @@ class StageResource extends JsonResource
             'route_id' => $this->route_id,
             // BUG-P1-001 : exposer le nom de la route pour le groupement frontend
             'route_name' => $this->whenLoaded('route', function () use ($locale): string|null {
-                /** @var \App\Modules\Pilgrimage\Models\PilgrimageRoute $route */
+                /** @var PilgrimageRoute $route */
                 $route = $this->route;
 
                 return $route->getTranslation('name', $locale, false)
@@ -29,6 +31,8 @@ class StageResource extends JsonResource
             'code' => $this->code,
             'name' => $this->getTranslation('name', $locale, false) ?? $this->getTranslation('name', 'fr', false),
             'day_number' => $this->day_number,
+            'is_variant' => $this->is_variant,
+            'parent_stage_id' => $this->parent_stage_id,
             'distance_km' => (float) $this->distance_km,
             'elevation_gain_m' => $this->elevation_gain_m,
             'elevation_loss_m' => $this->elevation_loss_m,
@@ -45,6 +49,8 @@ class StageResource extends JsonResource
             // Vague 1b
             'accommodations' => AccommodationResource::collection($this->whenLoaded('accommodations')),
             'meals' => MealResource::collection($this->whenLoaded('meals')),
+            // Variantes de cette étape (chargées uniquement si include=variants demandé)
+            'variants' => self::collection($this->whenLoaded('variants')),
         ];
     }
 }

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\AccommodationType;
 use App\Modules\Pilgrimage\Enums\StageDifficulty;
 use App\Modules\Pilgrimage\Filament\Resources\StageResource\Pages;
 use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Waypoint;
+use BackedEnum;
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class StageResource extends Resource
 {
@@ -45,7 +45,7 @@ class StageResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->required()
                     ->unique(ignoreRecord: true)
-                    ->maxLength(10)
+                    ->maxLength(25)
                     ->helperText('Format XX-NN, ex: BE-01'),
 
                 Forms\Components\TextInput::make('day_number')
@@ -58,6 +58,21 @@ class StageResource extends Resource
                     ->label('Ordre')
                     ->numeric()
                     ->default(0),
+            ])->columns(2),
+
+            Forms\Components\Section::make('Variante')->schema([
+                Forms\Components\Toggle::make('is_variant')
+                    ->label('C\'est une variante d\'étape')
+                    ->reactive()
+                    ->default(false),
+
+                Forms\Components\Select::make('parent_stage_id')
+                    ->label('Étape parente')
+                    ->options(Stage::where('is_variant', false)->pluck('code', 'id'))
+                    ->searchable()
+                    ->nullable()
+                    ->visible(fn (Forms\Get $get) => (bool) $get('is_variant'))
+                    ->helperText('Étape principale dont cette variante est un détour'),
             ])->columns(2),
 
             Forms\Components\Section::make('Traductions — Nom')->schema([
@@ -130,6 +145,12 @@ class StageResource extends Resource
                 Tables\Columns\TextColumn::make('day_number')->label('J')->sortable(),
                 Tables\Columns\TextColumn::make('name.fr')->label('Nom')->limit(35),
                 Tables\Columns\TextColumn::make('distance_km')->label('km')->sortable(),
+                Tables\Columns\IconColumn::make('is_variant')
+                    ->label('Variante')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('parentStage.code')
+                    ->label('Parent')
+                    ->placeholder('—'),
                 Tables\Columns\TextColumn::make('difficulty')
                     ->badge()
                     ->color(fn ($state) => StageDifficulty::from($state ?? 'moderate')->color()),
@@ -140,6 +161,11 @@ class StageResource extends Resource
                     ->options(PilgrimageRoute::pluck('slug', 'id')),
                 Tables\Filters\SelectFilter::make('difficulty')
                     ->options(collect(StageDifficulty::cases())->mapWithKeys(fn ($d) => [$d->value => $d->label()])),
+                Tables\Filters\TernaryFilter::make('is_variant')
+                    ->label('Type')
+                    ->trueLabel('Variantes uniquement')
+                    ->falseLabel('Étapes principales uniquement')
+                    ->placeholder('Toutes'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

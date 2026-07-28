@@ -24,6 +24,8 @@ class StageFactory extends Factory
 
         return [
             'route_id' => PilgrimageRoute::factory(),
+            'parent_stage_id' => null,
+            'is_variant' => false,
             'code' => 'TEST-' . strtoupper($this->faker->unique()->bothify('??-##')),
             'name' => [
                 'fr' => $this->faker->city() . ' → ' . $this->faker->city(),
@@ -70,6 +72,16 @@ class StageFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'route_id' => $route->id,
+        ]);
+    }
+
+    /** Crée une étape-variante rattachée à une étape parente. */
+    public function variantOf(Stage $parent): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_variant' => true,
+            'parent_stage_id' => $parent->id,
+            'route_id' => $parent->route_id,
         ]);
     }
 }
