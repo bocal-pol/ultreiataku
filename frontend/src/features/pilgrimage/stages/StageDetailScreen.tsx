@@ -488,8 +488,6 @@ function MealRow({ meal }: { meal: MealModel }) {
   const { t } = useTranslation('pilgrimage');
   const icon = MEAL_ICONS[meal.mealType] ?? '🍽️';
   const labelKey = MEAL_LABEL_KEYS[meal.mealType] ?? 'stage.meal_morning';
-  const displayName = meal.restaurantName ?? meal.name;
-
   return (
     <div
       data-testid={`meal-row-${meal.mealType}`}
@@ -505,10 +503,17 @@ function MealRow({ meal }: { meal: MealModel }) {
             <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-tertiary)', fontWeight: 'var(--font-weight-medium)', minWidth: '64px' }}>
               {t(labelKey)}
             </span>
+            {/* BUG-P1-002 : le plat (name) est toujours affiché ; le restaurant est une info secondaire */}
             <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' }}>
-              {displayName}
+              {meal.name}
             </span>
           </div>
+          {/* Restaurant en sous-titre si renseigné */}
+          {meal.restaurantName && (
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-tertiary)', marginTop: '2px' }}>
+              {meal.restaurantName}
+            </div>
+          )}
           {meal.restaurantAddress && (
             <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-tertiary)', marginTop: '2px' }}>
               {meal.restaurantAddress}

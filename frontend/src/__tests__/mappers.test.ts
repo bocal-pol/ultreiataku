@@ -26,6 +26,8 @@ const waypointDto: WaypointResponseDto = {
 
 const stageDto: StageResponseDto = {
   id: 'stage-1',
+  route_id: 'route-mosana',
+  route_name: 'Via Mosana',
   code: 'BE-01',
   name: 'Liège — Amay',
   day_number: 1,

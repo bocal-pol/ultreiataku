@@ -81,6 +81,9 @@ export interface GpxTraceResponseDto {
 
 export interface StageResponseDto {
   id: string;
+  route_id: string;
+  /** Nom de la route (localisé) — exposé quand la relation route est chargée */
+  route_name: string | null;
   code: string;
   name: string;
   day_number: number;

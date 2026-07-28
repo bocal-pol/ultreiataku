@@ -203,6 +203,8 @@ const dinnerMeal: MealModel = {
 function makeStage(overrides: Partial<StageDetailModel> = {}): StageDetailModel {
   return {
     id: 'stage-3',
+    routeId: 'route-mosane',
+    routeName: 'Via Mosana',
     code: 'BE-03',
     name: 'Huy — Andenne',
     dayNumber: 3,

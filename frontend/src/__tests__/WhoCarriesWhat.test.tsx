@@ -40,6 +40,8 @@ const makePilgrim = (id: string, name: string) => ({
 
 const makeStage = (id: string, dayNumber: number, name: string) => ({
   id,
+  routeId: 'route-mosana',
+  routeName: 'Via Mosana',
   code: `LGE-0${dayNumber}`,
   name,
   dayNumber,

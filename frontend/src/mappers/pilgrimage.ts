@@ -118,6 +118,8 @@ export function mapGpxTrace(dto: GpxTraceResponseDto): GpxTraceModel {
 export function mapStage(dto: StageResponseDto): StageModel {
   return {
     id: dto.id,
+    routeId: dto.route_id,
+    routeName: dto.route_name ?? null,
     code: dto.code,
     name: dto.name,
     dayNumber: dto.day_number,

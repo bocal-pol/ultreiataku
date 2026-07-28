@@ -17,6 +17,8 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 const stage: StageModel = {
   id: 'stage-1',
+  routeId: 'route-mosane',
+  routeName: 'Via Mosana',
   code: 'BE-01',
   name: 'Liège — Amay',
   dayNumber: 1,

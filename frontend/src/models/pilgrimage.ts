@@ -76,6 +76,9 @@ export interface GpxTraceModel {
 
 export interface StageModel {
   id: string;
+  routeId: string;
+  /** Nom localisé de la route (null si non chargé) */
+  routeName: string | null;
   code: string;
   name: string;
   dayNumber: number;

@@ -5,10 +5,37 @@ import { useStages } from '../../../shared/hooks/useStages.ts';
 import { StageCard } from './StageCard.tsx';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import { EmptyState } from '../../../shared/ui/EmptyState.tsx';
+import type { StageModel } from '../../../models/pilgrimage.ts';
 
 type Country = 'BE' | 'FR' | 'ES';
 
 const COUNTRIES: Country[] = ['BE', 'FR', 'ES'];
+
+/**
+ * Groupe les étapes par route (routeId) en préservant l'ordre de tri API.
+ * Retourne un tableau de { routeId, routeName, stages[] } dans l'ordre d'apparition.
+ */
+function groupStagesByRoute(stages: StageModel[]): Array<{
+  routeId: string;
+  routeName: string | null;
+  stages: StageModel[];
+}> {
+  const groups: Array<{ routeId: string; routeName: string | null; stages: StageModel[] }> = [];
+  const seen = new Map<string, number>();
+
+  for (const stage of stages) {
+    const existing = seen.get(stage.routeId);
+    if (existing !== undefined) {
+      groups[existing]!.stages.push(stage);
+    } else {
+      const idx = groups.length;
+      seen.set(stage.routeId, idx);
+      groups.push({ routeId: stage.routeId, routeName: stage.routeName, stages: [stage] });
+    }
+  }
+
+  return groups;
+}
 
 export function StageListScreen() {
   const { t } = useTranslation('pilgrimage');
@@ -18,6 +45,10 @@ export function StageListScreen() {
   const { data: stages, isLoading, isError, error } = useStages(activeCountry);
 
   const isBelgique = activeCountry === 'BE';
+
+  // BUG-P1-001 : groupement par route pour éviter l'entremêlement des étapes
+  const routeGroups = stages ? groupStagesByRoute(stages) : [];
+  const hasMultipleRoutes = routeGroups.length > 1;
 
   return (
     <div style={{
@@ -160,16 +191,35 @@ export function StageListScreen() {
         {/* Loading skeleton */}
         {isLoading && isBelgique && <SkeletonCard count={6} />}
 
-        {/* Liste étapes */}
-        {isBelgique && stages && (
-          <div role="list" aria-label={t('stages.list_title')}>
-            {stages.map(stage => (
+        {/* BUG-P1-001 — Liste étapes groupées par voie */}
+        {isBelgique && stages && routeGroups.map(group => (
+          <div key={group.routeId} role="list" aria-label={group.routeName ?? t('stages.list_title')}>
+            {/* En-tête de voie — affiché uniquement si plusieurs routes coexistent */}
+            {hasMultipleRoutes && group.routeName && (
+              <div
+                data-testid={`route-group-header-${group.routeId}`}
+                style={{
+                  fontSize: 'var(--font-size-xs)',
+                  fontWeight: 'var(--font-weight-semibold)',
+                  letterSpacing: 'var(--letter-spacing-wide)',
+                  textTransform: 'uppercase',
+                  color: 'var(--color-text-tertiary)',
+                  fontFamily: 'var(--font-family-interface)',
+                  padding: 'var(--space-2) 0 var(--space-1) 0',
+                  borderBottom: '1px solid var(--color-border-subtle)',
+                  marginBottom: 'var(--space-2)',
+                }}
+              >
+                {group.routeName}
+              </div>
+            )}
+            {group.stages.map(stage => (
               <div key={stage.id} style={{ marginBottom: 'var(--space-3)' }}>
                 <StageCard stage={stage} />
               </div>
             ))}
           </div>
-        )}
+        ))}
 
         {isBelgique && stages?.length === 0 && !isLoading && (
           <EmptyState message={t('error.offline_fetch')} />
