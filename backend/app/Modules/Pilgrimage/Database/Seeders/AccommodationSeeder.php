@@ -88,12 +88,12 @@ class AccommodationSeeder extends Seeder
                 'stage_code' => 'BE-02',
                 'data' => [
                     'name' => ['fr' => 'Gîte des Compagnons', 'nl' => 'Gezellenherberg', 'de' => 'Gîte des Compagnons'],
-                    'type' => 'donativo',
+                    'type' => 'gite',
                     'address' => 'Association des Compagnons du Chemin de Saint-Jacques, Huy',
                     'website' => 'https://www.st-jacques.be/',
                     'price_min_eur' => 10.00,
                     'price_max_eur' => 15.00,
-                    'is_donativo' => true,
+                    'is_donativo' => false, // BUG-P2-001 : prix fixe 10-15€, non donativo
                     'capacity' => 8,
                     'has_shower' => true,
                     'has_kitchen' => true,

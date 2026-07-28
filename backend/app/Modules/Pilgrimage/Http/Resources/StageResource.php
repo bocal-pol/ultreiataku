@@ -18,6 +18,14 @@ class StageResource extends JsonResource
         return [
             'id' => $this->id,
             'route_id' => $this->route_id,
+            // BUG-P1-001 : exposer le nom de la route pour le groupement frontend
+            'route_name' => $this->whenLoaded('route', function () use ($locale): string|null {
+                /** @var \App\Modules\Pilgrimage\Models\PilgrimageRoute $route */
+                $route = $this->route;
+
+                return $route->getTranslation('name', $locale, false)
+                    ?? $route->getTranslation('name', 'fr', false);
+            }),
             'code' => $this->code,
             'name' => $this->getTranslation('name', $locale, false) ?? $this->getTranslation('name', 'fr', false),
             'day_number' => $this->day_number,

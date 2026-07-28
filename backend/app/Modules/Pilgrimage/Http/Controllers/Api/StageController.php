@@ -17,6 +17,9 @@ class StageController extends Controller
      * GET /api/pilgrimage/stages
      * Liste des stages, filtrable par route_id, difficulty, country.
      * Supports: ?route_id=uuid, ?difficulty=easy, ?include=waypoints,accommodations,meals, ?per_page=15.
+     *
+     * BUG-P1-001 : tri par route_id puis sort_order pour éviter l'entremêlement
+     * des étapes de deux routes partageant les mêmes valeurs sort_order (1..N).
      */
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -55,7 +58,10 @@ class StageController extends Controller
         }
 
         $perPage = min((int) $request->input('per_page', 15), 100);
-        $stages = $query->orderBy('sort_order')->paginate($perPage);
+        $stages = $query
+            ->orderBy('route_id')
+            ->orderBy('sort_order')
+            ->paginate($perPage);
 
         return StageResource::collection($stages);
     }
