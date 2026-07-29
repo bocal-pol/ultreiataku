@@ -122,6 +122,56 @@ class PersonalTripSeeder extends Seeder
             );
 
             $this->command->info('Departure BE-01 → BE-12 créé / mis à jour.');
+
+            // ─── 6. tof (user_id=3) et mike (user_id=4) — amis PARTICIPANTS ────
+            // Comptes SSO créés dans Auth (DevFriendsSeeder). On crée leurs
+            // Pilgrims et on les rattache au Trip comme participants.
+            $friends = [
+                3 => 'tof',
+                4 => 'mike',
+            ];
+
+            foreach ($friends as $userId => $name) {
+                /** @var Pilgrim $friend */
+                $friend = Pilgrim::query()->updateOrCreate(
+                    ['user_id' => $userId],
+                    [
+                        'display_name' => $name,
+                        'preferred_locale' => 'fr',
+                        'configuration' => 'solo',
+                    ],
+                );
+
+                if (! $trip->hasMember($friend->id)) {
+                    $trip->members()->attach($friend->id, [
+                        'role' => 'participant',
+                        'joined_at' => now(),
+                        'invited_by' => $bocal->id,
+                    ]);
+                    $this->command->info("{$name} ajouté comme PARTICIPANT du Trip.");
+                }
+
+                Departure::query()->updateOrCreate(
+                    [
+                        'trip_id' => $trip->id,
+                        'pilgrim_id' => $friend->id,
+                        'start_stage_id' => $startStage->id,
+                        'end_stage_id' => $endStage->id,
+                    ],
+                    [
+                        'planned_start_date' => '2027-05-10',
+                        'planned_end_date' => '2027-05-24',
+                        'status' => 'planned',
+                        'notes' => "Départ de {$name} — Via Mosana avec bocal.",
+                    ],
+                );
+            }
+
+            // Trip à 3 → configuration group
+            if ($trip->configuration !== 'group') {
+                $trip->update(['configuration' => 'group']);
+                $this->command->info('Trip passé en configuration GROUP (bocal + tof + mike).');
+            }
         });
 
         $this->command->info('=== PersonalTripSeeder — terminé ===');
