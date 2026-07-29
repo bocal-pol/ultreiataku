@@ -38,3 +38,7 @@ storage/logs/*.log
 
 # Docker
 compose.override.yml
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
