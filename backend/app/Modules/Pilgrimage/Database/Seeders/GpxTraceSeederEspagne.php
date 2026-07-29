@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Database\Seeders;
 
-use App\Modules\Pilgrimage\Models\GpxTrace;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Services\GpxImportService;
-use App\Modules\Pilgrimage\Support\GpxXmlParser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -20,8 +18,12 @@ use Illuminate\Support\Facades\Log;
  *
  * trace_type = 'stage_main'
  * disk MinIO = 'minio_gpx'
- * Skip gracieux si MinIO down (ULTREIA-14).
  * Idempotent : skip si trace déjà importée pour l'étape.
+ *
+ * Politique fail-fast (fix ULTREIA-GPX-ES) :
+ *   - Si le fichier source est ABSENT → skip + log warning.
+ *   - Si le fichier source existe mais que l'upload MinIO échoue → exception propagée,
+ *     comptée en erreur. Aucun fallback silencieux ne masque les pannes MinIO.
  */
 class GpxTraceSeederEspagne extends Seeder
 {
@@ -136,23 +138,31 @@ class GpxTraceSeederEspagne extends Seeder
                 if (file_exists($sourcePath)) {
                     copy($sourcePath, $destPath);
                 } else {
+                    // Fichier source absent → skip explicite (cas normal : étape sans GPX disponible).
                     $this->command->warn("Fichier GPX introuvable : {$sourcePath}. Skip {$stageCode}.");
+                    Log::warning('GpxTraceSeederEspagne: source file missing', [
+                        'stage' => $stageCode,
+                        'file' => $relativePath,
+                        'path' => $sourcePath,
+                    ]);
                     $skipped++;
 
                     continue;
                 }
             }
 
+            $gpxContent = file_get_contents($destPath);
+
+            if ($gpxContent === false || empty(trim((string) $gpxContent))) {
+                $this->command->warn("Fichier GPX vide : {$filename}. Skip {$stageCode}.");
+                $skipped++;
+
+                continue;
+            }
+
+            // Fail-fast : si le fichier source existe, l'upload MinIO doit réussir.
+            // Toute exception se propage — aucun fallback silencieux ne masque les pannes MinIO.
             try {
-                $gpxContent = file_get_contents($destPath);
-
-                if ($gpxContent === false || empty(trim((string) $gpxContent))) {
-                    $this->command->warn("Fichier GPX vide : {$filename}. Skip {$stageCode}.");
-                    $skipped++;
-
-                    continue;
-                }
-
                 $trace = $this->gpxImport->importFromLocalPath($destPath, [
                     'stage_id' => $stage->id,
                     'stage_code' => $stageCode,
@@ -167,58 +177,26 @@ class GpxTraceSeederEspagne extends Seeder
                 $imported++;
 
             } catch (\Throwable $e) {
-                Log::warning('GpxTraceSeederEspagne: import failed', [
+                Log::error('GpxTraceSeederEspagne: MinIO upload failed — fail-fast', [
                     'stage' => $stageCode,
                     'file' => $relativePath,
                     'error' => $e->getMessage(),
                 ]);
 
-                $this->command->warn("  {$stageCode} : exception ({$e->getMessage()}). Trace fallback créée.");
-
-                try {
-                    $this->createFallbackTrace($stage, (string) file_get_contents($destPath), $stageCode, $relativePath);
-                } catch (\Throwable $fallbackError) {
-                    $this->command->error("  {$stageCode} : fallback échoué — {$fallbackError->getMessage()}");
-                    $errors++;
-
-                    continue;
-                }
-
-                $skipped++;
+                $this->command->error("  {$stageCode} : ERREUR MinIO ({$e->getMessage()}) — import annulé pour cette étape.");
+                $errors++;
             }
         }
 
         $this->command->info(sprintf(
-            'GpxTraceSeederEspagne : %d importés, %d ignorés/fallback, %d erreurs.',
+            'GpxTraceSeederEspagne : %d importés, %d ignorés, %d erreurs.',
             $imported,
             $skipped,
             $errors,
         ));
-    }
 
-    private function createFallbackTrace(Stage $stage, string $gpxContent, string $stageCode, string $sourcePath): void
-    {
-        $parser = new GpxXmlParser;
-        $parsed = $parser->parse($gpxContent);
-
-        GpxTrace::updateOrCreate(
-            ['stage_id' => $stage->id, 'trace_type' => 'stage_main'],
-            [
-                'waypoint_id' => null,
-                'trace_type' => 'stage_main',
-                'precision' => 'approximate',
-                'name' => "{$stageCode} — trace principale (fallback)",
-                'minio_path' => null,
-                'minio_disk' => null,
-                'source' => $sourcePath,
-                'distance_km' => $parsed['distance_km'] ?? null,
-                'elevation_gain_m' => $parsed['elevation_gain_m'] ?? null,
-                'elevation_loss_m' => $parsed['elevation_loss_m'] ?? null,
-                'track_points_count' => $parsed['track_points_count'] ?? null,
-                'imported_at' => now(),
-            ],
-        );
-
-        Log::info('GpxTraceSeederEspagne: fallback trace created', ['stage' => $stageCode]);
+        if ($errors > 0) {
+            $this->command->error("{$errors} import(s) ont échoué — vérifier les logs MinIO.");
+        }
     }
 }

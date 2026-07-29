@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Storage;
  * Incident seeder : l'ancien try/catch autour de Storage::put() avalait les erreurs MinIO
  * et créait des GpxTrace orphelines (minio_path inexistant). Supprimé — les exceptions
  * propagent maintenant correctement. Le seeder doit gérer le fallback si besoin.
+ *
+ * Fix ULTREIA-GPX-FR/ES : le chemin MinIO était hardcodé en "gpx/belgique/" quel que
+ * soit le pays. Le sous-dossier est maintenant dérivé du préfixe du stage_code :
+ *   BE-* → belgique/
+ *   FR-* → france/
+ *   ES-* / PC-* → espagne/
+ *   autres → autres/
  */
 final class GpxImportService
 {
@@ -77,7 +84,8 @@ final class GpxImportService
         $traceType = $attributes['trace_type'] ?? 'stage_main';
         $minioDisk = $attributes['minio_disk'] ?? 'minio_gpx';
 
-        $minioPath = "gpx/belgique/{$stageCode}-{$traceType}-" . time() . '.gpx';
+        $subfolder = $this->resolveSubfolder($attributes['stage_code'] ?? '');
+        $minioPath = "gpx/{$subfolder}/{$stageCode}-{$traceType}-" . time() . '.gpx';
 
         // Upload vers MinIO — ne pas swallower l'exception.
         // Si MinIO est indisponible, l'exception se propage : le seeder (ou l'appelant)
@@ -107,5 +115,25 @@ final class GpxImportService
         $this->simplification->invalidateCache($trace);
 
         return $trace;
+    }
+
+    /**
+     * Dérive le sous-dossier MinIO depuis le code d'étape.
+     *
+     *   BE-* → belgique
+     *   FR-* → france
+     *   ES-* / PC-* → espagne
+     *   autres → autres
+     */
+    private function resolveSubfolder(string $stageCode): string
+    {
+        $prefix = strtoupper(substr($stageCode, 0, 2));
+
+        return match ($prefix) {
+            'BE' => 'belgique',
+            'FR' => 'france',
+            'ES', 'PC' => 'espagne',
+            default => 'autres',
+        };
     }
 }

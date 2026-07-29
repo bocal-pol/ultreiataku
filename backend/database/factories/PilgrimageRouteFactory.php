@@ -19,7 +19,10 @@ class PilgrimageRouteFactory extends Factory
     public function definition(): array
     {
         $name = $this->faker->unique()->words(3, true);
-        $slug = Str::slug($name) . '-' . $this->faker->unique()->numberBetween(1, 9999);
+        // Fix flaky : remplace numberBetween(1,9999) qui épuise le générateur unique()
+        // en cas de grand nombre de factories dans la même session de test.
+        // Str::uuid() garantit l'unicité sans contrainte de plage.
+        $slug = Str::slug($name) . '-' . substr(Str::uuid()->toString(), 0, 8);
 
         return [
             'slug' => $slug,
