@@ -82,7 +82,7 @@ class JournalPhotoPolicy
     {
         $pilgrim = $this->resolvePilgrim($user);
 
-        return $pilgrim !== null && $entry->pilgrim_id === $pilgrim->id;
+        return $pilgrim !== null && $entry !== null && $entry->pilgrim_id === $pilgrim->id;
     }
 
     /**

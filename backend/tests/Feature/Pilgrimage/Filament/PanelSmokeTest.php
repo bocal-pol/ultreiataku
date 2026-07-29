@@ -26,11 +26,13 @@ class PanelSmokeTest extends TestCase
     {
         parent::setUp();
         $user = User::factory()->create();
+        // Un Pilgrim lié : les policies résolvent le pèlerin courant (roleOf, etc.)
+        \App\Modules\Pilgrimage\Models\Pilgrim::factory()->create(['user_id' => $user->id]);
         $this->actingAs($user, 'web');
         Filament::setCurrentPanel(Filament::getPanel('admin'));
-        // Autoriser toutes les policies pour ce smoke test : on teste le RENDU
-        // des pages (API Filament 3→4), pas l'autorisation métier (testée ailleurs).
-        \Illuminate\Support\Facades\Gate::before(fn () => true);
+        // PAS de Gate::before : on monte les pages avec les VRAIES policies pour
+        // détecter les null pointers dans les closures d'autorisation (viewAny/create
+        // appelées sans contexte par Filament au niveau resource).
     }
 
     public function test_all_list_pages_mount(): void

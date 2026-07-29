@@ -29,7 +29,8 @@ class ItemAssignmentPolicy
     {
         $pilgrim = $this->resolvePilgrim($user);
 
-        if ($pilgrim === null) {
+        // $departure null = appel Filament au niveau resource (sans contexte).
+        if ($pilgrim === null || $departure === null) {
             return false;
         }
 

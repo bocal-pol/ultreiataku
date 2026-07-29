@@ -119,7 +119,9 @@ class JournalEntryPolicy
     {
         $pilgrim = $this->resolvePilgrim($user);
 
-        if ($pilgrim === null) {
+        // $trip null = appel Filament au niveau resource (bouton "Créer" du panel,
+        // sans contexte de Trip) → pas d'autorisation contextuelle possible.
+        if ($pilgrim === null || $trip === null) {
             return false;
         }
 
