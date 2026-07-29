@@ -50,7 +50,7 @@ class JournalEntryController extends Controller
     {
         $trip = Trip::query()->findOrFail($id);
 
-        $this->authorize('viewAny', [JournalEntry::class, $trip]);
+        $this->authorize('viewTripJournal', [JournalEntry::class, $trip]);
 
         $pilgrim = $this->resolvePilgrim($request);
 
@@ -88,7 +88,7 @@ class JournalEntryController extends Controller
         return JournalEntryResource::collection($entries)
             ->additional([
                 'meta' => [
-                    'has_more'  => $hasMore,
+                    'has_more' => $hasMore,
                     'next_cursor' => $hasMore ? $entries->last()?->id : null,
                 ],
             ]);
@@ -103,21 +103,21 @@ class JournalEntryController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'trip_id'         => 'required|uuid|exists:trips,id',
-            'stage_id'        => 'nullable|uuid|exists:stages,id',
-            'title'           => 'nullable|string|max:300',
-            'body'            => 'nullable|string',
-            'entry_date'      => 'required|date',
-            'latitude'        => 'nullable|numeric|between:-90,90',
-            'longitude'       => 'nullable|numeric|between:-180,180',
-            'visibility'      => 'nullable|in:private,members,public',
-            'mood'            => 'nullable|in:great,good,neutral,tired,difficult',
+            'trip_id' => 'required|uuid|exists:trips,id',
+            'stage_id' => 'nullable|uuid|exists:stages,id',
+            'title' => 'nullable|string|max:300',
+            'body' => 'nullable|string',
+            'entry_date' => 'required|date',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'visibility' => 'nullable|in:private,members,public',
+            'mood' => 'nullable|in:great,good,neutral,tired,difficult',
             'km_walked_today' => 'nullable|numeric|min:0|max:100',
-            'is_synced'       => 'nullable|boolean',
-            'local_id'        => 'nullable|string|size:36|regex:/^[0-9a-f-]{36}$/i',
+            'is_synced' => 'nullable|boolean',
+            'local_id' => 'nullable|string|size:36|regex:/^[0-9a-f-]{36}$/i',
             'updated_at_client' => 'nullable|date',
         ], [
-            'local_id.size'  => 'Le local_id doit être un UUID v4 (36 caractères).',
+            'local_id.size' => 'Le local_id doit être un UUID v4 (36 caractères).',
             'local_id.regex' => 'Le local_id doit être un UUID v4 valide.',
         ]);
 
@@ -125,7 +125,7 @@ class JournalEntryController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $trip    = Trip::query()->findOrFail($request->string('trip_id')->toString());
+        $trip = Trip::query()->findOrFail($request->string('trip_id')->toString());
         $pilgrim = $this->resolvePilgrim($request);
 
         $this->authorize('create', [JournalEntry::class, $trip]);
@@ -161,8 +161,8 @@ class JournalEntryController extends Controller
                         ));
 
                         Log::info('journal.entry.sync_lww', [
-                            'entry_id'  => $existing->id,
-                            'local_id'  => $existing->local_id,
+                            'entry_id' => $existing->id,
+                            'local_id' => $existing->local_id,
                             'pilgrim_id' => $pilgrim?->id,
                         ]);
                     });
@@ -170,8 +170,8 @@ class JournalEntryController extends Controller
                 }
 
                 return response()->json([
-                    'id'        => $existing->id,
-                    'local_id'  => $existing->local_id,
+                    'id' => $existing->id,
+                    'local_id' => $existing->local_id,
                     'synced_at' => $existing->updated_at?->toIso8601String(),
                 ], 200);
             }
@@ -180,29 +180,29 @@ class JournalEntryController extends Controller
         // ─── Création ─────────────────────────────────────────────────────────
         $entry = DB::transaction(function () use ($validator, $trip, $pilgrim, $localId): JournalEntry {
             $data = array_merge($validator->validated(), [
-                'trip_id'     => $trip->id,
-                'pilgrim_id'  => $pilgrim?->id,
-                'visibility'  => $validator->validated()['visibility'] ?? JournalVisibility::Private->value,
-                'is_synced'   => true,
-                'local_id'    => $localId,
+                'trip_id' => $trip->id,
+                'pilgrim_id' => $pilgrim?->id,
+                'visibility' => $validator->validated()['visibility'] ?? JournalVisibility::Private->value,
+                'is_synced' => true,
+                'local_id' => $localId,
             ]);
 
             /** @var JournalEntry $entry */
             $entry = JournalEntry::query()->create($data);
 
             Log::info('journal.entry.created', [
-                'entry_id'   => $entry->id,
-                'trip_id'    => $trip->id,
+                'entry_id' => $entry->id,
+                'trip_id' => $trip->id,
                 'pilgrim_id' => $pilgrim?->id,
-                'local_id'   => $localId,
+                'local_id' => $localId,
             ]);
 
             return $entry;
         });
 
         return response()->json([
-            'id'        => $entry->id,
-            'local_id'  => $entry->local_id,
+            'id' => $entry->id,
+            'local_id' => $entry->local_id,
             'synced_at' => $entry->updated_at?->toIso8601String(),
         ], 201);
     }
@@ -236,14 +236,14 @@ class JournalEntryController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'stage_id'        => 'nullable|uuid|exists:stages,id',
-            'title'           => 'nullable|string|max:300',
-            'body'            => 'nullable|string',
-            'entry_date'      => 'nullable|date',
-            'latitude'        => 'nullable|numeric|between:-90,90',
-            'longitude'       => 'nullable|numeric|between:-180,180',
-            'visibility'      => 'nullable|in:private,members,public',
-            'mood'            => 'nullable|in:great,good,neutral,tired,difficult',
+            'stage_id' => 'nullable|uuid|exists:stages,id',
+            'title' => 'nullable|string|max:300',
+            'body' => 'nullable|string',
+            'entry_date' => 'nullable|date',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'visibility' => 'nullable|in:private,members,public',
+            'mood' => 'nullable|in:great,good,neutral,tired,difficult',
             'km_walked_today' => 'nullable|numeric|min:0|max:100',
         ]);
 
@@ -299,9 +299,9 @@ class JournalEntryController extends Controller
             }
 
             $pilgrimId = $pilgrim->id;
-            $role      = $trip->roleOf($pilgrimId);
+            $role = $trip->roleOf($pilgrimId);
 
-            $query->where(function ($q) use ($pilgrimId, $role, $trip): void {
+            $query->where(function ($q) use ($pilgrimId, $role): void {
                 // Auteur : voit tout
                 $q->where('pilgrim_id', $pilgrimId);
 

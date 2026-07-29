@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Validator;
  *   POST   /api/pilgrimage/trips/{id}/invite-token
  *   DELETE /api/pilgrimage/trips/{id}/invite-token
  *   POST   /api/pilgrimage/trips/join/{token}
+ *   POST   /api/pilgrimage/trips/join-observer/{token}    (ULTREIA-VIS-01 — lien partage lecture seule)
  */
 class TripController extends Controller
 {
@@ -472,6 +473,47 @@ class TripController extends Controller
         ]);
 
         return response()->json(['message' => 'Vous avez rejoint le Trip avec succès.'], 200);
+    }
+
+    // ─── POST /api/pilgrimage/trips/join-observer/{token} ────────────────────
+
+    /**
+     * ULTREIA-VIS-01 — Rejoindre un Trip en lecture seule (observer) via token d'invitation.
+     *
+     * Utilise le même invite_token que joinByToken, mais attache le pèlerin avec
+     * le rôle observer. L'organizer partage ce lien distinct pour permettre un accès
+     * en lecture au Trip et aux entrées journal publiques, sans capacité de créer
+     * des departures ou des entrées journal.
+     */
+    public function joinByTokenAsObserver(Request $request, string $token): JsonResponse
+    {
+        $trip = Trip::query()->where('invite_token', $token)->first();
+
+        if ($trip === null) {
+            return response()->json(['message' => 'Token d\'invitation invalide ou révoqué.'], 404);
+        }
+
+        $user = $request->user();
+        $pilgrim = Pilgrim::query()->where('user_id', $user->id)->firstOrFail();
+
+        if ($trip->hasMember($pilgrim->id)) {
+            return response()->json(['message' => 'Vous êtes déjà membre de ce Trip.'], 409);
+        }
+
+        DB::transaction(function () use ($trip, $pilgrim): void {
+            $trip->members()->attach($pilgrim->id, [
+                'role' => TripMemberRole::Observer->value,
+                'joined_at' => now(),
+                'invited_by' => null,
+            ]);
+        });
+
+        Log::info('trip.joined_as_observer_via_token', [
+            'trip_id' => $trip->id,
+            'pilgrim_id' => $pilgrim->id,
+        ]);
+
+        return response()->json(['message' => 'Vous observez ce Trip en lecture seule.'], 200);
     }
 
     // ─── POST /api/pilgrimage/trips/{id}/invite-email ─────────────────────────

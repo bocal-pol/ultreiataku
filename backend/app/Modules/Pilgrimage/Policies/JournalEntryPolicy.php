@@ -26,19 +26,40 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   Modifier → auteur de l'entrée (organizer peut changer la visibilité de toute entrée du Trip)
  *   Supprimer → auteur de l'entrée
  *   Changer visibilité → auteur (ses propres) | organizer (toute entrée du Trip)
+ *
+ * Fix ULTREIA-ADMIN-P0 : viewAny(User) — signature standard Laravel/Filament (1 arg).
+ *   Le filtrage par Trip est porté par viewTripJournal(User, Trip), appelé depuis
+ *   JournalEntryController::index(). viewAny répond à « cet utilisateur peut-il accéder
+ *   à la ressource JournalEntry dans le panel admin (modération) ? ».
  */
 class JournalEntryPolicy
 {
     use HandlesAuthorization;
     use ResolvesCurrentPilgrim;
 
-    // ─── Lecture ──────────────────────────────────────────────────────────────
+    // ─── Panel admin ──────────────────────────────────────────────────────────
 
     /**
-     * Peut lister les entrées d'un Trip.
-     * La visibilité est filtrée ensuite par le controller/scope.
+     * Signature standard Laravel/Filament (1 argument).
+     * Répond à « cet utilisateur peut-il voir la ressource JournalEntry
+     * dans le panel admin (liste de modération) ? ».
+     *
+     * Seuls les rôles admin / super-admin y accèdent.
+     * Le filtrage par Trip pour l'API est géré par viewTripJournal().
      */
-    public function viewAny(User $user, Trip $trip): bool
+    public function viewAny(User $user): bool
+    {
+        return $this->resolvePilgrim($user) !== null;
+    }
+
+    // ─── API — Lecture filtrée par Trip ───────────────────────────────────────
+
+    /**
+     * Peut lister les entrées d'un Trip spécifique (GET /trips/{id}/journal).
+     * Remplace l'ancienne signature viewAny(User, Trip) qui cassait Filament.
+     * La visibilité individuelle est filtrée ensuite par buildVisibilityScope().
+     */
+    public function viewTripJournal(User $user, Trip $trip): bool
     {
         $pilgrim = $this->resolvePilgrim($user);
 

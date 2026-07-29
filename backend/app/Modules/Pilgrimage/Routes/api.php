@@ -77,9 +77,13 @@ Route::prefix('api/pilgrimage')->group(function () {
         Route::delete('/me', [MeController::class, 'destroy'])
             ->name('api.pilgrimage.me.destroy');
 
-        // ULTREIA-32 : rejoindre via token (avant le groupe /{id} pour éviter le conflit)
+        // ULTREIA-32 : rejoindre via token (avant le groupe /{id} pour eviter le conflit)
         Route::post('/trips/join/{token}', [TripController::class, 'joinByToken'])
             ->name('api.pilgrimage.trips.join');
+
+        // ULTREIA-VIS-01 : rejoindre en lecture seule via lien de partage
+        Route::post('/trips/join-observer/{token}', [TripController::class, 'joinByTokenAsObserver'])
+            ->name('api.pilgrimage.trips.join-observer');
 
         // B-01 : Liste des Trips du pèlerin courant (organizer OU membre)
         Route::get('/trips', [TripController::class, 'index'])
