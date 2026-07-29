@@ -11,7 +11,9 @@ use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Waypoint;
 use BackedEnum;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -35,7 +37,7 @@ class StageResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Étape')->schema([
+            Schemas\Components\Section::make('Étape')->schema([
                 Forms\Components\Select::make('route_id')
                     ->label('Route')
                     ->options(PilgrimageRoute::pluck('slug', 'id'))
@@ -60,7 +62,7 @@ class StageResource extends Resource
                     ->default(0),
             ])->columns(2),
 
-            Forms\Components\Section::make('Variante')->schema([
+            Schemas\Components\Section::make('Variante')->schema([
                 Forms\Components\Toggle::make('is_variant')
                     ->label('C\'est une variante d\'étape')
                     ->reactive()
@@ -71,17 +73,17 @@ class StageResource extends Resource
                     ->options(Stage::where('is_variant', false)->pluck('code', 'id'))
                     ->searchable()
                     ->nullable()
-                    ->visible(fn (Forms\Get $get) => (bool) $get('is_variant'))
+                    ->visible(fn ($get) => (bool) $get('is_variant'))
                     ->helperText('Étape principale dont cette variante est un détour'),
             ])->columns(2),
 
-            Forms\Components\Section::make('Traductions — Nom')->schema([
+            Schemas\Components\Section::make('Traductions — Nom')->schema([
                 Forms\Components\TextInput::make('name.fr')->label('Nom (FR)')->required(),
                 Forms\Components\TextInput::make('name.nl')->label('Naam (NL)')->required(),
                 Forms\Components\TextInput::make('name.de')->label('Name (DE)')->required(),
             ])->columns(3),
 
-            Forms\Components\Section::make('Points géographiques')->schema([
+            Schemas\Components\Section::make('Points géographiques')->schema([
                 Forms\Components\Select::make('start_waypoint_id')
                     ->label('Point de départ')
                     ->options(Waypoint::pluck('slug', 'id'))
@@ -95,7 +97,7 @@ class StageResource extends Resource
                     ->required(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Métriques')->schema([
+            Schemas\Components\Section::make('Métriques')->schema([
                 Forms\Components\TextInput::make('distance_km')
                     ->label('Distance (km)')
                     ->numeric()
@@ -128,7 +130,7 @@ class StageResource extends Resource
                     ->nullable(),
             ])->columns(3),
 
-            Forms\Components\Section::make('Notes (i18n)')->schema([
+            Schemas\Components\Section::make('Notes (i18n)')->schema([
                 Forms\Components\Textarea::make('notes.fr')->label('Notes (FR)')->rows(3),
                 Forms\Components\Textarea::make('notes.nl')->label('Notes (NL)')->rows(3),
                 Forms\Components\Textarea::make('notes.de')->label('Notes (DE)')->rows(3),
@@ -153,7 +155,7 @@ class StageResource extends Resource
                     ->placeholder('—'),
                 Tables\Columns\TextColumn::make('difficulty')
                     ->badge()
-                    ->color(fn ($state) => StageDifficulty::from($state ?? 'moderate')->color()),
+                    ->color(fn ($state) => ($state instanceof StageDifficulty ? $state : StageDifficulty::from($state ?? 'moderate'))->color()),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('route_id')
@@ -167,8 +169,8 @@ class StageResource extends Resource
                     ->falseLabel('Étapes principales uniquement')
                     ->placeholder('Toutes'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->defaultSort('sort_order');
     }

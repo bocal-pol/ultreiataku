@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Filament\Resources\PackScenarioResource\RelationManagers;
 
 use App\Modules\Pilgrimage\Enums\PackCategory;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -25,7 +31,7 @@ class PackItemsRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Item')->schema([
+            Schemas\Components\Section::make('Item')->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nom')
                     ->required()
@@ -60,7 +66,7 @@ class PackItemsRelationManager extends RelationManager
                     ->default(0),
             ])->columns(3),
 
-            Forms\Components\Section::make('Options')->schema([
+            Schemas\Components\Section::make('Options')->schema([
                 Forms\Components\Toggle::make('is_shared')
                     ->label('Item mutualisé (duo)')
                     ->default(false),
@@ -136,16 +142,16 @@ class PackItemsRelationManager extends RelationManager
                     ->label('Mutualisé'),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
+                CreateAction::make()
                     ->visible(fn () => PackItemsRelationManager::canCreate()),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('category')

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\RedirectToCentralAuth;
-use App\Modules\Pilgrimage\Filament\Resources\TripResource;
-use App\Modules\Pilgrimage\Filament\Resources\PilgrimResource;
 use App\Modules\Pilgrimage\Filament\Widgets\AccommodationsToVerifyWidget;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;

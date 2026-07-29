@@ -115,7 +115,7 @@ class JournalEntryPolicy
     /**
      * Créer une entrée : organizer ou participant du Trip (pas observer).
      */
-    public function create(User $user, Trip $trip): bool
+    public function create(User $user, ?Trip $trip = null): bool
     {
         $pilgrim = $this->resolvePilgrim($user);
 

@@ -18,7 +18,12 @@ use Illuminate\Support\Facades\Log;
  *
  * Crée (ou retrouve) le Pilgrim `bocal` lié au compte SSO user_id=1,
  * crée le Trip « Liège → Santiago » (Via Mosana, status: planned)
- * avec bocal comme ORGANIZER, et un Departure planifié BE-01 → BE-12.
+ * avec bocal comme ORGANIZER, tof (user_id=3) et mike (user_id=4) comme
+ * PARTICIPANTS, et un Departure planifié BE-01 → BE-12 pour chacun.
+ *
+ * Les comptes SSO tof/mike sont créés dans le projet Auth central
+ * (UltreiatakuApplicationSeeder / DevFriendsSeeder). Ici on crée leurs
+ * Pilgrims et on les rattache au Trip (RÈGLE UTILISATEUR : bocal + 2 amis).
  *
  * Idempotent : updateOrCreate sur les identifiants métier.
  * Ne génère pas d'invite_token (l'organisateur le générera depuis le frontend).

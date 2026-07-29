@@ -66,7 +66,7 @@ function CallbackWrapper({ url }: { url: string }) {
     <QueryClientProvider client={makeQueryClient()}>
       <MemoryRouter initialEntries={[url]}>
         <Routes>
-          <Route path="/auth/callback" element={<AuthCallbackScreen />} />
+          <Route path="/callback" element={<AuthCallbackScreen />} />
           <Route path="/belgique" element={<div data-testid="belgique-page">belgique</div>} />
         </Routes>
       </MemoryRouter>
@@ -92,7 +92,7 @@ describe('AuthCallbackScreen', () => {
     // fetchMe ne resolve jamais = pending state
     mockFetchMe.mockReturnValue(new Promise(() => {}));
 
-    render(<CallbackWrapper url="/auth/callback" />);
+    render(<CallbackWrapper url="/callback" />);
 
     // role="status" visible tant que fetchMe est pending
     expect(screen.getByRole('status')).toBeInTheDocument();
@@ -108,7 +108,7 @@ describe('AuthCallbackScreen', () => {
     };
     mockFetchMe.mockResolvedValueOnce(mockUser);
 
-    render(<CallbackWrapper url="/auth/callback" />);
+    render(<CallbackWrapper url="/callback" />);
 
     await waitFor(() => {
       expect(mockFetchMe).toHaveBeenCalledOnce();
@@ -122,7 +122,7 @@ describe('AuthCallbackScreen', () => {
   it('affiche erreur si fetchMe échoue (session absente)', async () => {
     mockFetchMe.mockRejectedValueOnce(new Error('Network error'));
 
-    render(<CallbackWrapper url="/auth/callback" />);
+    render(<CallbackWrapper url="/callback" />);
 
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
@@ -143,7 +143,7 @@ describe('AuthCallbackScreen', () => {
     mockFetchMe.mockResolvedValueOnce(mockUser);
     sessionStorage.setItem('ultreia_return_path', '/trips/abc');
 
-    render(<CallbackWrapper url="/auth/callback" />);
+    render(<CallbackWrapper url="/callback" />);
 
     await waitFor(() => {
       expect(mockFetchMe).toHaveBeenCalledOnce();

@@ -337,6 +337,7 @@ class MealSeeder extends Seeder
 
             if ($stageId === null) {
                 $this->command->warn("MealSeeder : stage {$item['stage_code']} introuvable — skipping.");
+
                 continue;
             }
 

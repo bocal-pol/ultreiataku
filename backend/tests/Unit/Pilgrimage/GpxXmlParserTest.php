@@ -114,7 +114,7 @@ class GpxXmlParserTest extends TestCase
     // ─── Helpers ─────────────────────────────────────────────────────────────
 
     /**
-     * @param array<int, array{lat: float, lon: float, ele: float}> $points
+     * @param  array<int, array{lat: float, lon: float, ele: float}>  $points
      */
     private function buildGpxTrack(array $points): string
     {

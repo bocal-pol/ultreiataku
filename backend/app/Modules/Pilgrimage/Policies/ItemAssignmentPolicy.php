@@ -25,7 +25,7 @@ class ItemAssignmentPolicy
     use HandlesAuthorization;
     use ResolvesCurrentPilgrim;
 
-    public function create(User $user, Departure $departure): bool
+    public function create(User $user, ?Departure $departure = null): bool
     {
         $pilgrim = $this->resolvePilgrim($user);
 

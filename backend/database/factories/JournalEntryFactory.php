@@ -20,19 +20,19 @@ class JournalEntryFactory extends Factory
     public function definition(): array
     {
         return [
-            'trip_id'       => null, // à surcharger
-            'pilgrim_id'    => null, // à surcharger
-            'stage_id'      => null,
-            'title'         => $this->faker->sentence(5),
-            'body'          => $this->faker->paragraphs(2, true),
-            'entry_date'    => $this->faker->dateTimeBetween('-30 days', 'now')->format('Y-m-d'),
-            'latitude'      => null,
-            'longitude'     => null,
-            'visibility'    => JournalVisibility::Members->value,
-            'mood'          => $this->faker->randomElement(JournalMood::cases())->value,
+            'trip_id' => null, // à surcharger
+            'pilgrim_id' => null, // à surcharger
+            'stage_id' => null,
+            'title' => $this->faker->sentence(5),
+            'body' => $this->faker->paragraphs(2, true),
+            'entry_date' => $this->faker->dateTimeBetween('-30 days', 'now')->format('Y-m-d'),
+            'latitude' => null,
+            'longitude' => null,
+            'visibility' => JournalVisibility::Members->value,
+            'mood' => $this->faker->randomElement(JournalMood::cases())->value,
             'km_walked_today' => $this->faker->randomFloat(2, 8, 28),
-            'is_synced'     => true,
-            'local_id'      => null,
+            'is_synced' => true,
+            'local_id' => null,
         ];
     }
 
@@ -55,7 +55,7 @@ class JournalEntryFactory extends Factory
     {
         return $this->state([
             'is_synced' => false,
-            'local_id'  => Str::uuid()->toString(),
+            'local_id' => Str::uuid()->toString(),
         ]);
     }
 }

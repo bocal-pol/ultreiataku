@@ -16,14 +16,14 @@ enum JournalVisibility: string
 {
     case Private = 'private';
     case Members = 'members';
-    case Public  = 'public';
+    case Public = 'public';
 
     public function label(): string
     {
         return match ($this) {
             self::Private => 'Privée',
             self::Members => 'Membres',
-            self::Public  => 'Publique',
+            self::Public => 'Publique',
         };
     }
 
@@ -32,7 +32,7 @@ enum JournalVisibility: string
         return match ($this) {
             self::Private => 'gray',
             self::Members => 'info',
-            self::Public  => 'success',
+            self::Public => 'success',
         };
     }
 }

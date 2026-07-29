@@ -46,14 +46,14 @@ class RemoveMemberRgpdTest extends TestCase
 
         $this->route = PilgrimageRoute::factory()->create();
 
-        $this->organizerUser    = User::factory()->create();
+        $this->organizerUser = User::factory()->create();
         $this->organizerPilgrim = Pilgrim::factory()->create(['user_id' => $this->organizerUser->id]);
 
-        $this->memberUser    = User::factory()->create();
+        $this->memberUser = User::factory()->create();
         $this->memberPilgrim = Pilgrim::factory()->create(['user_id' => $this->memberUser->id]);
 
         $this->trip = Trip::factory()->create([
-            'route_id'     => $this->route->id,
+            'route_id' => $this->route->id,
             'organizer_id' => $this->organizerPilgrim->id,
         ]);
 
@@ -66,7 +66,7 @@ class RemoveMemberRgpdTest extends TestCase
     public function test_remove_member_keep_preserves_entry_visibility(): void
     {
         $entry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Members->value,
             'entry_date' => now()->format('Y-m-d'),
@@ -80,13 +80,13 @@ class RemoveMemberRgpdTest extends TestCase
 
         // Visibilité inchangée
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $entry->id,
+            'id' => $entry->id,
             'visibility' => JournalVisibility::Members->value,
         ]);
 
         // Membre retiré du pivot
         $this->assertDatabaseMissing('trip_members', [
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
         ]);
     }
@@ -94,7 +94,7 @@ class RemoveMemberRgpdTest extends TestCase
     public function test_remove_member_default_is_keep(): void
     {
         $entry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Public->value,
             'entry_date' => now()->format('Y-m-d'),
@@ -106,7 +106,7 @@ class RemoveMemberRgpdTest extends TestCase
             ->assertOk();
 
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $entry->id,
+            'id' => $entry->id,
             'visibility' => JournalVisibility::Public->value,
         ]);
     }
@@ -116,13 +116,13 @@ class RemoveMemberRgpdTest extends TestCase
     public function test_remove_member_remove_masks_non_private_entries(): void
     {
         $membersEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Members->value,
             'entry_date' => now()->format('Y-m-d'),
         ]);
         $publicEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Public->value,
             'entry_date' => now()->subDay()->format('Y-m-d'),
@@ -136,17 +136,17 @@ class RemoveMemberRgpdTest extends TestCase
 
         // Les entrées members et public passent à private
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $membersEntry->id,
+            'id' => $membersEntry->id,
             'visibility' => JournalVisibility::Private->value,
         ]);
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $publicEntry->id,
+            'id' => $publicEntry->id,
             'visibility' => JournalVisibility::Private->value,
         ]);
 
         // Membre retiré
         $this->assertDatabaseMissing('trip_members', [
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
         ]);
     }
@@ -154,7 +154,7 @@ class RemoveMemberRgpdTest extends TestCase
     public function test_remove_member_remove_does_not_change_already_private_entries(): void
     {
         $privateEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Private->value,
             'entry_date' => now()->format('Y-m-d'),
@@ -168,7 +168,7 @@ class RemoveMemberRgpdTest extends TestCase
 
         // L'entrée déjà private est inchangée
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $privateEntry->id,
+            'id' => $privateEntry->id,
             'visibility' => JournalVisibility::Private->value,
         ]);
     }
@@ -177,21 +177,21 @@ class RemoveMemberRgpdTest extends TestCase
     {
         // Second trip avec une entrée du même pèlerin
         $otherTrip = Trip::factory()->create([
-            'route_id'     => $this->route->id,
+            'route_id' => $this->route->id,
             'organizer_id' => $this->organizerPilgrim->id,
         ]);
         $otherTrip->members()->attach($this->organizerPilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
         $otherTrip->members()->attach($this->memberPilgrim->id, ['role' => 'participant', 'joined_at' => now()]);
 
         $otherTripEntry = JournalEntry::factory()->create([
-            'trip_id'    => $otherTrip->id,
+            'trip_id' => $otherTrip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Members->value,
             'entry_date' => now()->format('Y-m-d'),
         ]);
 
         $thisEntry = JournalEntry::factory()->create([
-            'trip_id'    => $this->trip->id,
+            'trip_id' => $this->trip->id,
             'pilgrim_id' => $this->memberPilgrim->id,
             'visibility' => JournalVisibility::Members->value,
             'entry_date' => now()->format('Y-m-d'),
@@ -205,13 +205,13 @@ class RemoveMemberRgpdTest extends TestCase
 
         // L'entrée de l'autre trip est inchangée
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $otherTripEntry->id,
+            'id' => $otherTripEntry->id,
             'visibility' => JournalVisibility::Members->value,
         ]);
 
         // L'entrée de ce trip est passée à private
         $this->assertDatabaseHas('journal_entries', [
-            'id'         => $thisEntry->id,
+            'id' => $thisEntry->id,
             'visibility' => JournalVisibility::Private->value,
         ]);
     }

@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\JournalMood;
 use App\Modules\Pilgrimage\Enums\JournalVisibility;
 use App\Modules\Pilgrimage\Filament\Resources\JournalEntryResource\Pages;
 use App\Modules\Pilgrimage\Filament\Resources\JournalEntryResource\RelationManagers\PhotosRelationManager;
 use App\Modules\Pilgrimage\Models\JournalEntry;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 /**
  * ULTREIA-54 — JournalEntryResource Filament (lecture + modération).
@@ -84,17 +88,17 @@ class JournalEntryResource extends Resource
                 ->options([
                     JournalVisibility::Private->value => 'Privée',
                     JournalVisibility::Members->value => 'Membres',
-                    JournalVisibility::Public->value  => 'Publique',
+                    JournalVisibility::Public->value => 'Publique',
                 ])
                 ->required(),
 
             Forms\Components\Select::make('mood')
                 ->label('Humeur')
                 ->options([
-                    JournalMood::Great->value     => 'Super 😄',
-                    JournalMood::Good->value      => 'Bien 🙂',
-                    JournalMood::Neutral->value   => 'Neutre 😐',
-                    JournalMood::Tired->value     => 'Fatigué 😴',
+                    JournalMood::Great->value => 'Super 😄',
+                    JournalMood::Good->value => 'Bien 🙂',
+                    JournalMood::Neutral->value => 'Neutre 😐',
+                    JournalMood::Tired->value => 'Fatigué 😴',
                     JournalMood::Difficult->value => 'Difficile 😓',
                 ])
                 ->nullable(),
@@ -191,7 +195,7 @@ class JournalEntryResource extends Resource
                     ->options([
                         JournalVisibility::Private->value => 'Privée',
                         JournalVisibility::Members->value => 'Membres',
-                        JournalVisibility::Public->value  => 'Publique',
+                        JournalVisibility::Public->value => 'Publique',
                     ]),
 
                 Tables\Filters\SelectFilter::make('pilgrim_id')
@@ -203,13 +207,13 @@ class JournalEntryResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_synced')
                     ->label('Synchronisé'),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('entry_date', 'desc');
@@ -225,9 +229,9 @@ class JournalEntryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListJournalEntries::route('/'),
-            'view'   => Pages\ViewJournalEntry::route('/{record}'),
-            'edit'   => Pages\EditJournalEntry::route('/{record}/edit'),
+            'index' => Pages\ListJournalEntries::route('/'),
+            'view' => Pages\ViewJournalEntry::route('/{record}'),
+            'edit' => Pages\EditJournalEntry::route('/{record}/edit'),
         ];
     }
 }

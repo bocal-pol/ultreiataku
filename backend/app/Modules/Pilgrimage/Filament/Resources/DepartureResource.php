@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\DepartureStatus;
 use App\Modules\Pilgrimage\Filament\Resources\DepartureResource\Pages;
 use App\Modules\Pilgrimage\Models\Departure;
-use App\Modules\Pilgrimage\Models\Pilgrim;
-use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Trip;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 /**
  * ULTREIA-34 — DepartureResource Filament.
@@ -40,7 +43,7 @@ class DepartureResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Voyage')->schema([
+            Schemas\Components\Section::make('Voyage')->schema([
                 Forms\Components\Select::make('trip_id')
                     ->label('Trip')
                     ->relationship('trip', 'name')
@@ -54,7 +57,7 @@ class DepartureResource extends Resource
                     ->required(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Étapes')->schema([
+            Schemas\Components\Section::make('Étapes')->schema([
                 Forms\Components\Select::make('start_stage_id')
                     ->label('Étape de départ')
                     ->relationship('startStage', 'code')
@@ -68,7 +71,7 @@ class DepartureResource extends Resource
                     ->required(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Dates')->schema([
+            Schemas\Components\Section::make('Dates')->schema([
                 Forms\Components\DatePicker::make('planned_start_date')
                     ->label('Départ planifié')
                     ->required(),
@@ -165,13 +168,13 @@ class DepartureResource extends Resource
                     ->relationship('pilgrim', 'display_name')
                     ->searchable(),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('planned_start_date', 'desc');

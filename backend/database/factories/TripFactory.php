@@ -10,6 +10,7 @@ use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Trip;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Trip>
@@ -46,6 +47,6 @@ class TripFactory extends Factory
 
     public function withInviteToken(): static
     {
-        return $this->state(['invite_token' => \Illuminate\Support\Str::uuid()->toString()]);
+        return $this->state(['invite_token' => Str::uuid()->toString()]);
     }
 }

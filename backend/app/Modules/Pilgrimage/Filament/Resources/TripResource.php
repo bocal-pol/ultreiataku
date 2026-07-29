@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\TripStatus;
 use App\Modules\Pilgrimage\Filament\Resources\TripResource\Pages;
-use App\Modules\Pilgrimage\Models\Trip;
 use App\Modules\Pilgrimage\Filament\Resources\TripResource\RelationManagers\DeparturesRelationManager;
 use App\Modules\Pilgrimage\Filament\Resources\TripResource\RelationManagers\MembersRelationManager;
+use App\Modules\Pilgrimage\Models\Trip;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 /**
  * ULTREIA-34 — TripResource Filament (lecture + modération).
@@ -137,13 +141,13 @@ class TripResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_public')
                     ->label('Public'),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

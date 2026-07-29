@@ -64,7 +64,7 @@ export default function App() {
                 <Route path="/" element={<SplashScreen />} />
 
                 {/* Auth SSO callback */}
-                <Route path="/auth/callback" element={<AuthCallbackScreen />} />
+                <Route path="/callback" element={<AuthCallbackScreen />} />
 
                 {/* Routes publiques */}
                 <Route path="/belgique" element={<StageListScreen />} />

@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Filament\Resources\TripResource\RelationManagers;
 
 use App\Modules\Pilgrimage\Enums\DepartureStatus;
+use App\Modules\Pilgrimage\Filament\Resources\DepartureResource;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
@@ -111,16 +117,16 @@ class DeparturesRelationManager extends RelationManager
                     ]),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->visible(fn () => \App\Modules\Pilgrimage\Filament\Resources\DepartureResource::canCreate()),
+                CreateAction::make()
+                    ->visible(fn () => DepartureResource::canCreate()),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('planned_start_date');

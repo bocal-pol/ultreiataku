@@ -9,7 +9,12 @@ use App\Modules\Pilgrimage\Filament\Resources\PackItemResource\Pages;
 use App\Modules\Pilgrimage\Models\PackItem;
 use App\Modules\Pilgrimage\Models\PackScenario;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -40,7 +45,7 @@ class PackItemResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Identification')->schema([
+            Schemas\Components\Section::make('Identification')->schema([
                 Forms\Components\Select::make('pack_scenario_id')
                     ->label('Scénario')
                     ->options(PackScenario::query()
@@ -84,7 +89,7 @@ class PackItemResource extends Resource
                     ->default(0),
             ])->columns(2),
 
-            Forms\Components\Section::make('Options')->schema([
+            Schemas\Components\Section::make('Options')->schema([
                 Forms\Components\Toggle::make('is_shared')
                     ->label('Item mutualisé (duo)')
                     ->default(false),
@@ -161,13 +166,13 @@ class PackItemResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_consumable')
                     ->label('Consommable'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('category');

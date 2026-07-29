@@ -35,31 +35,31 @@ class PhotoLocationRevokeTest extends TestCase
     {
         parent::setUp();
 
-        $this->user    = User::factory()->create();
+        $this->user = User::factory()->create();
         $this->pilgrim = Pilgrim::factory()->create(['user_id' => $this->user->id]);
 
         $route = PilgrimageRoute::factory()->create();
-        $trip  = Trip::factory()->create([
-            'route_id'     => $route->id,
+        $trip = Trip::factory()->create([
+            'route_id' => $route->id,
             'organizer_id' => $this->pilgrim->id,
         ]);
         $trip->members()->attach($this->pilgrim->id, ['role' => 'organizer', 'joined_at' => now()]);
 
         $this->entry = JournalEntry::factory()->create([
-            'trip_id'    => $trip->id,
+            'trip_id' => $trip->id,
             'pilgrim_id' => $this->pilgrim->id,
             'entry_date' => now()->format('Y-m-d'),
         ]);
     }
 
-    private function makePhoto(float|null $lat, float|null $lng): JournalPhoto
+    private function makePhoto(?float $lat, ?float $lng): JournalPhoto
     {
         return JournalPhoto::factory()->create([
             'journal_entry_id' => $this->entry->id,
-            'minio_path'       => 'test/photo.jpg',
-            'minio_disk'       => 'minio_journal',
-            'latitude'         => $lat,
-            'longitude'        => $lng,
+            'minio_path' => 'test/photo.jpg',
+            'minio_disk' => 'minio_journal',
+            'latitude' => $lat,
+            'longitude' => $lng,
         ]);
     }
 
@@ -81,8 +81,8 @@ class PhotoLocationRevokeTest extends TestCase
             ->assertJsonPath('message', fn ($msg) => str_contains($msg, 'GPS') || str_contains($msg, 'Coordonn'));
 
         $this->assertDatabaseHas('journal_photos', [
-            'id'        => $photo->id,
-            'latitude'  => null,
+            'id' => $photo->id,
+            'latitude' => null,
             'longitude' => null,
         ]);
     }
@@ -99,7 +99,7 @@ class PhotoLocationRevokeTest extends TestCase
 
     public function test_revoke_location_denied_for_other_user(): void
     {
-        $otherUser    = User::factory()->create();
+        $otherUser = User::factory()->create();
         $otherPilgrim = Pilgrim::factory()->create(['user_id' => $otherUser->id]);
 
         $photo = $this->makePhoto(50.85, 4.35);

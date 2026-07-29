@@ -16,6 +16,7 @@ class GpxTrace extends Model
 {
     /** @use HasFactory<GpxTraceFactory> */
     use HasFactory;
+
     use HasUuids;
 
     public $timestamps = false;

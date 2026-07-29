@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\Country;
 use App\Modules\Pilgrimage\Filament\Resources\RouteResource\Pages;
 use App\Modules\Pilgrimage\Models\PilgrimageRoute;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
+use Filament\Schemas;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class RouteResource extends Resource
 {
@@ -32,7 +36,7 @@ class RouteResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Informations générales')->schema([
+            Schemas\Components\Section::make('Informations générales')->schema([
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->unique(ignoreRecord: true)
@@ -55,19 +59,19 @@ class RouteResource extends Resource
                     ->default(0),
             ])->columns(2),
 
-            Forms\Components\Section::make('Traductions — Nom')->schema([
+            Schemas\Components\Section::make('Traductions — Nom')->schema([
                 Forms\Components\TextInput::make('name.fr')->label('Nom (FR)')->required()->maxLength(200),
                 Forms\Components\TextInput::make('name.nl')->label('Naam (NL)')->required()->maxLength(200),
                 Forms\Components\TextInput::make('name.de')->label('Name (DE)')->required()->maxLength(200),
             ])->columns(3),
 
-            Forms\Components\Section::make('Traductions — Description')->schema([
+            Schemas\Components\Section::make('Traductions — Description')->schema([
                 Forms\Components\Textarea::make('description.fr')->label('Description (FR)')->rows(3),
                 Forms\Components\Textarea::make('description.nl')->label('Beschrijving (NL)')->rows(3),
                 Forms\Components\Textarea::make('description.de')->label('Beschreibung (DE)')->rows(3),
             ])->columns(3),
 
-            Forms\Components\Section::make('Métriques')->schema([
+            Schemas\Components\Section::make('Métriques')->schema([
                 Forms\Components\TextInput::make('total_distance_km')
                     ->label('Distance totale (km)')
                     ->numeric()
@@ -98,12 +102,12 @@ class RouteResource extends Resource
                     ->options(collect(Country::cases())->mapWithKeys(fn ($c) => [$c->value => $c->label()])),
                 Tables\Filters\TernaryFilter::make('is_active')->label('Active'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('sort_order');

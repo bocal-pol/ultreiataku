@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Http\Resources;
 
+use App\Modules\Pilgrimage\Models\GpxTrace;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,7 +12,7 @@ class GpxTraceResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        /** @var \App\Modules\Pilgrimage\Models\GpxTrace $this */
+        /** @var GpxTrace $this */
         return [
             'id' => $this->id,
             'stage_id' => $this->stage_id,

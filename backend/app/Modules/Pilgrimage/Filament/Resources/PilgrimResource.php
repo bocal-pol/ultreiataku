@@ -9,6 +9,9 @@ use App\Modules\Pilgrimage\Jobs\PurgePilgrimAssetsJob;
 use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\Trip;
 use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -107,15 +110,15 @@ class PilgrimResource extends Resource
                 Tables\Filters\SelectFilter::make('configuration')
                     ->options(['solo' => 'Solo', 'duo' => 'Duo']),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
 
                 // ─── RGPD-U01 — Export portabilité (Art. 20) ─────────────────
                 // bug_rule_004 : visible() vérifié depuis la resource.
                 // Note : trips via DB::table() — Pilgrim::trips() withTimestamps()
                 // mais trip_members n'a pas de created_at/updated_at (décision schema).
-                Tables\Actions\Action::make('rgpd_export')
+                Action::make('rgpd_export')
                     ->label('Exporter les données')
                     ->icon('heroicon-o-arrow-down-tray')
                     ->color('info')
@@ -170,7 +173,7 @@ class PilgrimResource extends Resource
 
                 // ─── RGPD-U01 — Suppression droit à l'oubli (Art. 17) ────────
                 // bug_rule_004 : visible() vérifié depuis la resource
-                Tables\Actions\Action::make('rgpd_delete')
+                Action::make('rgpd_delete')
                     ->label('Supprimer (RGPD)')
                     ->icon('heroicon-o-trash')
                     ->color('danger')
@@ -231,7 +234,7 @@ class PilgrimResource extends Resource
                             ->send();
                     }),
             ])
-            ->bulkActions([]);
+            ->toolbarActions([]);
     }
 
     public static function getRelations(): array

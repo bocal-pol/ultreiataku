@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\DetourType;
 use App\Modules\Pilgrimage\Enums\PoiCategory;
 use App\Modules\Pilgrimage\Enums\WaypointType;
 use App\Modules\Pilgrimage\Filament\Resources\WaypointResource\Pages;
 use App\Modules\Pilgrimage\Models\Waypoint;
+use BackedEnum;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
+use Filament\Schemas;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class WaypointResource extends Resource
 {
@@ -34,7 +36,7 @@ class WaypointResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Identification')->schema([
+            Schemas\Components\Section::make('Identification')->schema([
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->unique(ignoreRecord: true)
@@ -55,13 +57,13 @@ class WaypointResource extends Resource
                 Forms\Components\Toggle::make('is_active')->default(true),
             ])->columns(2),
 
-            Forms\Components\Section::make('Traductions — Nom')->schema([
+            Schemas\Components\Section::make('Traductions — Nom')->schema([
                 Forms\Components\TextInput::make('name.fr')->label('Nom (FR)')->required(),
                 Forms\Components\TextInput::make('name.nl')->label('Naam (NL)')->required(),
                 Forms\Components\TextInput::make('name.de')->label('Name (DE)')->required(),
             ])->columns(3),
 
-            Forms\Components\Section::make('Coordonnées GPS')->schema([
+            Schemas\Components\Section::make('Coordonnées GPS')->schema([
                 Forms\Components\TextInput::make('latitude')
                     ->numeric()
                     ->required()
@@ -73,7 +75,7 @@ class WaypointResource extends Resource
                     ->step(0.0000001),
             ])->columns(2),
 
-            Forms\Components\Section::make('Détour')->schema([
+            Schemas\Components\Section::make('Détour')->schema([
                 Forms\Components\Select::make('detour_type')
                     ->options(collect(DetourType::cases())->mapWithKeys(fn ($d) => [$d->value => $d->label()]))
                     ->nullable(),
@@ -95,7 +97,7 @@ class WaypointResource extends Resource
                     ->nullable(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Accès & tarifs')->schema([
+            Schemas\Components\Section::make('Accès & tarifs')->schema([
                 Forms\Components\TextInput::make('entry_cost_eur')
                     ->label('Coût entrée (€)')
                     ->numeric()
@@ -112,13 +114,13 @@ class WaypointResource extends Resource
                     ->nullable(),
             ])->columns(3),
 
-            Forms\Components\Section::make('Description (i18n)')->schema([
+            Schemas\Components\Section::make('Description (i18n)')->schema([
                 Forms\Components\Textarea::make('description.fr')->label('Description (FR)')->rows(3),
                 Forms\Components\Textarea::make('description.nl')->label('Beschrijving (NL)')->rows(3),
                 Forms\Components\Textarea::make('description.de')->label('Beschreibung (DE)')->rows(3),
             ])->columns(3),
 
-            Forms\Components\Section::make('Vérification')->schema([
+            Schemas\Components\Section::make('Vérification')->schema([
                 Forms\Components\DateTimePicker::make('verified_at')
                     ->label('Vérifié le')
                     ->nullable(),
@@ -146,8 +148,8 @@ class WaypointResource extends Resource
                     ->options(collect(PoiCategory::cases())->mapWithKeys(fn ($c) => [$c->value => $c->label()])),
                 Tables\Filters\TernaryFilter::make('is_active'),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->defaultSort('slug');
     }

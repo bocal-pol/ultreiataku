@@ -14,8 +14,8 @@ final class DouglasPeucker
     /**
      * Simplifie un tableau de points [lat, lon] avec la tolérance donnée.
      *
-     * @param array<int, array{0: float, 1: float}> $points Tableau de [lat, lon]
-     * @param float $tolerance Tolérance en degrés (~0.0001 ≈ 10m)
+     * @param  array<int, array{0: float, 1: float}>  $points  Tableau de [lat, lon]
+     * @param  float  $tolerance  Tolérance en degrés (~0.0001 ≈ 10m)
      * @return array<int, array{0: float, 1: float}>
      */
     public static function simplify(array $points, float $tolerance = 0.0001): array
@@ -29,7 +29,7 @@ final class DouglasPeucker
     }
 
     /**
-     * @param array<int, array{0: float, 1: float}> $points
+     * @param  array<int, array{0: float, 1: float}>  $points
      * @return array<int, array{0: float, 1: float}>
      */
     private static function rdp(array $points, int $start, int $end, float $tolerance): array
@@ -71,9 +71,9 @@ final class DouglasPeucker
     /**
      * Calcule la distance perpendiculaire d'un point à une ligne définie par deux points.
      *
-     * @param array{0: float, 1: float} $point
-     * @param array{0: float, 1: float} $lineStart
-     * @param array{0: float, 1: float} $lineEnd
+     * @param  array{0: float, 1: float}  $point
+     * @param  array{0: float, 1: float}  $lineStart
+     * @param  array{0: float, 1: float}  $lineEnd
      */
     private static function perpendicularDistance(
         array $point,

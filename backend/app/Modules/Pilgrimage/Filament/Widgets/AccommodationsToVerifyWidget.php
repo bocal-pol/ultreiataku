@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Pilgrimage\Filament\Widgets;
 
 use App\Modules\Pilgrimage\Models\Accommodation;
+use Filament\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -53,8 +54,8 @@ class AccommodationsToVerifyWidget extends BaseWidget
                     ->badge()
                     ->color('warning'),
             ])
-            ->actions([
-                Tables\Actions\Action::make('verify')
+            ->recordActions([
+                Action::make('verify')
                     ->label('Valider maintenant')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')

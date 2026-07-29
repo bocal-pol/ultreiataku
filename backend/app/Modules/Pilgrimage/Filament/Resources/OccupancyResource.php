@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Filament\Resources\OccupancyResource\Pages;
 use App\Modules\Pilgrimage\Jobs\RebuildOccupancyForTripJob;
 use App\Modules\Pilgrimage\Models\Occupancy;
 use App\Modules\Pilgrimage\Models\Trip;
+use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Artisan;
+use UnitEnum;
 
 /**
  * ULTREIA-34 — OccupancyResource Filament.
@@ -107,7 +109,7 @@ class OccupancyResource extends Resource
             ])
             ->headerActions([
                 // Bouton Rebuild global — ADR-U03
-                Tables\Actions\Action::make('rebuild_all')
+                Action::make('rebuild_all')
                     ->label('Recalculer tout')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
@@ -119,18 +121,18 @@ class OccupancyResource extends Resource
                     })
                     ->successNotificationTitle('Occupancies recalculées'),
             ])
-            ->actions([
+            ->recordActions([
                 // Rebuild pour un Trip spécifique via le trip_id de l'occupancy
-                Tables\Actions\Action::make('rebuild_trip')
+                Action::make('rebuild_trip')
                     ->label('Recalculer Trip')
                     ->icon('heroicon-o-arrow-path')
                     ->color('warning')
                     ->action(fn (Occupancy $record) => RebuildOccupancyForTripJob::dispatchSync($record->trip_id))
                     ->successNotificationTitle('Occupancy du Trip recalculée'),
 
-                Tables\Actions\ViewAction::make(),
+                ViewAction::make(),
             ])
-            ->bulkActions([])
+            ->toolbarActions([])
             ->defaultSort('date', 'desc');
     }
 

@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\GpxPrecision;
 use App\Modules\Pilgrimage\Enums\GpxTraceType;
 use App\Modules\Pilgrimage\Filament\Resources\GpxTraceResource\Pages;
 use App\Modules\Pilgrimage\Models\GpxTrace;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Waypoint;
-use App\Modules\Pilgrimage\Services\GpxImportService;
-use App\Modules\Pilgrimage\Support\GpxXmlParser;
+use BackedEnum;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
-use Filament\Notifications\Notification;
+use Filament\Schemas;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Log;
+use UnitEnum;
 
 class GpxTraceResource extends Resource
 {
@@ -39,7 +38,7 @@ class GpxTraceResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Identification')->schema([
+            Schemas\Components\Section::make('Identification')->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nom')
                     ->required()
@@ -62,7 +61,7 @@ class GpxTraceResource extends Resource
                     ->nullable(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Association')->schema([
+            Schemas\Components\Section::make('Association')->schema([
                 Forms\Components\Select::make('stage_id')
                     ->label('Étape associée')
                     ->options(Stage::pluck('code', 'id'))
@@ -76,7 +75,7 @@ class GpxTraceResource extends Resource
                     ->nullable(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Import GPX')->schema([
+            Schemas\Components\Section::make('Import GPX')->schema([
                 Forms\Components\FileUpload::make('gpx_file')
                     ->label('Fichier GPX')
                     ->disk('local')
@@ -88,7 +87,7 @@ class GpxTraceResource extends Resource
                     ]),
             ]),
 
-            Forms\Components\Section::make('Métadonnées (auto-calculées à l\'import)')->schema([
+            Schemas\Components\Section::make('Métadonnées (auto-calculées à l\'import)')->schema([
                 Forms\Components\TextInput::make('distance_km')->label('Distance (km)')->numeric()->disabled(),
                 Forms\Components\TextInput::make('elevation_gain_m')->label('D+ (m)')->numeric()->disabled(),
                 Forms\Components\TextInput::make('elevation_loss_m')->label('D- (m)')->numeric()->disabled(),
@@ -124,9 +123,9 @@ class GpxTraceResource extends Resource
                     ->label('Étape')
                     ->options(Stage::pluck('code', 'id')),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->defaultSort('imported_at', 'desc');
     }

@@ -15,8 +15,11 @@ import type { MeResponseDto } from '../../dtos/pilgrimage.ts';
 import { mapCurrentUser } from '../../mappers/pilgrimage.ts';
 import type { CurrentUserModel } from '../../models/pilgrimage.ts';
 
-const AUTH_LOGIN_URL = import.meta.env['VITE_AUTH_LOGIN_URL'] as string | undefined
-  ?? '/auth/login';
+// URL absolue de l'UI de login du SSO central (Auth). Fallback sur l'origine
+// courante + /login pour rester une URL ABSOLUE (new URL() jette sur un chemin
+// relatif — cause d'un bouton "se connecter" muet si la variable est absente).
+const AUTH_LOGIN_URL = (import.meta.env['VITE_AUTH_LOGIN_URL'] as string | undefined)
+  ?? `${window.location.origin}/login`;
 
 export async function fetchMe(signal?: AbortSignal): Promise<CurrentUserModel> {
   const dto = await apiFetch<MeResponseDto>('/me', { signal });
@@ -30,7 +33,7 @@ export async function fetchMe(signal?: AbortSignal): Promise<CurrentUserModel> {
 export function redirectToLogin(returnPath?: string): void {
   // Le callback SSO Filament pose le cookie de session — le frontend
   // n'a pas besoin de recevoir de token, il récupère sa session via cookie.
-  const returnUrl = `${window.location.origin}/auth/callback`;
+  const returnUrl = `${window.location.origin}/callback`;
   const state = returnPath ?? window.location.pathname + window.location.search;
   sessionStorage.setItem('ultreia_return_path', state);
   const loginUrl = new URL(AUTH_LOGIN_URL);

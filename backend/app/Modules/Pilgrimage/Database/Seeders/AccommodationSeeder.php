@@ -397,6 +397,7 @@ class AccommodationSeeder extends Seeder
 
             if ($stageId === null) {
                 $this->command->warn("AccommodationSeeder : stage {$item['stage_code']} introuvable — skipping.");
+
                 continue;
             }
 

@@ -7,6 +7,7 @@ namespace App\Modules\Pilgrimage\Database\Seeders;
 use App\Modules\Pilgrimage\Models\GpxTrace;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Services\GpxImportService;
+use App\Modules\Pilgrimage\Support\GpxXmlParser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -80,6 +81,7 @@ class GpxTraceSeeder extends Seeder
             if ($stage === null) {
                 $this->command->warn("Étape {$stageCode} non trouvée en base, skip GPX {$filename}.");
                 $skipped++;
+
                 continue;
             }
 
@@ -87,6 +89,7 @@ class GpxTraceSeeder extends Seeder
             if ($stage->gpxTraces()->where('trace_type', 'stage_main')->exists()) {
                 $this->command->line("  GPX {$stageCode} déjà importé, skip.");
                 $skipped++;
+
                 continue;
             }
 
@@ -100,6 +103,7 @@ class GpxTraceSeeder extends Seeder
                 } else {
                     $this->command->warn("Fichier source GPX introuvable : {$sourcePath}. Skip {$stageCode}.");
                     $skipped++;
+
                     continue;
                 }
             }
@@ -110,6 +114,7 @@ class GpxTraceSeeder extends Seeder
                 if ($gpxContent === false || empty(trim($gpxContent))) {
                     $this->command->warn("Fichier GPX vide : {$filename}. Skip {$stageCode}.");
                     $skipped++;
+
                     continue;
                 }
 
@@ -140,6 +145,7 @@ class GpxTraceSeeder extends Seeder
                 } catch (\Throwable $fallbackError) {
                     $this->command->error("  {$stageCode} : fallback échoué — {$fallbackError->getMessage()}");
                     $errors++;
+
                     continue;
                 }
 
@@ -165,7 +171,7 @@ class GpxTraceSeeder extends Seeder
         string $filename,
         string $stageCode,
     ): void {
-        $parser = new \App\Modules\Pilgrimage\Support\GpxXmlParser();
+        $parser = new GpxXmlParser;
         $parsed = $parser->parse($gpxContent);
 
         GpxTrace::updateOrCreate(

@@ -77,7 +77,7 @@ class RebuildOccupancyForTripJob implements ShouldQueue
     }
 
     /**
-     * @param array<string, array{accommodation_id: string, date: string, trip_id: string, count: int}> $counts
+     * @param  array<string, array{accommodation_id: string, date: string, trip_id: string, count: int}>  $counts
      */
     private function accumulateOneDeparture(Departure $departure, array &$counts): void
     {

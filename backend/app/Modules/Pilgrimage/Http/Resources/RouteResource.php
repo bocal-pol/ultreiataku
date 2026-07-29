@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Http\Resources;
 
+use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,7 +12,7 @@ class RouteResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        /** @var \App\Modules\Pilgrimage\Models\PilgrimageRoute $this */
+        /** @var PilgrimageRoute $this */
         $locale = $request->header('Accept-Language', 'fr');
         $locale = in_array($locale, ['fr', 'nl', 'de']) ? $locale : 'fr';
 

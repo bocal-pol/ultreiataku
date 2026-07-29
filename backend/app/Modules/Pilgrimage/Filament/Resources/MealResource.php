@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Modules\Pilgrimage\Filament\Resources;
 
-use BackedEnum;
-use UnitEnum;
 use App\Modules\Pilgrimage\Enums\MealContext;
 use App\Modules\Pilgrimage\Enums\MealType;
 use App\Modules\Pilgrimage\Filament\Resources\MealResource\Pages;
 use App\Modules\Pilgrimage\Models\Meal;
 use App\Modules\Pilgrimage\Models\Stage;
+use BackedEnum;
+use Filament\Actions\EditAction;
 use Filament\Forms;
-use Filament\Schemas\Schema;
+use Filament\Schemas;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class MealResource extends Resource
 {
@@ -34,7 +36,7 @@ class MealResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Identification')->schema([
+            Schemas\Components\Section::make('Identification')->schema([
                 Forms\Components\Select::make('stage_id')
                     ->label('Étape')
                     ->options(Stage::orderBy('sort_order')->pluck('code', 'id'))
@@ -54,31 +56,31 @@ class MealResource extends Resource
                     ->default(MealContext::Restaurant->value),
             ])->columns(3),
 
-            Forms\Components\Section::make('Nom (i18n)')->schema([
+            Schemas\Components\Section::make('Nom (i18n)')->schema([
                 Forms\Components\TextInput::make('name.fr')->label('Nom (FR)')->required()->maxLength(300),
                 Forms\Components\TextInput::make('name.nl')->label('Naam (NL)')->required()->maxLength(300),
                 Forms\Components\TextInput::make('name.de')->label('Name (DE)')->required()->maxLength(300),
             ])->columns(3),
 
-            Forms\Components\Section::make('Description (i18n)')->schema([
+            Schemas\Components\Section::make('Description (i18n)')->schema([
                 Forms\Components\Textarea::make('description.fr')->label('Description (FR)')->rows(2)->nullable(),
                 Forms\Components\Textarea::make('description.nl')->label('Beschrijving (NL)')->rows(2)->nullable(),
                 Forms\Components\Textarea::make('description.de')->label('Beschreibung (DE)')->rows(2)->nullable(),
             ])->columns(3),
 
-            Forms\Components\Section::make('Restaurant')->schema([
+            Schemas\Components\Section::make('Restaurant')->schema([
                 Forms\Components\TextInput::make('restaurant_name')->label('Nom restaurant')->maxLength(200)->nullable(),
                 Forms\Components\TextInput::make('restaurant_address')->label('Adresse restaurant')->maxLength(300)->nullable(),
             ])->columns(2),
 
-            Forms\Components\Section::make('Métriques')->schema([
+            Schemas\Components\Section::make('Métriques')->schema([
                 Forms\Components\TextInput::make('price_estimate_eur')->label('Prix estimé (€)')->numeric()->step(0.01)->nullable(),
                 Forms\Components\TextInput::make('kcal_estimate')->label('Calories estimées (kcal)')->numeric()->nullable(),
                 Forms\Components\TextInput::make('weight_g')->label('Poids portée (g)')->numeric()->nullable()
                     ->helperText('Pour repas bivouac portés uniquement'),
             ])->columns(3),
 
-            Forms\Components\Section::make('Notes (i18n)')->schema([
+            Schemas\Components\Section::make('Notes (i18n)')->schema([
                 Forms\Components\Textarea::make('notes.fr')->label('Notes (FR)')->rows(2)->nullable(),
                 Forms\Components\Textarea::make('notes.nl')->label('Notities (NL)')->rows(2)->nullable(),
                 Forms\Components\Textarea::make('notes.de')->label('Hinweise (DE)')->rows(2)->nullable(),
@@ -129,8 +131,8 @@ class MealResource extends Resource
                     ->label('Contexte')
                     ->options(collect(MealContext::cases())->mapWithKeys(fn ($c) => [$c->value => $c->label()])),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
             ->defaultSort('stage_id');
     }

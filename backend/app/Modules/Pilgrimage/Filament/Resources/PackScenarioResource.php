@@ -11,7 +11,12 @@ use App\Modules\Pilgrimage\Filament\Resources\PackScenarioResource\RelationManag
 use App\Modules\Pilgrimage\Models\PackScenario;
 use App\Modules\Pilgrimage\Models\Pilgrim;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -45,7 +50,7 @@ class PackScenarioResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Identification')->schema([
+            Schemas\Components\Section::make('Identification')->schema([
                 Forms\Components\Select::make('pilgrim_id')
                     ->label('Pèlerin')
                     ->options(Pilgrim::orderBy('display_name')->pluck('display_name', 'id'))
@@ -81,7 +86,7 @@ class PackScenarioResource extends Resource
                     ->helperText('RG-01 : vert ≤ objectif, orange ≤ +1 kg, rouge > +1 kg'),
             ])->columns(2),
 
-            Forms\Components\Section::make('Description')->schema([
+            Schemas\Components\Section::make('Description')->schema([
                 Forms\Components\Textarea::make('description')
                     ->label('Description')
                     ->rows(3)
@@ -141,13 +146,13 @@ class PackScenarioResource extends Resource
                     ->label('Saison')
                     ->options(collect(PackSeason::cases())->mapWithKeys(fn ($s) => [$s->value => $s->label()])),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

@@ -48,7 +48,7 @@ class TripPolicyTest extends TestCase
     {
         parent::setUp();
 
-        $this->policy = new TripPolicy();
+        $this->policy = new TripPolicy;
         $route = PilgrimageRoute::factory()->create();
 
         $this->organizerUser = User::factory()->create();

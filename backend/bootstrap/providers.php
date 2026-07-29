@@ -1,11 +1,16 @@
 <?php
 
+use App\Modules\Pilgrimage\Providers\PilgrimageServiceProvider;
+use App\Modules\Vault\Providers\VaultServiceProvider;
+use App\Providers\AppServiceProvider;
+use App\Providers\Filament\AdminPanelProvider;
+
 return [
     // RÈGLE ABSOLUE : VaultServiceProvider TOUJOURS PREMIER
     // Override la config AVANT que les connexions DB/Redis/MinIO soient ouvertes.
-    App\Modules\Vault\Providers\VaultServiceProvider::class,
+    VaultServiceProvider::class,
 
-    App\Providers\AppServiceProvider::class,
-    App\Providers\Filament\AdminPanelProvider::class,
-    App\Modules\Pilgrimage\Providers\PilgrimageServiceProvider::class,
+    AppServiceProvider::class,
+    AdminPanelProvider::class,
+    PilgrimageServiceProvider::class,
 ];

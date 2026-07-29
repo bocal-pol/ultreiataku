@@ -22,19 +22,19 @@ class JournalPhotoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'               => $this->id,
+            'id' => $this->id,
             'journal_entry_id' => $this->journal_entry_id,
-            'proxy_url'        => route('api.pilgrimage.journal.photos.stream', ['id' => $this->id]),
-            'alt_text'         => $this->alt_text,
-            'caption'          => $this->caption,
-            'taken_at'         => $this->taken_at?->toIso8601String(),
-            'latitude'         => $this->latitude,
-            'longitude'        => $this->longitude,
-            'file_size_bytes'  => $this->file_size_bytes,
-            'mime_type'        => $this->mime_type,
-            'sort_order'       => $this->sort_order,
-            'is_synced'        => $this->is_synced,
-            'created_at'       => $this->created_at?->toIso8601String(),
+            'proxy_url' => route('api.pilgrimage.journal.photos.stream', ['id' => $this->id]),
+            'alt_text' => $this->alt_text,
+            'caption' => $this->caption,
+            'taken_at' => $this->taken_at?->toIso8601String(),
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'file_size_bytes' => $this->file_size_bytes,
+            'mime_type' => $this->mime_type,
+            'sort_order' => $this->sort_order,
+            'is_synced' => $this->is_synced,
+            'created_at' => $this->created_at?->toIso8601String(),
         ];
     }
 }

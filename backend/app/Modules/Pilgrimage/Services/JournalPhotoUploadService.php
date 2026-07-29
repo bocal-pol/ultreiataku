@@ -70,20 +70,20 @@ class JournalPhotoUploadService
         Storage::disk('minio_journal')->put($path, $stripped, 'private');
 
         Log::info('journal.photo.uploaded', [
-            'entry_id'     => $entryId,
-            'path'         => $path,
+            'entry_id' => $entryId,
+            'path' => $path,
             'keep_location' => $keepLocation,
-            'has_coords'   => $latitude !== null,
+            'has_coords' => $latitude !== null,
         ]);
 
         return [
-            'minio_path'      => $path,
-            'minio_disk'      => 'minio_journal',
-            'mime_type'       => 'image/jpeg',
+            'minio_path' => $path,
+            'minio_disk' => 'minio_journal',
+            'mime_type' => 'image/jpeg',
             'file_size_bytes' => strlen($stripped),
-            'latitude'        => $latitude,
-            'longitude'       => $longitude,
-            'taken_at'        => $takenAt,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'taken_at' => $takenAt,
         ];
     }
 
@@ -108,12 +108,9 @@ class JournalPhotoUploadService
         $isPng = str_contains($mimeType, 'png');
 
         $image = match (true) {
-            str_contains($mimeType, 'jpeg'), str_contains($mimeType, 'jpg')
-                => imagecreatefromjpeg($file->getRealPath()),
-            $isPng
-                => imagecreatefrompng($file->getRealPath()),
-            str_contains($mimeType, 'webp')
-                => imagecreatefromwebp($file->getRealPath()),
+            str_contains($mimeType, 'jpeg'), str_contains($mimeType, 'jpg') => imagecreatefromjpeg($file->getRealPath()),
+            $isPng => imagecreatefrompng($file->getRealPath()),
+            str_contains($mimeType, 'webp') => imagecreatefromwebp($file->getRealPath()),
             default => imagecreatefromjpeg($file->getRealPath()),
         };
 
@@ -125,7 +122,7 @@ class JournalPhotoUploadService
 
         // I-03 — Aplatir la transparence PNG sur fond blanc avant conversion JPEG
         if ($isPng) {
-            $width  = imagesx($image);
+            $width = imagesx($image);
             $height = imagesy($image);
             $canvas = imagecreatetruecolor($width, $height);
 
@@ -192,9 +189,9 @@ class JournalPhotoUploadService
             return [null, null, null];
         }
 
-        $latitude  = $this->parseGpsCoordinate($exif, 'GPSLatitude', $exif['GPSLatitudeRef'] ?? 'N');
+        $latitude = $this->parseGpsCoordinate($exif, 'GPSLatitude', $exif['GPSLatitudeRef'] ?? 'N');
         $longitude = $this->parseGpsCoordinate($exif, 'GPSLongitude', $exif['GPSLongitudeRef'] ?? 'E');
-        $takenAt   = isset($exif['DateTimeOriginal'])
+        $takenAt = isset($exif['DateTimeOriginal'])
             ? date('Y-m-d H:i:s', strtotime($exif['DateTimeOriginal']))
             : null;
 
@@ -204,7 +201,7 @@ class JournalPhotoUploadService
     /**
      * Convertit une coordonnée GPS EXIF (degrés/minutes/secondes) en décimal.
      *
-     * @param array<string, mixed> $exif
+     * @param  array<string, mixed>  $exif
      */
     private function parseGpsCoordinate(array $exif, string $key, string $ref): ?float
     {
@@ -214,9 +211,9 @@ class JournalPhotoUploadService
 
         $parts = $exif[$key];
 
-        $deg  = $this->evalFraction((string) $parts[0]);
-        $min  = $this->evalFraction((string) $parts[1]);
-        $sec  = $this->evalFraction((string) $parts[2]);
+        $deg = $this->evalFraction((string) $parts[0]);
+        $min = $this->evalFraction((string) $parts[1]);
+        $sec = $this->evalFraction((string) $parts[2]);
 
         $decimal = $deg + ($min / 60) + ($sec / 3600);
 

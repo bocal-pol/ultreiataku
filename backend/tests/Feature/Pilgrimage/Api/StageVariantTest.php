@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Pilgrimage\Api;
 
-use App\Modules\Pilgrimage\Models\PilgrimageRoute;
 use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Waypoint;
 use Illuminate\Foundation\Testing\RefreshDatabase;

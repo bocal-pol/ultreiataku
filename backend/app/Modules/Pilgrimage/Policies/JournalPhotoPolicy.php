@@ -78,7 +78,7 @@ class JournalPhotoPolicy
     /**
      * Ajouter une photo : auteur de l'entrée parente.
      */
-    public function create(User $user, JournalEntry $entry): bool
+    public function create(User $user, ?JournalEntry $entry = null): bool
     {
         $pilgrim = $this->resolvePilgrim($user);
 

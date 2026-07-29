@@ -14,6 +14,7 @@ use App\Modules\Pilgrimage\Models\Stage;
 use App\Modules\Pilgrimage\Models\Trip;
 use App\Modules\Pilgrimage\Models\Waypoint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 /**
@@ -197,7 +198,7 @@ class OccupancyRg02Test extends TestCase
 
     public function test_observer_dispatches_rebuild_on_departure_created(): void
     {
-        \Illuminate\Support\Facades\Queue::fake();
+        Queue::fake();
 
         $stage1 = $this->createStage('TS-01F', 1);
         $stage2 = $this->createStage('TS-02F', 2);
@@ -211,7 +212,7 @@ class OccupancyRg02Test extends TestCase
             'status' => 'planned',
         ]);
 
-        \Illuminate\Support\Facades\Queue::assertPushed(RebuildOccupancyForTripJob::class);
+        Queue::assertPushed(RebuildOccupancyForTripJob::class);
     }
 
     // ─── Helper ──────────────────────────────────────────────────────────────

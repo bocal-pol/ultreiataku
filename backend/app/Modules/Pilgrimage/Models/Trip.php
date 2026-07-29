@@ -20,6 +20,7 @@ class Trip extends Model
 {
     /** @use HasFactory<TripFactory> */
     use HasFactory;
+
     use HasUuids;
 
     /** @var list<string> */
@@ -65,8 +66,7 @@ class Trip extends Model
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(Pilgrim::class, 'trip_members', 'trip_id', 'pilgrim_id')
-            ->withPivot(['role', 'joined_at', 'invited_by'])
-            ;
+            ->withPivot(['role', 'joined_at', 'invited_by']);
     }
 
     public function departures(): HasMany

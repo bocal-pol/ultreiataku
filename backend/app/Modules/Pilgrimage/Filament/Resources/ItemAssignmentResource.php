@@ -11,7 +11,12 @@ use App\Modules\Pilgrimage\Models\PackItem;
 use App\Modules\Pilgrimage\Models\Pilgrim;
 use App\Modules\Pilgrimage\Models\Stage;
 use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms;
+use Filament\Schemas;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
@@ -42,7 +47,7 @@ class ItemAssignmentResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Assignation')->schema([
+            Schemas\Components\Section::make('Assignation')->schema([
                 Forms\Components\Select::make('pack_item_id')
                     ->label('Item de sac')
                     ->options(PackItem::query()
@@ -143,13 +148,13 @@ class ItemAssignmentResource extends Resource
                     ->label('Pèlerin assigné')
                     ->options(Pilgrim::orderBy('display_name')->pluck('display_name', 'id')),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

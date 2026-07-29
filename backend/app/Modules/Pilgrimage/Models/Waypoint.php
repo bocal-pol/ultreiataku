@@ -19,6 +19,7 @@ class Waypoint extends Model
 {
     /** @use HasFactory<WaypointFactory> */
     use HasFactory;
+
     use HasTranslations;
     use HasUuids;
 

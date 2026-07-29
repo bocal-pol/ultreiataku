@@ -65,6 +65,7 @@ class StagePOISeeder extends Seeder
 
             if ($stage === null) {
                 $this->command->warn("Étape {$stageCode} non trouvée, skip.");
+
                 continue;
             }
 
@@ -73,6 +74,7 @@ class StagePOISeeder extends Seeder
 
                 if ($waypoint === null) {
                     $this->command->warn("Waypoint {$poiData['slug']} non trouvé, skip.");
+
                     continue;
                 }
 

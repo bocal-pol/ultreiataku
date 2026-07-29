@@ -5,11 +5,37 @@
  */
 
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/useAuth.ts';
 
 export function SplashScreen() {
   const { t } = useTranslation('pilgrimage');
-  const { login } = useAuth();
+  const { login, isAuthenticated, isLoading } = useAuth();
+
+  // Déjà connecté → on ne montre pas l'écran de login, on entre dans l'app.
+  if (isAuthenticated) {
+    return <Navigate to="/belgique" replace />;
+  }
+
+  // Session en cours de vérification → écran neutre (évite le flash « se connecter »).
+  if (isLoading) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          backgroundColor: 'var(--color-bg-base)',
+          color: 'var(--color-text-tertiary)',
+        }}
+      >
+        {t('auth.connecting')}
+      </div>
+    );
+  }
 
   return (
     <div

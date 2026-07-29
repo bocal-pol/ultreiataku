@@ -1,13 +1,13 @@
 /**
- * AuthCallbackScreen — /auth/callback
+ * AuthCallbackScreen — /callback
  *
  * P0-01 (SEC-ULTREIA-AUTH) — Adapté au flow session cookie.
  *
  * Dans le nouveau flow SSO :
- *   1. SPA → redirectToLogin() → Auth central (?return=/auth/callback)
+ *   1. SPA → redirectToLogin() → Auth central (?return=/callback)
  *   2. Auth central → backend /admin/sso/callback?code=...&state=...
  *   3. Backend pose le cookie de session HttpOnly (Auth::login + regenerate)
- *   4. Backend redirige vers le frontend → /auth/callback
+ *   4. Backend redirige vers le frontend → /callback
  *   5. Ce composant vérifie la session via fetchMe() (credentials: 'include')
  *      → 200 : session cookie valide → redirige vers returnPath
  *      → 401 : session absente → affiche erreur

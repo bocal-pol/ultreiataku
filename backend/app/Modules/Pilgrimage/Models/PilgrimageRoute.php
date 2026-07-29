@@ -16,6 +16,7 @@ class PilgrimageRoute extends Model
 {
     /** @use HasFactory<PilgrimageRouteFactory> */
     use HasFactory;
+
     use HasTranslations;
     use HasUuids;
 

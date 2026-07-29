@@ -23,7 +23,7 @@ final class GpxXmlParser
      */
     public static function parse(string $gpxContent): array
     {
-        $reader = new \XMLReader();
+        $reader = new \XMLReader;
 
         if (! $reader->XML($gpxContent, null, LIBXML_NOWARNING | LIBXML_NOERROR)) {
             throw new RuntimeException('Contenu GPX invalide — impossible de parser le XML.');
@@ -98,7 +98,7 @@ final class GpxXmlParser
     }
 
     /**
-     * @param array<int, array{lat: float, lon: float, ele: float|null}> $points
+     * @param  array<int, array{lat: float, lon: float, ele: float|null}>  $points
      * @return array{distance_km: float, elevation_gain_m: int, elevation_loss_m: int}
      */
     private static function computeMetrics(array $points): array
