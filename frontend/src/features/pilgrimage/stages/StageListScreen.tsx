@@ -44,7 +44,6 @@ export function StageListScreen() {
 
   const { data: stages, isLoading, isError, error } = useStages(activeCountry);
 
-  const isBelgique = activeCountry === 'BE';
 
   // BUG-P1-001 : groupement par route pour éviter l'entremêlement des étapes
   const routeGroups = stages ? groupStagesByRoute(stages) : [];
@@ -183,16 +182,11 @@ export function StageListScreen() {
           </div>
         )}
 
-        {/* France / Espagne : message "bientôt" */}
-        {!isBelgique && !isLoading && (
-          <EmptyState message={t(`stages.empty_${activeCountry.toLowerCase()}` as 'stages.empty_fr' | 'stages.empty_es')} />
-        )}
+        {/* Loading skeleton — tous pays */}
+        {isLoading && <SkeletonCard count={6} />}
 
-        {/* Loading skeleton */}
-        {isLoading && isBelgique && <SkeletonCard count={6} />}
-
-        {/* BUG-P1-001 — Liste étapes groupées par voie */}
-        {isBelgique && stages && routeGroups.map(group => (
+        {/* Liste étapes groupées par voie — BE, FR et ES (seedés) */}
+        {stages && routeGroups.map(group => (
           <div key={group.routeId} role="list" aria-label={group.routeName ?? t('stages.list_title')}>
             {/* En-tête de voie — affiché uniquement si plusieurs routes coexistent */}
             {hasMultipleRoutes && group.routeName && (
@@ -221,7 +215,7 @@ export function StageListScreen() {
           </div>
         ))}
 
-        {isBelgique && stages?.length === 0 && !isLoading && (
+        {stages?.length === 0 && !isLoading && !isError && (
           <EmptyState message={t('error.offline_fetch')} />
         )}
       </div>
