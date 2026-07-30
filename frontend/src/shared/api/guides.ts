@@ -20,11 +20,16 @@ import type { GuideListItemModel, GuideDetailModel } from '../../models/pilgrima
 
 /**
  * Récupère la liste de tous les guides publiés.
- * Le backend renvoie `{ data: GuideListItemResponseDto[] }`.
+ * Le backend renvoie `{ data: { "Le Corps": GuideListItemResponseDto[], "Pratique": [...] } }`
+ * (objet groupé par catégorie). On l'aplatit en tableau — le composant regroupe
+ * lui-même par `category` en préservant l'ordre.
  */
 export async function fetchGuides(signal?: AbortSignal): Promise<GuideListItemModel[]> {
   const dto = await apiFetch<GuideListResponseDto>('/guides', { signal });
-  return dto.data.map(mapGuideListItem);
+  const groups = dto.data ?? {};
+  return Object.values(groups)
+    .flat()
+    .map(mapGuideListItem);
 }
 
 /**

@@ -242,5 +242,6 @@ export interface GuideDetailResponseDto {
 }
 
 export interface GuideListResponseDto {
-  data: GuideListItemResponseDto[];
+  // Groupé par catégorie côté backend : { "Le Corps": [...], "Pratique": [...] }
+  data: Record<string, GuideListItemResponseDto[]>;
 }
