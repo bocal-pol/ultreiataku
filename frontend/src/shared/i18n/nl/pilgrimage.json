@@ -211,7 +211,8 @@
       "stages": "Etappes",
       "pack": "Rugzak",
       "journal": "Dagboek",
-      "profile": "Ik"
+      "profile": "Ik",
+      "guides": "Gidsen"
     },
     "placeholder": {
       "trip_coming_soon": "Trips — binnenkort",
@@ -244,7 +245,20 @@
       "login_cta": "Aanmelden",
       "logout": "Afmelden",
       "connecting": "Verbinding maken…",
-      "login_required": "Meld u aan om toegang te krijgen tot deze functie."
+      "login_required": "Meld u aan om toegang te krijgen tot deze functie.",
+      "logout_cta": "Het Pad verlaten"
+    },
+    "profile": {
+      "settings_section": "Instellingen",
+      "admin_link": "Beheer",
+      "guides_link": "De Weg voorbereiden"
+    },
+    "guides": {
+      "title": "De Weg voorbereiden",
+      "empty": "Nog geen gidsen beschikbaar. Kom binnenkort terug, reisgenoot.",
+      "loading": "Gidsen worden geladen…",
+      "back": "Gidsen",
+      "error": "Gidsen kunnen niet worden geladen. Controleer uw verbinding."
     }
   }
 }

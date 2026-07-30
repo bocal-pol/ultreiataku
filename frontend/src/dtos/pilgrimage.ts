@@ -223,3 +223,24 @@ export interface TripJoinPreviewResponseDto {
   trip: TripResponseDto;
   role: 'organizer' | 'participant' | 'observer';
 }
+
+// ─── Guides ────────────────────────────────────────────────────────────────────────────────
+export interface GuideListItemResponseDto {
+  slug: string;
+  category: string;
+  title: string;
+  icon: string;
+}
+
+export interface GuideDetailResponseDto {
+  slug: string;
+  category: string;
+  title: string;
+  icon: string;
+  /** Contenu Markdown brut — rendu côté client par MarkdownRenderer */
+  content: string;
+}
+
+export interface GuideListResponseDto {
+  data: GuideListItemResponseDto[];
+}

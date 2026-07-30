@@ -42,9 +42,23 @@ export function redirectToLogin(returnPath?: string): void {
   window.location.href = loginUrl.toString();
 }
 
-export function logout(): void {
-  // Pas de localStorage à nettoyer — la session est côté serveur.
-  // Le backend doit invalider la session via POST /logout (à implémenter).
-  // En attendant, redirection vers le frontend qui perd sa session au prochain /me.
-  window.location.href = '/belgique';
+/**
+ * Déconnecte le pèlerin :
+ * 1. Appelle POST /api/pilgrimage/logout pour invalider la session côté serveur.
+ * 2. Redirige vers / (SplashScreen) quelle que soit l'issue du POST.
+ *
+ * L'erreur réseau est silencieuse — si le serveur est injoignable ou si la session
+ * est déjà expirée, on redirige quand même vers l'accueil.
+ */
+export async function logout(): Promise<void> {
+  try {
+    await fetch('/api/pilgrimage/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    });
+  } catch {
+    // Session serveur déjà expirée ou réseau absent — continuer la déconnexion locale.
+  }
+  window.location.href = '/';
 }

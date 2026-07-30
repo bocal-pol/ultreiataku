@@ -211,7 +211,8 @@
       "stages": "Etappen",
       "pack": "Rucksack",
       "journal": "Tagebuch",
-      "profile": "Ich"
+      "profile": "Ich",
+      "guides": "Leitfäden"
     },
     "placeholder": {
       "trip_coming_soon": "Trips — demnächst",
@@ -244,7 +245,20 @@
       "login_cta": "Anmelden",
       "logout": "Abmelden",
       "connecting": "Verbindung wird hergestellt…",
-      "login_required": "Melden Sie sich an, um auf diese Funktion zuzugreifen."
+      "login_required": "Melden Sie sich an, um auf diese Funktion zuzugreifen.",
+      "logout_cta": "Den Weg verlassen"
+    },
+    "profile": {
+      "settings_section": "Einstellungen",
+      "admin_link": "Verwaltung",
+      "guides_link": "Den Weg vorbereiten"
+    },
+    "guides": {
+      "title": "Den Weg vorbereiten",
+      "empty": "Noch keine Leitfäden verfügbar. Kommen Sie bald wieder, Mitpilger.",
+      "loading": "Leitfäden werden geladen…",
+      "back": "Leitfäden",
+      "error": "Leitfäden können nicht geladen werden. Überprüfen Sie Ihre Verbindung."
     }
   }
 }

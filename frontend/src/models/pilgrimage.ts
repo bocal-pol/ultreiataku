@@ -183,3 +183,21 @@ export interface TripJoinPreviewModel {
   trip: TripModel;
   role: 'organizer' | 'participant' | 'observer';
 }
+
+// ─── Guides ──────────────────────────────────────────────────────────────────
+
+export interface GuideListItemModel {
+  slug: string;
+  category: string;
+  title: string;
+  icon: string;
+}
+
+export interface GuideDetailModel {
+  slug: string;
+  category: string;
+  title: string;
+  icon: string;
+  /** Contenu Markdown brut — rendu côté client par MarkdownRenderer */
+  content: string;
+}

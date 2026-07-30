@@ -23,6 +23,9 @@ import { JournalEntryFormScreen } from './features/pilgrimage/journal/JournalEnt
 import { JournalTripSelectorScreen } from './features/pilgrimage/journal/JournalTripSelectorScreen.tsx';
 // FIX-PROFIL-001 — Écran Profil réel (remplace placeholder "à venir")
 import { ProfileScreen } from './features/pilgrimage/profile/ProfileScreen.tsx';
+// QUICK-WIN-001 — Guides du Chemin (préparation)
+import { GuidesScreen } from './features/pilgrimage/guides/GuidesScreen.tsx';
+import { GuideDetailScreen } from './features/pilgrimage/guides/GuideDetailScreen.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -61,6 +64,10 @@ export default function App() {
                 <Route path="/etapes/:code" element={<StageDetailScreen />} />
                 <Route path="/carte" element={<MapScreen />} />
                 <Route path="/carte/:code" element={<MapScreen />} />
+
+                {/* Guides du Chemin — lecture publique, pas d'auth requise */}
+                <Route path="/guides" element={<GuidesScreen />} />
+                <Route path="/guides/:slug" element={<GuideDetailScreen />} />
 
                 {/* Invitation — accessible sans auth (gère redirect login en interne) */}
                 <Route path="/trips/join/:token" element={<TripJoinScreen />} />

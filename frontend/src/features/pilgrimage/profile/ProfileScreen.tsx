@@ -5,15 +5,37 @@
  *
  * FIX-PROFIL-001 : données issues de useAuth().currentUser (CurrentUserModel)
  * + useMyTrips() pour la liste des voyages — aucun DTO brut dans ce composant.
+ *
+ * QUICK-WIN-001 : ajout bouton "Quitter le Chemin" (logout), lien Administration
+ * (VITE_ADMIN_URL) et lien "Préparer le Chemin" (guides).
  */
 
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/useAuth.ts';
 import { useMyTrips } from '../../../shared/hooks/useTrips.ts';
 import { SkeletonCard } from '../../../shared/ui/SkeletonCard.tsx';
 import { EmptyState } from '../../../shared/ui/EmptyState.tsx';
 import type { TripModel } from '../../../models/pilgrimage.ts';
+
+const ADMIN_URL = (import.meta.env['VITE_ADMIN_URL'] as string | undefined)
+  ?? 'http://localhost:8096/admin';
+
+// ─── Icônes ───────────────────────────────────────────────────────────────────
+
+const ExternalLinkIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+
+const ChevronRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M9 18l6-6-6-6" />
+  </svg>
+);
 
 // ─── Sous-composants ─────────────────────────────────────────────────────────
 
@@ -111,7 +133,7 @@ function TripSummaryRow({ trip, onClick }: { trip: TripModel; onClick: () => voi
 export function ProfileScreen() {
   const { t } = useTranslation('pilgrimage');
   const navigate = useNavigate();
-  const { currentUser, isAuthenticated, isLoading: authLoading, login } = useAuth();
+  const { currentUser, isAuthenticated, isLoading: authLoading, login, logout } = useAuth();
 
   // useMyTrips retourne [] si non authentifié ou si 401 (retry=false pour 401)
   const { data: trips, isLoading: tripsLoading } = useMyTrips();
@@ -305,6 +327,101 @@ export function ProfileScreen() {
             >
               {t('trip.new_trip')}
             </button>
+          </section>
+        )}
+
+        {/* Section Paramètres — toujours visible si connecté */}
+        {!authLoading && isAuthenticated && (
+          <section aria-labelledby="profile-settings-heading">
+            <h2
+              id="profile-settings-heading"
+              style={{
+                fontSize: 'var(--font-size-xs)',
+                fontWeight: 'var(--font-weight-semibold)',
+                letterSpacing: 'var(--letter-spacing-wide)',
+                textTransform: 'uppercase',
+                color: 'var(--color-text-tertiary)',
+                fontFamily: 'var(--font-family-interface)',
+                margin: '0 0 var(--space-2) 0',
+              }}
+            >
+              {t('profile.settings_section')}
+            </h2>
+
+            <div style={{
+              backgroundColor: 'var(--color-bg-elevated)',
+              borderRadius: 'var(--radius-lg)',
+              border: '1px solid var(--color-border-subtle)',
+              overflow: 'hidden',
+            }}>
+              {/* Lien Guides du Chemin */}
+              <Link
+                to="/guides"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: 'var(--space-3) var(--space-4)',
+                  borderBottom: '1px solid var(--color-border-subtle)',
+                  textDecoration: 'none',
+                  color: 'var(--color-text-primary)',
+                  fontSize: 'var(--font-size-sm)',
+                  minHeight: '48px',
+                  WebkitTapHighlightColor: 'transparent',
+                }}
+              >
+                <span>{t('profile.guides_link')}</span>
+                <ChevronRightIcon />
+              </Link>
+
+              {/* Lien Administration (Filament) — nouvel onglet */}
+              <a
+                href={ADMIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="profile-admin-link"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: 'var(--space-3) var(--space-4)',
+                  borderBottom: '1px solid var(--color-border-subtle)',
+                  textDecoration: 'none',
+                  color: 'var(--color-text-primary)',
+                  fontSize: 'var(--font-size-sm)',
+                  minHeight: '48px',
+                  WebkitTapHighlightColor: 'transparent',
+                }}
+              >
+                <span>{t('profile.admin_link')}</span>
+                <ExternalLinkIcon />
+              </a>
+
+              {/* Bouton Quitter le Chemin (logout) */}
+              <button
+                type="button"
+                data-testid="profile-logout-btn"
+                onClick={() => logout()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  width: '100%',
+                  textAlign: 'left',
+                  background: 'none',
+                  border: 'none',
+                  padding: 'var(--space-3) var(--space-4)',
+                  color: 'var(--color-error, #e8503a)',
+                  fontSize: 'var(--font-size-sm)',
+                  fontWeight: 'var(--font-weight-medium)',
+                  cursor: 'pointer',
+                  minHeight: '48px',
+                  fontFamily: 'var(--font-family-interface)',
+                  WebkitTapHighlightColor: 'transparent',
+                }}
+              >
+                {t('auth.logout_cta')}
+              </button>
+            </div>
           </section>
         )}
       </div>

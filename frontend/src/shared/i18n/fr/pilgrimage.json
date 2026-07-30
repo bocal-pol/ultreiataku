@@ -211,7 +211,8 @@
       "stages": "Étapes",
       "pack": "Sac",
       "journal": "Journal",
-      "profile": "Moi"
+      "profile": "Moi",
+      "guides": "Guides"
     },
     "placeholder": {
       "trip_coming_soon": "Trips — à venir",
@@ -244,7 +245,20 @@
       "login_cta": "Se connecter",
       "logout": "Se déconnecter",
       "connecting": "Connexion en cours…",
-      "login_required": "Connectez-vous pour accéder à cette fonctionnalité."
+      "login_required": "Connectez-vous pour accéder à cette fonctionnalité.",
+      "logout_cta": "Quitter le Chemin"
+    },
+    "profile": {
+      "settings_section": "Paramètres",
+      "admin_link": "Administration",
+      "guides_link": "Préparer le Chemin"
+    },
+    "guides": {
+      "title": "Préparer le Chemin",
+      "empty": "Aucun guide disponible pour le moment. Revenez bientôt, compagnon.",
+      "loading": "Chargement des guides du Chemin…",
+      "back": "Guides",
+      "error": "Impossible de charger les guides. Vérifiez votre connexion."
     }
   }
 }

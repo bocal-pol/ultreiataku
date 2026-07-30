@@ -19,6 +19,8 @@ import type {
   OccupancyResponseDto,
   MeResponseDto,
   TripJoinPreviewResponseDto,
+  GuideListItemResponseDto,
+  GuideDetailResponseDto,
 } from '../dtos/pilgrimage.ts';
 import type {
   WaypointModel,
@@ -36,6 +38,8 @@ import type {
   OccupancyModel,
   CurrentUserModel,
   TripJoinPreviewModel,
+  GuideListItemModel,
+  GuideDetailModel,
 } from '../models/pilgrimage.ts';
 
 export function mapWaypoint(dto: WaypointResponseDto): WaypointModel {
@@ -242,5 +246,26 @@ export function mapTripJoinPreview(dto: TripJoinPreviewResponseDto): TripJoinPre
   return {
     trip: mapTrip(dto.trip),
     role: dto.role,
+  };
+}
+
+// ─── Guides ──────────────────────────────────────────────────────────────────
+
+export function mapGuideListItem(dto: GuideListItemResponseDto): GuideListItemModel {
+  return {
+    slug: dto.slug,
+    category: dto.category,
+    title: dto.title,
+    icon: dto.icon,
+  };
+}
+
+export function mapGuideDetail(dto: GuideDetailResponseDto): GuideDetailModel {
+  return {
+    slug: dto.slug,
+    category: dto.category,
+    title: dto.title,
+    icon: dto.icon,
+    content: dto.content,
   };
 }
