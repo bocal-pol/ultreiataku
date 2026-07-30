@@ -35,8 +35,9 @@ use Illuminate\Database\Seeder;
  *  24.  MealSeeder                     → repas Belgique
  *  25.  MealSeederFrance               → repas France (7 incontournables + régions)
  *  26.  MealSeederEspagne              → repas Espagne (pintxos, anchois, fabada, pulpo, tarta…)
- *  27.  PersonalTripSeeder             → seeds bocal (RÈGLE UTILISATEUR — vague 1c)
- *  28.  PackScenarioSeeder             → scénarios de sac bocal (ULTREIA-42 — vague 1d)
+ *  27.  GuideSectionSeeder             → sections Guide pèlerin (forme, santé, credencial, budget…)
+ *  28.  PersonalTripSeeder             → seeds bocal (RÈGLE UTILISATEUR — vague 1c)
+ *  29.  PackScenarioSeeder             → scénarios de sac bocal (ULTREIA-42 — vague 1d)
  */
 class PilgrimageSeeder extends Seeder
 {
@@ -86,6 +87,9 @@ class PilgrimageSeeder extends Seeder
             MealSeeder::class,
             MealSeederFrance::class,
             MealSeederEspagne::class,
+
+            // ── Guide pèlerin (sections de préparation) ───────────────────────
+            GuideSectionSeeder::class,
 
             // ── Usage personnel ───────────────────────────────────────────────
             PersonalTripSeeder::class,

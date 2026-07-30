@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Modules\Pilgrimage\Models\Accommodation;
 use App\Modules\Pilgrimage\Models\Departure;
 use App\Modules\Pilgrimage\Models\GpxTrace;
+use App\Modules\Pilgrimage\Models\GuideSection;
 use App\Modules\Pilgrimage\Models\ItemAssignment;
 use App\Modules\Pilgrimage\Models\JournalEntry;
 use App\Modules\Pilgrimage\Models\Meal;
@@ -76,6 +77,7 @@ class PanelSmokeTest extends TestCase
             $ns . 'PackItemResource\\Pages\\ListPackItems',
             $ns . 'ItemAssignmentResource\\Pages\\ListItemAssignments',
             $ns . 'JournalEntryResource\\Pages\\ListJournalEntries',
+            $ns . 'GuideSectionResource\\Pages\\ListGuideSections',
         ];
 
         foreach ($pages as $page) {
@@ -99,6 +101,7 @@ class PanelSmokeTest extends TestCase
         $accommodation = Accommodation::factory()->create(['stage_id' => $stage->id]);
         $meal = Meal::factory()->create(['stage_id' => $stage->id]);
         $gpxTrace = GpxTrace::factory()->create(['stage_id' => $stage->id]);
+        $guideSection = GuideSection::factory()->create();
 
         // ─── Ressources avec policy (bypass admin via session PanelAuth) ───────
         $pilgrim = Pilgrim::factory()->create();
@@ -132,6 +135,7 @@ class PanelSmokeTest extends TestCase
             [$ns . 'AccommodationResource\\Pages\\EditAccommodation', $accommodation->getKey()],
             [$ns . 'MealResource\\Pages\\EditMeal', $meal->getKey()],
             [$ns . 'GpxTraceResource\\Pages\\EditGpxTrace', $gpxTrace->getKey()],
+            [$ns . 'GuideSectionResource\\Pages\\EditGuideSection', $guideSection->getKey()],
             // Ressources avec policy (bypass admin actif via session super_admin)
             [$ns . 'TripResource\\Pages\\EditTrip', $trip->getKey()],
             [$ns . 'PilgrimResource\\Pages\\EditPilgrim', $pilgrim->getKey()],

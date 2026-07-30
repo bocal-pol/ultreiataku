@@ -2,8 +2,10 @@
 
 use App\Modules\Pilgrimage\Http\Controllers\Api\AccommodationController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\GpxTraceController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\GuideSectionController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\JournalEntryController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\JournalPhotoController;
+use App\Modules\Pilgrimage\Http\Controllers\Api\LogoutController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\MealController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\MeController;
 use App\Modules\Pilgrimage\Http\Controllers\Api\PackScenarioController;
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 | Vague 1e — Journal de voyage (ULTREIA-50/51/52/53/54)
 | RGPD     — Droits Art. 15/17/20 (RGPD-U01/U03/U05)
 | RGPD-R02 — Self-leave Trip avec choix journal (Art. 17)
+| Guide    — Sections de préparation du pèlerin (publiques)
 |
 | P0-01 (SEC-ULTREIA-AUTH) — Remplacement de auth:api par le pattern monorepo.
 | Le guard `api` driver session a été supprimé de config/auth.php.
@@ -45,6 +48,11 @@ Route::prefix('api/pilgrimage')->group(function () {
     Route::get('/waypoints', [WaypointController::class, 'index'])->name('api.pilgrimage.waypoints.index');
     Route::get('/waypoints/{slug}', [WaypointController::class, 'show'])->name('api.pilgrimage.waypoints.show');
 
+    // ─── Guide pèlerin — lecture publique (sections de préparation) ─────────
+
+    Route::get('/guides', [GuideSectionController::class, 'index'])->name('api.pilgrimage.guides.index');
+    Route::get('/guides/{slug}', [GuideSectionController::class, 'show'])->name('api.pilgrimage.guides.show');
+
     // ─── Vague 1b — Hébergements & Repas (publics) ──────────────────────────
 
     Route::get('/accommodations', [AccommodationController::class, 'index'])->name('api.pilgrimage.accommodations.index');
@@ -59,6 +67,12 @@ Route::prefix('api/pilgrimage')->group(function () {
     Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/gpx/{id}', [GpxTraceController::class, 'stream'])->name('api.pilgrimage.gpx.stream');
         Route::get('/gpx/{id}/simplified', [GpxTraceController::class, 'simplified'])->name('api.pilgrimage.gpx.simplified');
+    });
+
+    // ─── Déconnexion — authentifié (session cookie) ──────────────────────────
+
+    Route::middleware(['web', 'auth'])->group(function () {
+        Route::post('/logout', LogoutController::class)->name('api.pilgrimage.logout');
     });
 
     // ─── Vague 1c — Trips (ULTREIA-35) — authentifié ────────────────────────
