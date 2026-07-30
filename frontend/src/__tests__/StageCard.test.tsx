@@ -22,6 +22,9 @@ const stage: StageModel = {
   code: 'BE-01',
   name: 'Liège — Amay',
   dayNumber: 1,
+  // FIX-API-001 — champs ajoutés au StageModel
+  isVariant: false,
+  parentStageId: null,
   distanceKm: 22,
   elevationGainM: 250,
   elevationLossM: 200,

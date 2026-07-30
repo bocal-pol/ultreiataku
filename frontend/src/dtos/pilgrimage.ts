@@ -87,6 +87,10 @@ export interface StageResponseDto {
   code: string;
   name: string;
   day_number: number;
+  /** FIX-API-001 : champ présent dans StageResource — manquait du DTO frontend */
+  is_variant: boolean;
+  /** FIX-API-001 : champ présent dans StageResource — manquait du DTO frontend */
+  parent_stage_id: string | null;
   distance_km: number;
   elevation_gain_m: number;
   elevation_loss_m: number;

@@ -38,6 +38,7 @@ const makePilgrim = (id: string, name: string) => ({
   configuration: 'solo' as const,
 });
 
+// FIX-API-001 — isVariant et parentStageId ajoutés
 const makeStage = (id: string, dayNumber: number, name: string) => ({
   id,
   routeId: 'route-mosana',
@@ -45,6 +46,8 @@ const makeStage = (id: string, dayNumber: number, name: string) => ({
   code: `LGE-0${dayNumber}`,
   name,
   dayNumber,
+  isVariant: false,
+  parentStageId: null,
   distanceKm: 25,
   elevationGainM: 100,
   elevationLossM: 100,

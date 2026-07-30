@@ -208,6 +208,9 @@ function makeStage(overrides: Partial<StageDetailModel> = {}): StageDetailModel 
     code: 'BE-03',
     name: 'Huy — Andenne',
     dayNumber: 3,
+    // FIX-API-001 — champs ajoutés au StageModel
+    isVariant: false,
+    parentStageId: null,
     distanceKm: 18,
     elevationGainM: 200,
     elevationLossM: 180,

@@ -21,6 +21,8 @@ import { PackScenarioDetailScreen } from './features/pilgrimage/pack/PackScenari
 import { JournalScreen } from './features/pilgrimage/journal/JournalScreen.tsx';
 import { JournalEntryFormScreen } from './features/pilgrimage/journal/JournalEntryFormScreen.tsx';
 import { JournalTripSelectorScreen } from './features/pilgrimage/journal/JournalTripSelectorScreen.tsx';
+// FIX-PROFIL-001 — Écran Profil réel (remplace placeholder "à venir")
+import { ProfileScreen } from './features/pilgrimage/profile/ProfileScreen.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,18 +33,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-function ProfilePlaceholder() {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      height: '100%', color: 'var(--color-text-tertiary)',
-      fontSize: 'var(--font-size-md)', padding: 'var(--space-8)', textAlign: 'center',
-    }}>
-      Profil — à venir
-    </div>
-  );
-}
 
 export default function App() {
   return (
@@ -122,8 +112,8 @@ export default function App() {
                   </AuthGuard>
                 } />
 
-                {/* Profil */}
-                <Route path="/profil" element={<ProfilePlaceholder />} />
+                {/* FIX-PROFIL-001 — Profil réel */}
+                <Route path="/profil" element={<ProfileScreen />} />
 
                 {/* Fallback */}
                 <Route path="*" element={<Navigate to="/belgique" replace />} />

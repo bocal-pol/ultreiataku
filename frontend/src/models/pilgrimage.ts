@@ -82,6 +82,10 @@ export interface StageModel {
   code: string;
   name: string;
   dayNumber: number;
+  /** FIX-API-001 : étape variante ou étape principale */
+  isVariant: boolean;
+  /** FIX-API-001 : ID de l'étape parente si variante */
+  parentStageId: string | null;
   distanceKm: number;
   elevationGainM: number;
   elevationLossM: number;

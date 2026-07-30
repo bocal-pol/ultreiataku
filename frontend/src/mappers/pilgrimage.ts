@@ -123,6 +123,9 @@ export function mapStage(dto: StageResponseDto): StageModel {
     code: dto.code,
     name: dto.name,
     dayNumber: dto.day_number,
+    // FIX-API-001 : champs is_variant / parent_stage_id désormais mappés
+    isVariant: dto.is_variant ?? false,
+    parentStageId: dto.parent_stage_id ?? null,
     distanceKm: dto.distance_km,
     elevationGainM: dto.elevation_gain_m,
     elevationLossM: dto.elevation_loss_m,
