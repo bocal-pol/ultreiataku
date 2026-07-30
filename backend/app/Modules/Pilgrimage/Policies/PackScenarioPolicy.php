@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Models\PackScenario;
 use App\Modules\Pilgrimage\Services\TripAuthorizationService;
+use App\Policies\Concerns\InteractsWithPanelAuth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -20,21 +21,31 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   observer            → interdit
  *
  * I-02 : isOrganizerOfTripWithPilgrim délégué à TripAuthorizationService.
+ * Panel admin (super_admin / admin) → CRUD total via bypass InteractsWithPanelAuth.
  */
 class PackScenarioPolicy
 {
     use HandlesAuthorization;
+    use InteractsWithPanelAuth;
     use ResolvesCurrentPilgrim;
 
     public function __construct(private readonly TripAuthorizationService $tripAuthService) {}
 
     public function viewAny(User $user): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->resolvePilgrim($user) !== null;
     }
 
     public function view(User $user, PackScenario $scenario): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -52,11 +63,19 @@ class PackScenarioPolicy
 
     public function create(User $user): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->resolvePilgrim($user) !== null;
     }
 
     public function update(User $user, PackScenario $scenario): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         return $pilgrim !== null && $scenario->pilgrim_id === $pilgrim->id;
@@ -64,14 +83,22 @@ class PackScenarioPolicy
 
     public function delete(User $user, PackScenario $scenario): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->update($user, $scenario);
     }
 
     /**
-     * Ajouter un PackItem : propriétaire du scénario seulement.
+     * Ajouter un PackItem : propriétaire du scénario seulement (ou admin).
      */
     public function addItem(User $user, PackScenario $scenario): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->update($user, $scenario);
     }
 }

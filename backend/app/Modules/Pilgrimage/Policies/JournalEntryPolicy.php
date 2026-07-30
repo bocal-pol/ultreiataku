@@ -10,6 +10,7 @@ use App\Modules\Pilgrimage\Enums\JournalVisibility;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\JournalEntry;
 use App\Modules\Pilgrimage\Models\Trip;
+use App\Policies\Concerns\InteractsWithPanelAuth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -31,10 +32,13 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   Le filtrage par Trip est porté par viewTripJournal(User, Trip), appelé depuis
  *   JournalEntryController::index(). viewAny répond à « cet utilisateur peut-il accéder
  *   à la ressource JournalEntry dans le panel admin (modération) ? ».
+ *
+ * Panel admin (super_admin / admin) → CRUD total via bypass InteractsWithPanelAuth.
  */
 class JournalEntryPolicy
 {
     use HandlesAuthorization;
+    use InteractsWithPanelAuth;
     use ResolvesCurrentPilgrim;
 
     // ─── Panel admin ──────────────────────────────────────────────────────────
@@ -49,6 +53,10 @@ class JournalEntryPolicy
      */
     public function viewAny(User $user): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->resolvePilgrim($user) !== null;
     }
 
@@ -61,6 +69,10 @@ class JournalEntryPolicy
      */
     public function viewTripJournal(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -77,6 +89,10 @@ class JournalEntryPolicy
      */
     public function view(User $user, JournalEntry $entry): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -117,6 +133,10 @@ class JournalEntryPolicy
      */
     public function create(User $user, ?Trip $trip = null): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         // $trip null = appel Filament au niveau resource (bouton "Créer" du panel,
@@ -134,21 +154,29 @@ class JournalEntryPolicy
     }
 
     /**
-     * Modifier : auteur de l'entrée.
+     * Modifier : auteur de l'entrée (ou admin panel).
      * L'organizer peut modifier la visibilité via updateVisibility().
      */
     public function update(User $user, JournalEntry $entry): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         return $pilgrim !== null && $entry->pilgrim_id === $pilgrim->id;
     }
 
     /**
-     * Supprimer : auteur de l'entrée uniquement.
+     * Supprimer : auteur de l'entrée uniquement (ou admin panel).
      */
     public function delete(User $user, JournalEntry $entry): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         return $pilgrim !== null && $entry->pilgrim_id === $pilgrim->id;
@@ -158,9 +186,14 @@ class JournalEntryPolicy
      * Changer la visibilité d'une entrée :
      *   - auteur : peut changer la visibilité de ses propres entrées
      *   - organizer : peut changer la visibilité de toute entrée du Trip
+     *   - admin : bypass total
      */
     public function updateVisibility(User $user, JournalEntry $entry): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {

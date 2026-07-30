@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\Departure;
+use App\Policies\Concerns\InteractsWithPanelAuth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -17,14 +18,21 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   organizer   → CRUD complet dans son Trip
  *   participant → CRUD sur le sien uniquement
  *   observer    → aucun accès
+ *
+ * Panel admin (super_admin / admin) → CRUD total via bypass InteractsWithPanelAuth.
  */
 class DeparturePolicy
 {
     use HandlesAuthorization;
+    use InteractsWithPanelAuth;
     use ResolvesCurrentPilgrim;
 
     public function view(User $user, Departure $departure): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -44,11 +52,19 @@ class DeparturePolicy
 
     public function create(User $user): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->resolvePilgrim($user) !== null;
     }
 
     public function update(User $user, Departure $departure): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -76,6 +92,10 @@ class DeparturePolicy
 
     public function delete(User $user, Departure $departure): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->update($user, $departure);
     }
 }

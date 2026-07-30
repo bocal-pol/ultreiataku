@@ -10,6 +10,7 @@ use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\Departure;
 use App\Modules\Pilgrimage\Models\ItemAssignment;
 use App\Modules\Pilgrimage\Models\Trip;
+use App\Policies\Concerns\InteractsWithPanelAuth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -19,14 +20,30 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   organizer  → voit tout le sac du Trip
  *   participant → uniquement son Departure
  *   observer   → interdit
+ *
+ * Panel admin (super_admin / admin) → CRUD total via bypass InteractsWithPanelAuth.
  */
 class ItemAssignmentPolicy
 {
     use HandlesAuthorization;
+    use InteractsWithPanelAuth;
     use ResolvesCurrentPilgrim;
+
+    public function viewAny(User $user): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->resolvePilgrim($user) !== null;
+    }
 
     public function create(User $user, ?Departure $departure = null): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         // $departure null = appel Filament au niveau resource (sans contexte).
@@ -57,6 +74,10 @@ class ItemAssignmentPolicy
 
     public function view(User $user, ItemAssignment $assignment): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -88,8 +109,25 @@ class ItemAssignmentPolicy
             && $assignment->assigned_to_pilgrim_id === $pilgrim->id;
     }
 
+    /**
+     * Modifier une assignation : même logique que view (organizer ou propriétaire).
+     * Ajout admin bypass pour le panel Filament.
+     */
+    public function update(User $user, ItemAssignment $assignment): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->view($user, $assignment);
+    }
+
     public function delete(User $user, ItemAssignment $assignment): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->view($user, $assignment);
     }
 }

@@ -9,6 +9,7 @@ use App\Modules\Pilgrimage\Concerns\ResolvesCurrentPilgrim;
 use App\Modules\Pilgrimage\Enums\TripMemberRole;
 use App\Modules\Pilgrimage\Models\Departure;
 use App\Modules\Pilgrimage\Models\Trip;
+use App\Policies\Concerns\InteractsWithPanelAuth;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
@@ -19,12 +20,15 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  *   participant   → lecture, création Departure (le sien)
  *   observer      → lecture seule (pas d'occupancy)
  *
+ * Panel admin (super_admin / admin) → CRUD total via bypass InteractsWithPanelAuth.
+ *
  * L'utilisateur passé est le User Eloquent local (lié au SSO).
  * Le Pilgrim est résolu par user_id via ResolvesCurrentPilgrim (cache par requête).
  */
 class TripPolicy
 {
     use HandlesAuthorization;
+    use InteractsWithPanelAuth;
     use ResolvesCurrentPilgrim;
 
     public function viewAny(User $user): bool
@@ -35,6 +39,10 @@ class TripPolicy
 
     public function view(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -47,20 +55,32 @@ class TripPolicy
 
     public function create(User $user): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         // Tout pilgrim authentifié peut créer un Trip
         return $this->resolvePilgrim($user) !== null;
     }
 
     /**
-     * Seul l'organizer peut modifier le Trip.
+     * Seul l'organizer peut modifier le Trip (ou l'admin panel).
      */
     public function update(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->isOrganizer($user, $trip);
     }
 
     public function delete(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->isOrganizer($user, $trip);
     }
 
@@ -69,6 +89,10 @@ class TripPolicy
      */
     public function invite(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->isOrganizer($user, $trip);
     }
 
@@ -77,6 +101,10 @@ class TripPolicy
      */
     public function manageMember(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->isOrganizer($user, $trip);
     }
 
@@ -105,6 +133,10 @@ class TripPolicy
      */
     public function viewOccupancy(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -124,6 +156,10 @@ class TripPolicy
      */
     public function createDeparture(User $user, Trip $trip): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
@@ -142,6 +178,10 @@ class TripPolicy
      */
     public function updateDeparture(User $user, Trip $trip, Departure $departure): bool
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         $pilgrim = $this->resolvePilgrim($user);
 
         if ($pilgrim === null) {
