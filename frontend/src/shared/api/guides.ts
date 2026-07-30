@@ -39,6 +39,7 @@ export async function fetchGuideDetail(
   slug: string,
   signal?: AbortSignal,
 ): Promise<GuideDetailModel> {
-  const dto = await apiFetch<GuideDetailResponseDto>(`/guides/${slug}`, { signal });
-  return mapGuideDetail(dto);
+  // L'API enveloppe la ressource dans `{ data: {...} }` — déballer avant mapping.
+  const res = await apiFetch<{ data: GuideDetailResponseDto }>(`/guides/${slug}`, { signal });
+  return mapGuideDetail(res.data);
 }

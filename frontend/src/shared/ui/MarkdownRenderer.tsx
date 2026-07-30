@@ -76,7 +76,7 @@ function parseTableRow(line: string): string[] {
 
 /** Transforme le contenu Markdown en blocs structurés. */
 function parseBlocks(content: string): Block[] {
-  const lines = content.split('\n');
+  const lines = (content ?? '').split('\n');
   const blocks: Block[] = [];
   let i = 0;
 
